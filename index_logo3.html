@@ -1,0 +1,1044 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shaping Luck: Systems, Strategy & The Architecture of Fortune</title>
+    <meta name="description" content="Learn the framework for actively shaping your luck. The Luck Quadrant maps your position and shows you how to engineer serendipity in your career, organization, or ecosystem.">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --orange: #FF8C42;
+            --coral: #FF6B6B;
+            --purple: #9B59B6;
+            --blue: #5DADE2;
+            --cyan: #48C9B0;
+            --teal: #16A085;
+            --warm-orange: #FFA07A;
+            --lavender: #B19CD9;
+            --cream: #FFF8F3;
+            --deep-purple: #6C5B7B;
+        }
+
+        body {
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.7;
+            color: var(--deep-purple);
+            background: var(--cream);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Petal Shape Utility */
+        .petal-shape {
+            border-radius: 50% 0 50% 50%;
+        }
+
+        /* Teardrop Decorative Elements */
+        .teardrop {
+            width: 40px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            border-radius: 50% 50% 50% 0;
+            opacity: 0.2;
+            position: absolute;
+        }
+
+        .teardrop-1 {
+            top: 15%;
+            right: 10%;
+            transform: rotate(45deg);
+            animation: float1 8s ease-in-out infinite;
+        }
+
+        .teardrop-2 {
+            bottom: 20%;
+            left: 8%;
+            transform: rotate(-30deg);
+            animation: float2 10s ease-in-out infinite;
+        }
+
+        @keyframes float1 {
+            0%, 100% { transform: rotate(45deg) translateY(0); }
+            50% { transform: rotate(45deg) translateY(-20px); }
+        }
+
+        @keyframes float2 {
+            0%, 100% { transform: rotate(-30deg) translateY(0); }
+            50% { transform: rotate(-30deg) translateY(20px); }
+        }
+
+        /* Radial Mandala Pattern Background */
+        .mandala-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .mandala-bg::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, transparent 30%, rgba(91, 141, 221, 0.05) 31%, transparent 32%, transparent 45%, rgba(155, 89, 182, 0.05) 46%, transparent 47%);
+            border-radius: 50%;
+            animation: mandalaRotate 40s linear infinite;
+        }
+
+        @keyframes mandalaRotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg,
+                var(--purple) 0%,
+                var(--lavender) 25%,
+                var(--blue) 50%,
+                var(--cyan) 75%,
+                var(--teal) 100%
+            );
+            color: var(--cream);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        /* Logo with Radial Bloom Effect */
+        .logo-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+
+        .logo-bloom {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: bloomPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes bloomPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.5; }
+        }
+
+        .logo {
+            position: relative;
+            z-index: 2;
+            max-width: 130px;
+            height: auto;
+            filter: drop-shadow(0 8px 24px rgba(255, 255, 255, 0.4));
+        }
+
+        .logo img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(3.2rem, 8vw, 5.5rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            margin-bottom: 2.5rem;
+            opacity: 0.95;
+        }
+
+        .hero-body {
+            font-size: clamp(1.05rem, 2vw, 1.25rem);
+            line-height: 1.9;
+            margin-bottom: 3rem;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .video-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 2.5rem auto 3rem;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .video-placeholder {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, rgba(155, 89, 182, 0.4) 0%, rgba(93, 173, 226, 0.4) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .video-placeholder::before {
+            content: '▶';
+            font-size: 4rem;
+            color: var(--cream);
+            opacity: 0.9;
+            animation: pulse 2.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+
+        /* Petal Divider */
+        .petal-divider {
+            width: 100px;
+            height: 50px;
+            margin: 0 auto 3rem;
+            position: relative;
+        }
+
+        .petal-divider-piece {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, var(--orange), var(--coral));
+            border-radius: 50% 0 50% 50%;
+            opacity: 0.3;
+        }
+
+        .petal-divider-piece:nth-child(1) {
+            left: 0;
+            transform: rotate(0deg);
+        }
+
+        .petal-divider-piece:nth-child(2) {
+            left: 35px;
+            transform: rotate(90deg);
+        }
+
+        .petal-divider-piece:nth-child(3) {
+            right: 0;
+            transform: rotate(180deg);
+        }
+
+        /* Organic Rounded Buttons */
+        .cta-group {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1.2rem 3rem;
+            font-size: 1.05rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--orange) 0%, var(--coral) 100%);
+            color: var(--cream);
+            box-shadow: 0 8px 24px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 32px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--cream);
+            border: 2px solid var(--cream);
+        }
+
+        .btn-secondary:hover {
+            background: var(--cream);
+            color: var(--purple);
+            transform: translateY(-3px);
+        }
+
+        /* Section Styling */
+        section {
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        section:nth-child(even) {
+            background: linear-gradient(to bottom, var(--cream) 0%, #FFF5EB 100%);
+        }
+
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--purple), var(--blue), var(--teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-deck {
+            font-size: 1.25rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            color: var(--deep-purple);
+            line-height: 1.9;
+            font-weight: 300;
+        }
+
+        /* Problem Cards - Petal Shaped */
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .problem-card {
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #FFF 0%, #FFF5EB 100%);
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(108, 91, 123, 0.1);
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+
+        .problem-card::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--orange), var(--purple));
+            border-radius: 50% 0 50% 50%;
+            opacity: 0.15;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(108, 91, 123, 0.2);
+        }
+
+        .problem-card h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            color: var(--deep-purple);
+            font-weight: 700;
+        }
+
+        .problem-card p {
+            color: var(--deep-purple);
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+
+        /* Quadrant Section - Radial Layout */
+        .quadrant-section {
+            background: linear-gradient(135deg,
+                var(--purple) 0%,
+                var(--blue) 50%,
+                var(--teal) 100%
+            );
+            color: var(--cream);
+            position: relative;
+        }
+
+        .quadrant-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+            margin-top: 4rem;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+        }
+
+        /* Central mandala decoration */
+        .quadrant-grid::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .quadrant-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 3rem;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .quadrant-card::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            right: -15px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--coral), var(--orange));
+            border-radius: 50% 0 50% 50%;
+            opacity: 0.3;
+        }
+
+        .quadrant-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .quadrant-card h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .quadrant-card p {
+            line-height: 1.9;
+            opacity: 0.95;
+        }
+
+        /* Article Reader */
+        .paper-section {
+            background: linear-gradient(135deg, var(--deep-purple) 0%, var(--purple) 50%, var(--lavender) 100%);
+            color: var(--cream);
+        }
+
+        .article-reader {
+            max-width: 900px;
+            margin: 3rem auto;
+            background: var(--cream);
+            border-radius: 30px;
+            padding: 3.5rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .article-reader h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--purple);
+            font-weight: 700;
+        }
+
+        .article-reader p {
+            font-size: 1.08rem;
+            line-height: 2;
+            margin-bottom: 1.5rem;
+            color: var(--deep-purple);
+        }
+
+        .article-reader::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .article-reader::-webkit-scrollbar-track {
+            background: #FFF5EB;
+            border-radius: 5px;
+        }
+
+        .article-reader::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            border-radius: 5px;
+        }
+
+        /* Community Features - Radial Grid */
+        .community-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+            margin: 3rem auto;
+            max-width: 900px;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #FFF 0%, #FFF5EB 100%);
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(108, 91, 123, 0.1);
+        }
+
+        .feature::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--blue), var(--cyan));
+            border-radius: 50% 0 50% 50%;
+            opacity: 0.3;
+        }
+
+        .feature:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 15px 40px rgba(108, 91, 123, 0.2);
+        }
+
+        .feature h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--purple);
+            font-weight: 700;
+        }
+
+        .feature p {
+            line-height: 1.8;
+            color: var(--deep-purple);
+        }
+
+        /* Who Section - Organic Layout */
+        .who-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .who-card {
+            text-align: center;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #FFF 0%, #FFF5EB 100%);
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(108, 91, 123, 0.1);
+            position: relative;
+        }
+
+        .who-card::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--orange), var(--coral));
+            border-radius: 50% 0 50% 50%;
+            opacity: 0.15;
+        }
+
+        .who-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(108, 91, 123, 0.2);
+        }
+
+        .who-card h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--purple);
+            font-weight: 700;
+        }
+
+        .who-card p {
+            color: var(--deep-purple);
+            line-height: 1.8;
+        }
+
+        /* Form */
+        .email-form {
+            max-width: 600px;
+            margin: 3rem auto;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 1rem;
+        }
+
+        .email-form input {
+            padding: 1.2rem 1.8rem;
+            font-size: 1rem;
+            border: 2px solid var(--lavender);
+            border-radius: 50px;
+            background: #FFF;
+            color: var(--deep-purple);
+            transition: all 0.3s ease;
+        }
+
+        .email-form input:focus {
+            outline: none;
+            border-color: var(--purple);
+            box-shadow: 0 0 20px rgba(155, 89, 182, 0.2);
+        }
+
+        .disclaimer {
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-top: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--deep-purple) 0%, var(--purple) 100%);
+            color: var(--cream);
+            padding: 3rem 0;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Footer radial bloom */
+        .footer-bloom {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+
+        .footer-petal {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50% 0 50% 50%;
+        }
+
+        .footer-petal:nth-child(1) { top: 0; left: 35px; transform: rotate(0deg); }
+        .footer-petal:nth-child(2) { top: 10px; right: 10px; transform: rotate(45deg); }
+        .footer-petal:nth-child(3) { top: 35px; right: 0; transform: rotate(90deg); }
+        .footer-petal:nth-child(4) { bottom: 10px; right: 10px; transform: rotate(135deg); }
+        .footer-petal:nth-child(5) { bottom: 0; left: 35px; transform: rotate(180deg); }
+        .footer-petal:nth-child(6) { bottom: 10px; left: 10px; transform: rotate(225deg); }
+        .footer-petal:nth-child(7) { top: 35px; left: 0; transform: rotate(270deg); }
+        .footer-petal:nth-child(8) { top: 10px; left: 10px; transform: rotate(315deg); }
+
+        .footer-nav {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .footer-nav a {
+            color: var(--cream);
+            text-decoration: none;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .footer-nav a:hover {
+            opacity: 1;
+            color: var(--warm-orange);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            section {
+                padding: 4rem 0;
+            }
+
+            .quadrant-grid,
+            .community-features {
+                grid-template-columns: 1fr;
+            }
+
+            .email-form {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="mandala-bg"></div>
+        <div class="teardrop teardrop-1"></div>
+        <div class="teardrop teardrop-2"></div>
+
+        <div class="hero-content">
+            <div class="logo-container">
+                <div class="logo-bloom"></div>
+                <div class="logo">
+                    <img src="Logo3.png" alt="Shaping Luck Logo">
+                </div>
+            </div>
+            <h1>Shaping Luck</h1>
+            <p class="subtitle">Systems, Strategy & The Architecture of Fortune</p>
+            <p class="hero-body">
+                In a world where everyone is talented and everyone works hard, what separates those who thrive from those who stagnate? It's not just merit. It's not pure chance. It's the ability to engineer serendipity—to actively shape the unexpected encounters and events that define your trajectory.
+            </p>
+            <div class="video-container">
+                <div class="video-placeholder" id="heroVideo">
+                    <!-- Example: <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> -->
+                </div>
+            </div>
+            <div class="cta-group">
+                <a href="#article" class="btn btn-primary">Read The Article</a>
+                <a href="#signup" class="btn btn-secondary">Get Started →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section id="problem">
+        <div class="container">
+            <div class="petal-divider">
+                <div class="petal-divider-piece"></div>
+                <div class="petal-divider-piece"></div>
+                <div class="petal-divider-piece"></div>
+            </div>
+            <h2 class="fade-in">The Old Rules Are Breaking</h2>
+            <p class="section-deck fade-in">
+                We're living through what futurist John Hagel calls "The Big Shift"—a period of unprecedented acceleration.
+            </p>
+            <div class="problem-grid">
+                <div class="problem-card fade-in">
+                    <h3>Career paths are dissolving</h3>
+                    <p>The half-life of professional skills is shrinking. Linear progression is a relic.</p>
+                </div>
+                <div class="problem-card fade-in">
+                    <h3>Organizations are under siege</h3>
+                    <p>S&P 500 lifespans have collapsed. Return on assets is in long-term decline.</p>
+                </div>
+                <div class="problem-card fade-in">
+                    <h3>Predictability is dead</h3>
+                    <p>The pace of change means mounting pressure and expanding opportunity arrive simultaneously.</p>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 3rem; font-size: 1.3rem; font-weight: 600;">
+                Those who succeed aren't just working harder—they're navigating uncertainty differently.<br>
+                <span style="background: linear-gradient(135deg, var(--purple), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">They're shaping their luck.</span>
+            </p>
+        </div>
+    </section>
+
+    <!-- Quadrant Section -->
+    <section id="framework" class="quadrant-section">
+        <div class="mandala-bg"></div>
+        <div class="container">
+            <h2 class="fade-in" style="color: var(--cream); -webkit-text-fill-color: var(--cream);">The Luck Quadrant: Your Map to Fortune</h2>
+            <p class="section-deck fade-in" style="color: var(--cream);">
+                Luck isn't mystical. It's measurable. It's the intersection of two forces:<br>
+                <strong>Your Internal State (Fear ← → Passion)</strong><br>
+                <strong>Your External Environment (Scarcity ← → Abundance)</strong>
+            </p>
+            <div class="quadrant-grid">
+                <div class="quadrant-card fade-in">
+                    <h3>AMPLIFY IMPACT</h3>
+                    <p>Passion meets abundance. This is where exponential growth lives. Your job: scale your connections, build platforms, create more opportunity for everyone around you.</p>
+                </div>
+                <div class="quadrant-card fade-in">
+                    <h3>LEVERAGE SCARCITY</h3>
+                    <p>Passion meets constraint. The domain of the scrappy innovator. Joseph Campbell in his Woodstock shack. Your job: turn limitations into advantage through ingenuity.</p>
+                </div>
+                <div class="quadrant-card fade-in">
+                    <h3>CAUTION</h3>
+                    <p>Fear meets abundance. The tragic quadrant. You're standing in a field of diamonds but too afraid to bend over. Your job: take small, reversible risks to prove engagement is safer than paralysis.</p>
+                </div>
+                <div class="quadrant-card fade-in">
+                    <h3>RETRENCH</h3>
+                    <p>Fear meets scarcity. The vicious cycle. Pure survival mode. Your job: shift from defense to inquiry. One small connection. One new piece of information. Start there.</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="#paper" class="btn btn-primary">Map Your Position →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Article Section -->
+    <section id="article" class="paper-section">
+        <div class="container">
+            <h2 class="fade-in" style="color: var(--warm-orange); -webkit-text-fill-color: var(--warm-orange);">The Luck Mandate</h2>
+            <p class="section-deck fade-in" style="color: var(--cream);">
+                Why actively shaping your luck is the most critical capability of our time.
+            </p>
+
+            <div class="article-reader fade-in" id="articleReader">
+                <h3>The Luck Mandate</h3>
+
+                <p>It was a frigid winter in the late 1920s, and a young Joseph Campbell, having just abandoned his doctoral studies at Columbia, found himself adrift. The Great Depression had descended, extinguishing academic prospects. He retreated to a small, unheated shack in Woodstock, New York. To an outside observer, this was a portrait of failure—a story of profound, unmitigated bad luck. Yet, for five years, Campbell did little but read. He consumed thousands of books, diving into mythology, psychology, and religion, following his intellectual passions without a clear path forward. This period of intense, isolated study, born of misfortune, became the bedrock of his life's work. When he later emerged, the world had begun to recover, and his uniquely synthesized knowledge found a hungry audience. An unlucky event, a contracting environment, had been transformed into the ultimate catalyst.</p>
+
+                <p>We are taught to believe in a simple success equation: talent plus hard work equals results. It's a clean, comforting, and deeply American narrative. But it is also profoundly incomplete. It ignores the invisible variable that courses through every life and every enterprise: luck. The most successful individuals, organizations, and even cities don't just work harder or think smarter; they understand that luck is not a mystical force to be wished for, but a current to be navigated, a phenomenon to be understood, and, most importantly, a reality that can be shaped.</p>
+
+                <p>We stand at a unique juncture in history, defined by what the futurist John Hagel calls "The Big Shift." On one hand, we face mounting performance pressure. Global competition, accelerating change, and the constant threat of disruption create a landscape of unprecedented anxiety. Linear, predictable career paths are dissolving. Corporate lifespans are shrinking. Stability is an illusion. On the other hand, this same churn creates exponentially expanding opportunities. The tools, connections, and knowledge available to us have never been more abundant.</p>
+
+                <p>In this volatile new world, the ability to harness the unexpected is no longer a luxury; it is the core competency. The old models of strategic planning, rooted in prediction and control, are failing us. Success now belongs to those who can move from passively experiencing luck to actively cultivating it. This is not a matter of superstition, but of strategy. It requires a new framework for seeing the world, a new language for describing our position in it, and a new set of actions for influencing our trajectory. It requires that we learn to shape our luck.</p>
+
+                <h3 style="margin-top: 2rem;">From Superstition to Strategy</h3>
+
+                <p>For centuries, our understanding of luck has been mired in passivity. The Oxford English Dictionary defines it as "success or failure apparently brought by chance rather than through one's own actions." The Roman philosopher Seneca gave us a slightly more empowering version: "Luck is what happens when preparation meets opportunity." While an improvement, Seneca's formulation still positions us as actors waiting in the wings for an external "opportunity" to arrive on stage. It's a philosophy of readiness, but not of agency.</p>
+
+                <p>To truly harness luck, we need a more actionable definition. Let's redefine it as: <strong>unexpected events and encounters that have meaningful impact.</strong></p>
+
+                <p>This definition is powerful for three key reasons. First, it focuses on the orthogonal—the sideways events that genuinely alter our trajectory, rather than the incremental gains from simply working harder. Second, it encompasses both good and bad luck, recognizing that moments of misfortune, like Campbell's retreat to Woodstock, are often potent sources of information and change. Finally, it removes the element of pure chance and puts the focus on things we can influence: the frequency and quality of our unexpected encounters and our ability to extract meaning from them.</p>
+
+                <p style="text-align: center; margin: 2rem 0; font-size: 1.2rem; font-weight: 600; color: var(--purple);">
+                    [Continue reading the full 10-page article below...]
+                </p>
+
+                <p style="font-style: italic; opacity: 0.8;">The complete article includes: The Luck Quadrant framework, detailed case studies, your Luck Quotient assessment, and a practical 3-step playbook for creating serendipity in your life.</p>
+            </div>
+
+            <div style="text-align: center; margin: 2rem 0;">
+                <a href="#signup" class="btn btn-primary">Download Full PDF →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section id="community">
+        <div class="container">
+            <div class="petal-divider">
+                <div class="petal-divider-piece"></div>
+                <div class="petal-divider-piece"></div>
+                <div class="petal-divider-piece"></div>
+            </div>
+            <h2 class="fade-in">Join The Luck Lab</h2>
+            <p class="section-deck fade-in">
+                A monthly practice for Fortune Designers who are done waiting for lucky breaks.
+            </p>
+            <p style="text-align: center; max-width: 800px; margin: 2rem auto; font-size: 1.1rem;" class="fade-in">
+                Every month, we gather for 90 minutes to apply the framework together. This isn't a lecture. It's a lab.
+            </p>
+
+            <div class="community-features">
+                <div class="feature fade-in">
+                    <h3>Live Quadrant Mapping</h3>
+                    <p>Diagnose your current position and plot your next move</p>
+                </div>
+                <div class="feature fade-in">
+                    <h3>Case Study Deep-Dives</h3>
+                    <p>Learn from others who've navigated the quadrants successfully (and unsuccessfully)</p>
+                </div>
+                <div class="feature fade-in">
+                    <h3>Peer Pods</h3>
+                    <p>Small group accountability with fellow practitioners</p>
+                </div>
+                <div class="feature fade-in">
+                    <h3>Guest Fortune Designers</h3>
+                    <p>Practitioners sharing real strategies for shaping luck in their domains</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin: 3rem 0; padding: 2.5rem; background: linear-gradient(135deg, #FFF 0%, #FFF5EB 100%); border-radius: 30px; box-shadow: 0 4px 20px rgba(108, 91, 123, 0.1);">
+                <p style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--deep-purple);"><strong>Format:</strong> Live video sessions + ongoing async community</p>
+                <p style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--deep-purple);"><strong>Cadence:</strong> Monthly, 90 minutes</p>
+                <p style="font-size: 1.1rem; color: var(--deep-purple);"><strong>Commitment:</strong> Drop-in or join a structured cohort track</p>
+            </div>
+
+            <h3 style="text-align: center; font-size: 2rem; margin: 3rem 0 2rem; color: var(--purple); font-family: 'Poppins', sans-serif;">Reserve Your Spot</h3>
+            <p style="text-align: center; font-size: 1.2rem; margin-bottom: 2rem; color: var(--deep-purple);">Next Lab Session: <strong>Launching Soon</strong></p>
+
+            <form class="email-form fade-in" onsubmit="handleWaitlist(event)">
+                <input type="email" placeholder="Join the waitlist" required>
+                <button type="submit" class="btn btn-primary">Join →</button>
+            </form>
+            <p class="disclaimer">Limited to 50 participants per session to ensure meaningful interaction.</p>
+        </div>
+    </section>
+
+    <!-- Who Section -->
+    <section id="who" style="background: linear-gradient(to bottom, var(--cream) 0%, #FFF5EB 100%);">
+        <div class="container">
+            <h2 class="fade-in">This Is For You If...</h2>
+            <div class="who-grid">
+                <div class="who-card fade-in">
+                    <h3>Individuals</h3>
+                    <p>You're talented. You work hard. But you're stuck. You watch others catch breaks that seem random. You want to stop waiting and start engineering serendipity in your career, creative work, or next venture.</p>
+                </div>
+                <div class="who-card fade-in">
+                    <h3>Leaders</h3>
+                    <p>You run a team, division, or organization. You know innovation can't be commanded from the top. You want to design an environment where lucky collisions happen by design, not accident.</p>
+                </div>
+                <div class="who-card fade-in">
+                    <h3>Cities & Ecosystems</h3>
+                    <p>You're building a startup hub, innovation district, or regional ecosystem. You want to understand why Silicon Valley works and how to replicate those dynamics in your context.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" style="background: var(--cream);">
+        <div class="container">
+            <h2 class="fade-in">About John Hagel</h2>
+            <div style="max-width: 900px; margin: 0 auto; font-size: 1.1rem; line-height: 1.9; color: var(--deep-purple);" class="fade-in">
+                <p style="margin-bottom: 1.5rem;">
+                    John Hagel is a futurist, author, and former Co-Chairman of Deloitte's Center for the Edge. For decades, he's studied the forces reshaping business, society, and human potential. His work on "The Big Shift," "The Power of Pull," and exponential organizations has influenced leaders at the highest levels of government and industry.
+                </p>
+                <p style="margin-bottom: 1.5rem;">
+                    Shaping Luck is his framework for navigating the defining challenge of our time: how to thrive when the pace of change exceeds our institutions' ability to adapt.
+                </p>
+                <p style="font-weight: 600; margin-bottom: 0.5rem;">Previous Work:</p>
+                <ul style="list-style: none; padding-left: 0;">
+                    <li style="margin-bottom: 0.5rem;">• <em>The Power of Pull</em> (co-author)</li>
+                    <li style="margin-bottom: 0.5rem;">• <em>The Big Shift</em> research program</li>
+                    <li>• Advisor to OpenExO, Singularity University, and leading innovation ecosystems worldwide</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Salim Section -->
+    <section id="about-salim" style="background: linear-gradient(135deg, var(--purple) 0%, var(--lavender) 50%, var(--blue) 100%);">
+        <div class="container">
+            <h2 class="fade-in" style="color: var(--cream); -webkit-text-fill-color: var(--cream);">About Salim Ismail</h2>
+            <div style="max-width: 900px; margin: 0 auto; font-size: 1.1rem; line-height: 1.9; color: var(--cream);" class="fade-in">
+                <p style="margin-bottom: 1.5rem;">
+                    Salim Ismail is an Indo-Canadian serial entrepreneur, angel investor, author, speaker, and technology strategist. He is the Founding Executive Director of Singularity University and lead author of the international bestseller <em>Exponential Organizations</em>.
+                </p>
+                <p style="margin-bottom: 1.5rem;">
+                    His pioneering work explores how organizations can leverage exponential technologies and new organizational models to achieve 10x performance improvements. As founder of ExO Works and Chairman of OpenExO, he helps transform businesses worldwide to thrive in an era of unprecedented acceleration.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-bloom">
+                <div class="footer-petal"></div>
+                <div class="footer-petal"></div>
+                <div class="footer-petal"></div>
+                <div class="footer-petal"></div>
+                <div class="footer-petal"></div>
+                <div class="footer-petal"></div>
+                <div class="footer-petal"></div>
+                <div class="footer-petal"></div>
+            </div>
+            <div class="footer-nav">
+                <a href="#about">About John Hagel</a>
+                <a href="#about-salim">About Salim Ismail</a>
+                <a href="#framework">The Research</a>
+                <a href="#community">Contact</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+            <p style="opacity: 0.7;">© 2025 Shaping Luck. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Form handlers
+        function handlePaperDownload(e) {
+            e.preventDefault();
+            const email = e.target.querySelector('input').value;
+            alert(`Thanks! We'll send The Luck Mandate to ${email}`);
+            e.target.reset();
+        }
+
+        function handleWaitlist(e) {
+            e.preventDefault();
+            const email = e.target.querySelector('input').value;
+            alert(`You're on the list! We'll notify you at ${email} when registration opens.`);
+            e.target.reset();
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
