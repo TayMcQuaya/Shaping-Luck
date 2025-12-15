@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shaping Luck | The Human Flow</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 1. CORE VARIABLES & RESET --- */
+        :root {
+            /* Palette: Earthy, Warm, Organic */
+            --bg-cream: #FCFAF7;
+            --bg-white: #FFFFFF;
+            --bg-deep: #1A1A1A;
+            
+            --text-dark: #333333;
+            --text-muted: #6B7280;
+            --accent-goldenrod: #D9A03A; /* Warm Gold/Mustard */
+            --accent-green: #386641; /* Deep Forest Green */
+            
+            /* Structural Variables */
+            --radius-soft: 8px;
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.08); /* Simulates stacked paper */
+            
+            /* Typography */
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Inter', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            /* Subtle paper/canvas texture */
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e8e4dc' fill-opacity='0.4'%3E%3Cpath d='M36 34L30 30.5V18.5l6-3.5zm-6 3.5V51.5l-6-3.5V34zM18 30.5L30 37.5v12.5l-6 3.5zm24 0l-12 7v12.5l6 3.5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* --- 2. TYPOGRAPHY & UTILITIES --- */
+        h1, h2, h3, h4 {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--text-dark);
+            letter-spacing: -0.02em;
+        }
+        
+        .text-accent {
+            color: var(--accent-goldenrod);
+            font-weight: 700;
+        }
+        
+        /* The signature "Hand-drawn" text effect */
+        .text-flow {
+            color: var(--accent-goldenrod);
+            background-image: linear-gradient(90deg, var(--accent-goldenrod), var(--accent-goldenrod));
+            background-repeat: no-repeat;
+            background-position: bottom;
+            background-size: 100% 2px;
+            padding-bottom: 2px;
+            display: inline;
+        }
+
+        p { margin-bottom: 1rem; color: var(--text-muted); font-weight: 400; font-size: 1.05rem; }
+        strong { color: var(--text-dark); font-weight: 600; }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 32px;
+            position: relative;
+        }
+
+        section {
+            padding: 100px 0;
+            position: relative;
+        }
+        
+        /* --- 3. ANIMATIONS (Subtle Fade-Up) --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- 4. HERO SECTION (Welcoming and Focused) --- */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background-color: var(--bg-white);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .hero .container { max-width: 800px; }
+
+        .hero-logo {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 2rem;
+            border-radius: 50%;
+            background: var(--accent-goldenrod);
+            padding: 10px;
+            box-shadow: var(--shadow-soft);
+        }
+        .hero-logo path { fill: var(--bg-white) !important; }
+
+        .hero h1 {
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            margin-bottom: 1.5rem;
+            color: var(--accent-green);
+        }
+
+        .hero p.tagline {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent-goldenrod);
+            margin-bottom: 2.5rem;
+            font-weight: 600;
+        }
+
+        .hero p.lead {
+            font-size: 1.3rem;
+            color: var(--text-dark);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            font-family: var(--font-serif);
+            font-style: italic;
+        }
+
+        /* Buttons: "Artisanal" */
+        .btn-group { display: flex; gap: 1.5rem; justify-content: center; margin-top: 2rem; }
+
+        .btn {
+            padding: 1rem 2.8rem;
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px; /* Pill shape */
+        }
+
+        .btn-primary {
+            background: var(--accent-goldenrod);
+            color: var(--bg-white);
+            box-shadow: 0 4px 15px rgba(217, 160, 58, 0.6);
+        }
+        .btn-primary:hover {
+            background: #E8B459;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--accent-green);
+            border: 2px solid var(--accent-green);
+        }
+        .btn-outline:hover {
+            background: var(--accent-green);
+            color: var(--bg-white);
+        }
+
+        /* --- 5. CARDS (The Focus Elements) --- */
+        #problem { background-color: var(--bg-cream); }
+        
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .flow-card {
+            background: var(--bg-white);
+            border-radius: var(--radius-soft);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-soft);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .flow-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-icon {
+            font-family: var(--font-serif);
+            font-size: 2.5rem; 
+            margin-bottom: 1rem; 
+            color: var(--accent-goldenrod);
+        }
+        
+        .flow-card h3 { 
+            font-family: var(--font-sans); 
+            font-weight: 700; 
+            font-size: 1.4rem;
+            color: var(--accent-green);
+        }
+
+        /* --- 6. THE QUADRANT (The Fluid Map) --- */
+        .section-quadrant {
+            background-color: var(--accent-green);
+            color: var(--bg-white);
+        }
+        .section-quadrant h2 { color: var(--bg-white); }
+        .section-quadrant p { color: #A8C4AC; }
+        
+        .quadrant-wrap {
+            max-width: 900px;
+            margin: 4rem auto 0;
+            padding: 50px;
+            background: var(--bg-white);
+            border-radius: var(--radius-soft);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .quadrant-map {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* Axis Lines - Organic, Soft */
+        .quadrant-map::before {
+            content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px;
+            background: var(--text-muted); opacity: 0.5;
+        }
+        .quadrant-map::after {
+            content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 1px;
+            background: var(--text-muted); opacity: 0.5;
+        }
+
+        .q-card {
+            background: var(--bg-cream);
+            border-radius: 4px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .q-card:nth-child(1) { border-left: 5px solid var(--accent-goldenrod); }
+        .q-card:nth-child(2) { border-right: 5px solid var(--accent-goldenrod); }
+        .q-card:nth-child(3) { border-top: 5px solid var(--accent-goldenrod); }
+        .q-card:nth-child(4) { border-bottom: 5px solid var(--accent-goldenrod); }
+
+        .q-card h3 { 
+            font-family: var(--font-sans);
+            font-size: 1.1rem; 
+            margin-bottom: 0.5rem; 
+            color: var(--accent-green);
+        }
+        .q-card p { font-size: 0.9rem; color: var(--text-dark); }
+
+        .axis-label {
+            position: absolute;
+            font-family: var(--font-sans);
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--accent-green);
+        }
+        .axis-top { top: -20px; left: 50%; transform: translateX(-50%); }
+        .axis-bottom { bottom: -20px; left: 50%; transform: translateX(-50%); }
+        .axis-left { left: -30px; top: 50%; transform: translateY(-50%) rotate(-90deg); }
+        .axis-right { right: -30px; top: 50%; transform: translateY(-50%) rotate(90deg); }
+
+        /* --- 7. ARTICLE (High-Readability, Journal Style) --- */
+        #article .flow-card {
+            max-width: 900px; 
+            margin: 0 auto; 
+            padding: 3rem; 
+            text-align: left; 
+            max-height: 550px; 
+            overflow-y: auto; 
+            font-family: var(--font-serif); 
+            line-height: 1.7;
+        }
+        
+        #article .flow-card h3 { 
+            font-family: var(--font-serif); 
+            font-style: italic;
+            color: var(--accent-goldenrod); 
+            border-bottom: 2px solid var(--accent-green); 
+            padding-bottom: 5px;
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+        }
+        #article .flow-card p {
+            font-family: var(--font-serif);
+            font-size: 1.1rem;
+            color: var(--text-dark);
+        }
+        
+        .quote-box {
+            border-left: 5px solid var(--accent-goldenrod);
+            padding-left: 25px;
+            margin: 2rem 0;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* --- 8. PRICING / LAB (The Workshop) --- */
+        .lab-box {
+            background: var(--bg-white);
+            border-radius: var(--radius-soft);
+            padding: 4rem;
+            box-shadow: var(--shadow-soft);
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .feature-list { list-style: none; padding-left: 0; text-align: left; }
+        .feature-list li { margin-bottom: 10px; color: var(--text-dark); }
+        .feature-list li::before { content: '✓'; color: var(--accent-goldenrod); margin-right: 10px; font-weight: 700; }
+        
+        #waitlistForm input {
+            background: var(--bg-cream);
+            border: 1px solid var(--text-muted);
+            border-radius: 4px;
+            padding: 1rem;
+            color: var(--text-dark);
+            font-family: var(--font-sans);
+            transition: border-color 0.3s, background 0.3s;
+        }
+        #waitlistForm input:focus {
+            outline: none;
+            border-color: var(--accent-goldenrod);
+            box-shadow: 0 0 0 3px rgba(217, 160, 58, 0.2);
+            background: var(--bg-white);
+        }
+        #waitlistForm input::placeholder { color: var(--text-muted); opacity: 0.8; }
+
+        /* --- 9. FOOTER --- */
+        footer {
+            border-top: 1px solid rgba(0,0,0,0.1);
+            padding: 60px 0;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            background: var(--bg-white);
+        }
+        footer a { color: var(--accent-goldenrod) !important; text-decoration: none; font-weight: 600; }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .quadrant-map { grid-template-columns: 1fr; gap: 15px; }
+            .quadrant-wrap { padding: 30px 10px; }
+            .quadrant-map::before, .quadrant-map::after { display: none; }
+            .axis-label { display: none; }
+            .hero h1 { font-size: 3rem; }
+            .btn-group { flex-direction: column; }
+            #waitlistForm > div { grid-template-columns: 1fr !important; }
+            .lab-box { padding: 3rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero">
+        <div class="container">
+            <svg class="hero-logo reveal" viewBox="0 0 583.18 590.21" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#ffffff" d="M563.18,20v169.75c0,37.81-30.76,68.58-68.58,68.58h-71.68c-54.07,0-98.07-43.99-98.07-98.07v-71.68c0-37.81,30.76-68.58,68.58-68.58h169.75M583.18,0h-189.75c-48.92,0-88.58,39.66-88.58,88.58v71.68c0,65.21,52.86,118.07,118.07,118.07h71.68c48.92,0,88.58-39.66,88.58-88.58V0h0Z"/>
+                <path fill="#ffffff" d="M0,0h189.75C238.64,0,278.33,39.69,278.33,88.58v189.75H88.58C39.69,278.33,0,238.64,0,189.75V0H0Z"/>
+                <path fill="#ffffff" d="M88.58,311.89h71.68c65.16,0,118.07,52.9,118.07,118.07v71.68c0,48.89-39.69,88.58-88.58,88.58H0v-189.75C0,351.58,39.69,311.89,88.58,311.89Z"/>
+                <path fill="#ffffff" d="M304.85,311.89h189.75c48.89,0,88.58,39.69,88.58,88.58v189.75h-189.75c-48.89,0-88.58-39.69-88.58-88.58v-189.75h0Z" transform="translate(888.02 902.1) rotate(180)"/>
+            </svg>
+
+            <p class="tagline reveal">Systems, Strategy & The Architecture of Fortune</p>
+            <h1 class="reveal">The <span class="text-accent">Human Flow</span> of Luck</h1>
+            
+            <p class="lead reveal">
+                "In a world where everyone is talented and everyone works hard, what separates those who thrive from those who stagnate? It's not just merit. It's the ability to **engineer serendipity.**"
+            </p>
+            
+            <p class="reveal" style="font-size: 1.1rem; color: var(--text-dark);">
+                We provide the frameworks to understand, measure, and influence the <span class="text-flow">unexpected events</span> that define your life and work.
+            </p>
+
+            <div class="btn-group reveal">
+                <a href="#quadrant" class="btn btn-primary">Discover the Map</a>
+                <a href="#lab" class="btn btn-outline">Join the Workshop</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="problem">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <h2 class="reveal" style="font-style: italic;">Why Hard Work Isn't Enough</h2>
+                <p class="reveal" style="margin-top: 1rem; max-width: 800px; margin-left: auto; margin-right: auto;">The forces accelerating change require a shift in strategy—from control to influence.</p>
+            </div>
+
+            <div class="grid-3">
+                <div class="flow-card reveal">
+                    <div class="card-icon">01</div>
+                    <h3>The Speed Shock</h3>
+                    <p>The half-life of professional skills is shrinking. Linear career progression is now a relic of a slower era. Adaptation is critical.</p>
+                </div>
+                <div class="flow-card reveal">
+                    <div class="card-icon">02</div>
+                    <h3>The Pressure Cooker</h3>
+                    <p>Organizations are under existential pressure. Stability is an illusion. Success belongs to those who embrace continuous, low-cost experimentation.</p>
+                </div>
+                <div class="flow-card reveal">
+                    <div class="card-icon">03</div>
+                    <h3>The Hidden Variable</h3>
+                    <p>High-achievers realize that raw effort only gets you so far. The true separator is the ability to maximize beneficial, unexpected collisions—i.e., shaping luck.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="quadrant" class="section-quadrant">
+        <div class="container">
+            <div style="text-align: center;">
+                <h2 class="reveal" style="font-style: italic;">The Luck Quadrant Map</h2>
+                <p class="reveal" style="max-width: 800px; margin: 1rem auto 0;">
+                    Luck is not random. It is the intersection of two human-controlled vectors:
+                    <strong style="color: var(--accent-goldenrod);">Your Internal State (Fear ← → Passion)</strong> and 
+                    <strong style="color: var(--bg-white);">Your External Environment (Scarcity ← → Abundance)</strong>.
+                </p>
+            </div>
+
+            <div class="quadrant-wrap reveal">
+                <div class="quadrant-map">
+                    <span class="axis-label axis-top">ABUNDANCE</span>
+                    <span class="axis-label axis-bottom">SCARCITY</span>
+                    <span class="axis-label axis-left">FEAR</span>
+                    <span class="axis-label axis-right">PASSION</span>
+
+                    <div class="q-card">
+                        <h3>AMPLIFY IMPACT (The Flow State)</h3>
+                        <p>Passion meets abundance. A fertile ground for exponential growth. Focus on scaling platforms and deepening connections.</p>
+                    </div>
+                    <div class="q-card">
+                        <h3>LEVERAGE SCARCITY (The Innovator)</h3>
+                        <p>Passion meets constraint. The challenge breeds ingenuity. Use limitation to drive unique, resource-light solutions.</p>
+                    </div>
+                    <div class="q-card">
+                        <h3>CAUTION (The Paralysis)</h3>
+                        <p>Fear meets abundance. Opportunity is missed due to anxiety. Prioritize small, reversible risks to rebuild momentum.</p>
+                    </div>
+                    <div class="q-card">
+                        <h3>RETRENCH (The Cycle)</h3>
+                        <p>Fear meets scarcity. Survival mode. Shift focus from defense to honest, quiet inquiry and information gathering.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="#lab" class="btn btn-primary reveal">CALIBRATE YOUR FLOW</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="article">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 1rem;" class="reveal">The Mandate: From Superstition to Strategy</h2>
+            <p class="reveal" style="text-align: center; color: var(--text-muted); margin-bottom: 3rem; font-style: italic; font-family: var(--font-serif);">
+                An excerpt from the Shaping Luck Monograph.
+            </p>
+
+            <div class="flow-card reveal" style="max-width: 900px; margin: 0 auto;">
+                <h3 style="margin-bottom: 1.5rem;">The Architecture of Fortune</h3>
+
+                <p>It was a frigid winter in the late 1920s, and a young Joseph Campbell, having just abandoned his doctoral studies at Columbia, found himself adrift. The Great Depression had descended, extinguishing academic prospects. He retreated to a small, unheated shack in Woodstock, New York. To an outside observer, this was a portrait of failure—a story of profound, unmitigated bad luck. Yet, for five years, Campbell did little but read. He consumed thousands of books, diving into mythology, psychology, and religion, following his intellectual passions without a clear path forward. This period of intense, isolated study, born of misfortune, became the bedrock of his life's work.</p>
+
+                <div class="quote-box">
+                    "Luck is not a mystical force to be wished for, but a current to be navigated, a phenomenon to be understood, and, most importantly, a reality that can be shaped."
+                </div>
+
+                <p>We are taught to believe in a simple success equation: talent plus hard work equals results. It's a clean, comforting, and deeply American narrative. But it is also profoundly incomplete. It ignores the invisible variable that courses through every life and every enterprise: luck. The most successful individuals, organizations, and even cities don't just work harder or think smarter; they understand that luck is not a mystical force to be wished for, but a current to be navigated, a phenomenon to be understood, and, most importantly, a reality that can be shaped.</p>
+
+                <p>The tools, connections, and knowledge available to us have never been more abundant. In this volatile new world, the ability to harness the unexpected is no longer a luxury; it is the core competency. Success now belongs to those who can move from passively experiencing luck to actively cultivating it.</p>
+                
+                <p style="text-align: center; margin-top: 2rem; font-family: var(--font-sans); color: var(--accent-goldenrod); font-weight: 600;">
+                    [Download the complete monograph for the 3-step Serendipity Playbook.]
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="lab">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 1rem;" class="reveal">The Serendipity Workshop</h2>
+            <p class="reveal" style="text-align: center; color: var(--text-muted); max-width: 600px; margin: 0 auto 3rem;">
+                A hands-on, monthly practice for building personal and organizational flow. This is where theory meets action.
+            </p>
+
+            <div class="lab-box reveal">
+                <h3 style="margin-bottom: 2rem; font-family: var(--font-sans); color: var(--accent-green);">What You Will Engineer</h3>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 3rem;">
+                    <ul class="feature-list">
+                        <li>Live Quadrant Mapping</li>
+                        <li>Flow State Protocol Deployment</li>
+                        <li>Community Feedback Loops</li>
+                    </ul>
+                    <ul class="feature-list">
+                        <li>Weekly High-Leverage Actions</li>
+                        <li>Curated Case Studies</li>
+                        <li>Exclusive Architect Interviews</li>
+                    </ul>
+                </div>
+                
+                <h3 class="text-accent" style="font-family: var(--font-serif); font-style: italic; margin-bottom: 2rem; font-size: 2.5rem;">Join the Waitlist.</h3>
+
+                <form id="waitlistForm" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <input type="text" id="companyName" name="companyName" placeholder="Your Affiliation/Title" required>
+                        <input type="email" id="email" name="email" placeholder="Email Address" required>
+                    </div>
+                    <button type="submit" id="submitBtn" class="btn btn-primary" style="align-self: center; margin-top: 1rem; min-width: 240px;">
+                        <span class="btn-text">Secure My Spot in the Flow →</span>
+                        <span class="btn-loading" style="display: none;">Securing...</span>
+                    </button>
+                </form>
+                <div id="formMessage" style="margin-top: 1rem; padding: 1rem; border-radius: 4px; display: none;"></div>
+                <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 1rem;">Limited spots for the next cohort.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div style="margin-bottom: 1rem; opacity: 0.8;">
+                <svg width="40" height="40" viewBox="0 0 583.18 590.21" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#D9A03A" d="M563.18,20v169.75c0,37.81-30.76,68.58-68.58,68.58h-71.68c-54.07,0-98.07-43.99-98.07-98.07v-71.68c0-37.81,30.76-68.58,68.58-68.58h169.75M583.18,0h-189.75c-48.92,0-88.58,39.66-88.58,88.58v71.68c0,65.21,52.86,118.07,118.07,118.07h71.68c48.92,0,88.58-39.66,88.58-88.58V0h0Z"/>
+                    <path fill="#386641" d="M0,0h189.75C238.64,0,278.33,39.69,278.33,88.58v189.75H88.58C39.69,278.33,0,238.64,0,189.75V0H0Z"/>
+                    <path fill="#D9A03A" d="M88.58,311.89h71.68c65.16,0,118.07,52.9,118.07,118.07v71.68c0,48.89-39.69,88.58-88.58,88.58H0v-189.75C0,351.58,39.69,311.89,88.58,311.89Z"/>
+                    <path fill="#386641" d="M304.85,311.89h189.75c48.89,0,88.58,39.69,88.58,88.58v189.75h-189.75c-48.89,0-88.58-39.69-88.58-88.58v-189.75h0Z" transform="translate(888.02 902.1) rotate(180)"/>
+                </svg>
+            </div>
+            <p>&copy; 2025 Shaping Luck. Designed for Flow. <a href="#">Manifesto</a> | <a href="#">Privacy Policy</a></p>
+        </div>
+    </footer>
+
+    <script>
+        /* --- 1. SCROLL REVEAL ANIMATION --- */
+        document.addEventListener("DOMContentLoaded", function() {
+            const reveals = document.querySelectorAll(".reveal");
+
+            const revealOnScroll = () => {
+                const windowHeight = window.innerHeight;
+                const elementVisible = 100;
+
+                reveals.forEach((reveal) => {
+                    const elementTop = reveal.getBoundingClientRect().top;
+                    if (elementTop < windowHeight - elementVisible) {
+                        reveal.classList.add("active");
+                    }
+                });
+            };
+
+            window.addEventListener("scroll", revealOnScroll);
+            revealOnScroll(); 
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../js/supabase-waitlist.js"></script>
+
+    <script>
+        // Waitlist form handler
+        async function handleWaitlistSubmit(event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const submitBtn = form.querySelector('#submitBtn');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const btnLoading = submitBtn.querySelector('.btn-loading');
+            const messageEl = document.getElementById('formMessage');
+            const emailInput = form.querySelector('#email');
+            const nameInput = form.querySelector('#companyName');
+
+            // Loading state
+            submitBtn.disabled = true;
+            btnText.style.display = 'none';
+            btnLoading.style.display = 'inline';
+
+            messageEl.style.display = 'block';
+            messageEl.textContent = 'Processing request...';
+            messageEl.style.background = 'var(--bg-cream)';
+            messageEl.style.color = 'var(--text-dark)';
+
+            try {
+                // Ensure WaitlistModule is available before calling submit
+                if (typeof WaitlistModule === 'undefined') {
+                    throw new Error('WaitlistModule is not loaded.');
+                }
+
+                const result = await WaitlistModule.submit(
+                    emailInput.value,
+                    nameInput.value,
+                    'website'
+                );
+
+                messageEl.textContent = result.message;
+                messageEl.style.background = result.success ? 'rgba(56, 102, 65, 0.1)' : 'rgba(217, 160, 58, 0.1)';
+                messageEl.style.color = result.success ? 'var(--accent-green)' : 'var(--accent-goldenrod)';
+
+                if (result.success) {
+                    form.reset();
+                }
+
+            } catch (err) {
+                console.error(err);
+                messageEl.textContent = 'Error connecting to the flow network. Please try again.';
+                messageEl.style.background = 'rgba(255, 0, 0, 0.1)';
+                messageEl.style.color = '#ff6b6b';
+            } finally {
+                submitBtn.disabled = false;
+                btnText.style.display = 'inline';
+                btnLoading.style.display = 'none';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if module is loaded before initialization
+            if (typeof WaitlistModule !== 'undefined' && WaitlistModule.init) {
+                WaitlistModule.init();
+            }
+            const waitlistForm = document.getElementById('waitlistForm');
+            if (waitlistForm) {
+                waitlistForm.addEventListener('submit', handleWaitlistSubmit);
+            }
+        });
+    </script>
+</body>
+</html>

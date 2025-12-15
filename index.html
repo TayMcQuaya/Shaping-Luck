@@ -41,60 +41,62 @@
             opacity: 0.9;
         }
 
-        /* Featured Design */
-        .featured {
+        /* Current Designs Section */
+        .current-section {
             margin-bottom: 3rem;
         }
 
-        .featured-label {
+        .section-label {
             text-align: center;
             color: #00F2EA;
             font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
-        .featured-card {
-            background: rgba(0, 242, 234, 0.08);
-            border: 3px solid rgba(0, 242, 234, 0.5);
-            border-radius: 24px;
-            padding: 3rem;
+        .current-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .current-card {
+            background: rgba(0, 242, 234, 0.06);
+            border: 2px solid rgba(0, 242, 234, 0.4);
+            border-radius: 16px;
+            padding: 2rem 1.5rem;
             text-align: center;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
-            box-shadow: 0 8px 40px rgba(0, 242, 234, 0.15);
+            box-shadow: 0 8px 24px rgba(0, 242, 234, 0.1);
             display: flex;
             flex-direction: column;
             align-items: center;
-            max-width: 500px;
-            margin: 0 auto;
         }
 
-        .featured-card:hover {
+        .current-card:hover {
             transform: translateY(-8px);
-            border-color: rgba(0, 242, 234, 0.9);
-            box-shadow: 0 20px 60px rgba(0, 242, 234, 0.25);
-        }
-
-        .featured-card .logo-preview {
-            width: 100px;
-            height: 100px;
+            border-color: rgba(0, 242, 234, 0.8);
+            box-shadow: 0 20px 40px rgba(0, 242, 234, 0.2);
             background: rgba(0, 242, 234, 0.1);
-            border: 2px solid rgba(0, 242, 234, 0.3);
         }
 
-        .featured-card .card-title {
+        .current-card .card-title {
             color: #00F2EA;
-            font-size: 1.8rem;
         }
 
-        .featured-card .card-btn {
+        .current-card .logo-preview {
+            background: rgba(0, 242, 234, 0.1);
+            border-color: rgba(0, 242, 234, 0.3);
+        }
+
+        .current-card .card-btn {
             background: linear-gradient(135deg, #00F2EA 0%, #00b4d8 100%);
             box-shadow: 0 6px 20px rgba(0, 242, 234, 0.3);
         }
 
-        .featured-card .card-btn:hover {
+        .current-card .card-btn:hover {
             box-shadow: 0 10px 30px rgba(0, 242, 234, 0.5);
         }
 
@@ -235,18 +237,16 @@
 
         /* Responsive */
         @media (max-width: 900px) {
+            .current-gallery,
             .archive-gallery {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
 
         @media (max-width: 580px) {
+            .current-gallery,
             .archive-gallery {
                 grid-template-columns: 1fr;
-            }
-
-            .featured-card {
-                padding: 2rem;
             }
         }
     </style>
@@ -256,75 +256,108 @@
         <h1>Shaping Luck</h1>
         <p class="subtitle">Design Gallery</p>
 
-        <!-- Featured / Current Design -->
-        <section class="featured">
-            <p class="featured-label">✦ Current Design ✦</p>
-            <div class="featured-card">
-                <div class="logo-preview">
-                    <img src="SL_logo.svg" alt="SL Logo">
+        <!-- Current Designs -->
+        <section class="current-section">
+            <p class="section-label">✦ Current Designs ✦</p>
+            <div class="current-gallery">
+                <div class="current-card">
+                    <div class="logo-preview">
+                        <img src="SL_logo.svg" alt="SL Logo">
+                    </div>
+                    <h2 class="card-title">Void Canvas</h2>
+                    <p class="card-description">Deep void aesthetic with particle canvas and cyan/gold accents</p>
+                    <a href="designs/current/index_new.html" class="card-btn">View</a>
                 </div>
-                <h2 class="card-title">Void Canvas</h2>
-                <p class="card-description">Deep void aesthetic with glassmorphism, particle canvas, and cyan/gold accents</p>
-                <a href="index_new.html" class="card-btn">View Design →</a>
+
+                <div class="current-card">
+                    <div class="logo-preview">
+                        <img src="SL_logo.svg" alt="SL Logo">
+                    </div>
+                    <h2 class="card-title">Fortune Architect</h2>
+                    <p class="card-description">Architectural blueprint style with structured layouts</p>
+                    <a href="designs/current/index_new2.html" class="card-btn">View</a>
+                </div>
+
+                <div class="current-card">
+                    <div class="logo-preview">
+                        <img src="SL_logo.svg" alt="SL Logo">
+                    </div>
+                    <h2 class="card-title">Alchemist's Notebook</h2>
+                    <p class="card-description">Hand-drawn aesthetic with mystical elements</p>
+                    <a href="designs/current/index_new3.html" class="card-btn">View</a>
+                </div>
+
+                <div class="current-card">
+                    <div class="logo-preview">
+                        <img src="SL_logo.svg" alt="SL Logo">
+                    </div>
+                    <h2 class="card-title">Human Flow</h2>
+                    <p class="card-description">Organic curves and human-centered design</p>
+                    <a href="designs/current/index_new4.html" class="card-btn">View</a>
+                </div>
+
+                <div class="current-card">
+                    <div class="logo-preview">
+                        <img src="SL_logo.svg" alt="SL Logo">
+                    </div>
+                    <h2 class="card-title">Abstract Matrix</h2>
+                    <p class="card-description">Geometric abstraction with data-driven visuals</p>
+                    <a href="designs/current/index_new5.html" class="card-btn">View</a>
+                </div>
             </div>
         </section>
 
         <!-- Archive Section -->
         <section class="archive-section">
             <div class="archive-toggle" onclick="toggleArchive()">
-                <h2>Previous Designs</h2>
+                <h2>Archived Designs</h2>
                 <span class="arrow">▼</span>
             </div>
 
             <div class="archive-gallery" id="archiveGallery">
-                <!-- Liquid Architecture -->
                 <div class="card">
                     <div class="logo-preview">
                         <img src="SL_logo.svg" alt="SL Logo">
                     </div>
                     <h2 class="card-title">Liquid Architecture</h2>
                     <p class="card-description">Morphing animations and organic SVG effects</p>
-                    <a href="index_SL.html" class="card-btn">View</a>
+                    <a href="designs/archive/index_SL.html" class="card-btn">View</a>
                 </div>
 
-                <!-- Midnight Elegance -->
                 <div class="card">
                     <div class="logo-preview">
                         <img src="Logo1.png" alt="Logo 1">
                     </div>
                     <h2 class="card-title">Midnight Elegance</h2>
                     <p class="card-description">Dark theme with rose-gold accents</p>
-                    <a href="index_v1.html" class="card-btn">View</a>
+                    <a href="designs/archive/index_v1.html" class="card-btn">View</a>
                 </div>
 
-                <!-- Geometric Balance -->
                 <div class="card">
                     <div class="logo-preview">
                         <img src="Logo1.png" alt="Logo 1">
                     </div>
                     <h2 class="card-title">Geometric Balance</h2>
                     <p class="card-description">Bauhaus-inspired with rounded squares</p>
-                    <a href="index_logo1.html" class="card-btn">View</a>
+                    <a href="designs/archive/index_logo1.html" class="card-btn">View</a>
                 </div>
 
-                <!-- Navigation Star -->
                 <div class="card">
                     <div class="logo-preview">
                         <img src="logo2.png" alt="Logo 2">
                     </div>
                     <h2 class="card-title">Navigation Star</h2>
                     <p class="card-description">Tech-forward with compass rose</p>
-                    <a href="index_logo2.html" class="card-btn">View</a>
+                    <a href="designs/archive/index_logo2.html" class="card-btn">View</a>
                 </div>
 
-                <!-- Blooming Mandala -->
                 <div class="card">
                     <div class="logo-preview">
                         <img src="Logo3.png" alt="Logo 3">
                     </div>
                     <h2 class="card-title">Blooming Mandala</h2>
                     <p class="card-description">Organic petal shapes and radial layouts</p>
-                    <a href="index_logo3.html" class="card-btn">View</a>
+                    <a href="designs/archive/index_logo3.html" class="card-btn">View</a>
                 </div>
             </div>
         </section>

@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shaping Luck | The Alchemist's Notebook</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 1. CORE VARIABLES & RESET --- */
+        :root {
+            /* Palette: Monochromatic with Sharp Red Accent */
+            --bg-paper: #F0F0F0;
+            --bg-dark: #111111;
+            
+            --ink-black: #111111;
+            --ink-grey: #444444;
+            --accent-red: #E53935; /* Sharp, Command-line Red */
+            
+            /* Structural Variables */
+            --border-thick: 2px solid var(--ink-black);
+            --border-thin: 1px solid var(--ink-grey);
+            
+            /* Typography */
+            --font-serif: 'Merriweather', serif;
+            --font-mono: 'IBM Plex Mono', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-paper);
+            color: var(--ink-black);
+            font-family: var(--font-serif);
+            line-height: 1.8;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- 2. TYPOGRAPHY & UTILITIES --- */
+        h1, h2, h3, h4 {
+            font-family: var(--font-mono);
+            font-weight: 600;
+            line-height: 1.1;
+            color: var(--ink-black);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        /* Simulates a print highlight */
+        .text-gradient {
+            color: var(--accent-red);
+            background: none;
+            -webkit-text-fill-color: var(--accent-red);
+            text-decoration: underline 2px solid var(--accent-red);
+            text-underline-offset: 4px;
+            display: inline;
+        }
+
+        p { margin-bottom: 1.2rem; color: var(--ink-grey); font-weight: 300; font-size: 1.05rem; }
+        strong { color: var(--ink-black); font-weight: 700; }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+        }
+
+        section {
+            padding: 80px 0;
+            position: relative;
+            border-bottom: 1px dashed var(--ink-grey);
+            background: var(--bg-paper);
+        }
+
+        /* --- 3. ANIMATIONS (Simulated Printing) --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.5s linear; /* Fast, linear reveal like a console print */
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- 4. HERO SECTION (The Dossier Header) --- */
+        .hero {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: left;
+        }
+        
+        .hero .container { max-width: 800px; }
+
+        .hero-logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 2rem;
+            /* Monochromatic Block Style */
+            border: var(--border-thick);
+            padding: 8px;
+        }
+        .hero-logo path { 
+            fill: var(--ink-black) !important; 
+            stroke: none !important; 
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 6vw, 4.5rem);
+            margin-bottom: 0.5rem;
+            border-bottom: var(--border-thick);
+            padding-bottom: 5px;
+        }
+
+        .hero p.tagline {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--accent-red);
+            margin-bottom: 3rem;
+        }
+
+        .hero p.lead {
+            font-size: 1.2rem;
+            color: var(--ink-black);
+            max-width: 700px;
+            margin-bottom: 3rem;
+        }
+
+        /* Video/System Log Placeholder */
+        .video-wrapper {
+            width: 100%;
+            max-width: 700px;
+            aspect-ratio: 16/9;
+            background: var(--bg-dark);
+            border: var(--border-thick);
+            margin: 0 auto 3rem;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: 1rem;
+            color: #ccc;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+        }
+        
+        .video-wrapper .log-line {
+            white-space: pre;
+            margin-bottom: 5px;
+        }
+        .video-wrapper .log-line.prompt { color: var(--accent-red); }
+
+        /* Buttons: "Action Blocks" */
+        .btn-group { display: flex; gap: 1rem; justify-content: flex-start; margin-top: 1.5rem; }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            font-family: var(--font-mono);
+            font-weight: 600;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: var(--border-thick);
+            transition: all 0.1s;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--accent-red);
+            color: var(--bg-paper);
+        }
+
+        .btn-primary:hover {
+            background: var(--ink-black);
+            color: var(--accent-red);
+        }
+
+        .btn-outline {
+            background: var(--bg-paper);
+            color: var(--ink-black);
+        }
+
+        .btn-outline:hover {
+            background: var(--ink-black);
+            color: var(--bg-paper);
+        }
+
+        /* --- 5. CARDS (The Index Blocks) --- */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .glass-card {
+            background: var(--bg-paper);
+            border: var(--border-thin);
+            padding: 2rem;
+            text-align: left;
+            transition: border-color 0.3s;
+        }
+
+        .glass-card:hover {
+            border: var(--border-thick);
+        }
+        
+        .glass-card h3 { 
+            color: var(--accent-red); 
+            border-bottom: 1px solid var(--accent-red); 
+            display: inline-block; 
+            padding-bottom: 2px;
+            margin-bottom: 1rem;
+        }
+        
+        .card-icon {
+            font-family: var(--font-mono);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--ink-black);
+            /* Wrap icon in square block */
+            border: 1px solid var(--ink-black);
+            width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            background: var(--bg-paper);
+        }
+
+        /* --- 6. THE QUADRANT (Figure 1: The Formal Diagram) --- */
+        .section-quadrant {
+            background: var(--bg-dark);
+            color: var(--bg-paper);
+        }
+        
+        .section-quadrant h2 { color: var(--bg-paper); }
+        .section-quadrant p { color: var(--ink-grey); }
+
+        .figure-caption {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--ink-grey);
+            text-align: center;
+            margin: 20px 0 0;
+            padding: 5px 0;
+            border-top: 1px solid var(--ink-grey);
+            border-bottom: 1px solid var(--ink-grey);
+        }
+        
+        .quadrant-figure {
+            max-width: 700px;
+            margin: 4rem auto 0;
+            padding: 20px;
+            border: var(--border-thick);
+            background: var(--bg-paper);
+        }
+
+        .quadrant-map {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 15px; 
+            padding: 20px;
+            background: white; /* Inner white block */
+        }
+
+        /* Axis Lines - Thin, Precise */
+        .quadrant-map::before {
+            content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px;
+            background: var(--ink-black); z-index: 1;
+        }
+        .quadrant-map::after {
+            content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 1px;
+            background: var(--ink-black); z-index: 1;
+        }
+
+        .q-card {
+            position: relative;
+            z-index: 2;
+            background: var(--bg-paper);
+            border: 1px solid var(--ink-grey);
+            padding: 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+        }
+
+        .q-card h3 { 
+            font-size: 0.9rem; margin-bottom: 0.5rem; 
+            color: var(--accent-red);
+        }
+        .q-card p { font-size: 0.8rem; line-height: 1.6; color: var(--ink-grey); }
+
+        .axis-label {
+            position: absolute;
+            font-family: var(--font-mono);
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            background: var(--bg-paper);
+            padding: 2px 5px;
+            border: 1px solid var(--ink-black);
+            color: var(--ink-black);
+            z-index: 3;
+        }
+        .axis-top { top: -15px; left: 50%; transform: translateX(-50%); }
+        .axis-bottom { bottom: -15px; left: 50%; transform: translateX(-50%); }
+        .axis-left { left: -40px; top: 50%; transform: translateY(-50%) rotate(-90deg); }
+        .axis-right { right: -40px; top: 50%; transform: translateY(-50%) rotate(90deg); }
+
+        /* --- 7. ARTICLE (Journal Entry Style) --- */
+        #article { padding: 40px 0; }
+        #article .container { padding: 0; }
+        
+        .article-journal-frame {
+            background: white;
+            padding: 3rem 4rem;
+            border-left: 10px solid var(--accent-red);
+            border-right: 1px solid var(--ink-grey);
+        }
+        
+        .article-journal-frame h2 { 
+            font-family: var(--font-serif); 
+            text-transform: none; 
+            letter-spacing: normal; 
+            font-weight: 700;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            padding-top: 10px;
+            border-top: 1px solid var(--ink-black);
+        }
+
+        .article-journal-frame p {
+            column-count: 2;
+            column-gap: 3rem;
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+        
+        .article-journal-frame p::first-letter {
+            font-size: 3rem;
+            color: var(--accent-red);
+            float: left;
+            margin-right: 8px;
+            line-height: 1;
+            font-weight: 700;
+        }
+        
+        .journal-footer {
+            text-align: right;
+            font-style: italic;
+            font-size: 0.8rem;
+            color: var(--ink-grey);
+            margin-top: 2rem;
+        }
+
+        /* --- 8. PRICING / LAB (The System Report) --- */
+        #lab { background: var(--bg-paper); }
+        .feature-list { list-style: none; padding-left: 0; }
+        .feature-list li::before { content: '[OK]'; color: var(--accent-red); margin-right: 10px; font-family: var(--font-mono); }
+        
+        .price-table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 600px;
+            margin: 3rem auto 0;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            background: white;
+            border: var(--border-thick);
+        }
+        .price-table th, .price-table td {
+            border: 1px solid var(--ink-grey);
+            padding: 10px 15px;
+            text-align: left;
+        }
+        .price-table th {
+            background: var(--ink-black);
+            color: var(--bg-paper);
+            text-transform: uppercase;
+        }
+        .price-table td:nth-child(2) { text-align: right; font-weight: 600; color: var(--accent-red); }
+        
+        /* Form Styling: Pure Terminal Input */
+        #waitlistForm { max-width: 400px; margin: 3rem auto 0; }
+        #waitlistForm label { font-family: var(--font-mono); font-size: 0.9rem; margin-bottom: 5px; display: block; }
+        
+        #waitlistForm input {
+            background: white;
+            border: 1px solid var(--ink-black);
+            padding: 10px 15px;
+            color: var(--ink-black);
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        #waitlistForm input:focus {
+            outline: none;
+            border: 1px solid var(--accent-red);
+            box-shadow: 0 0 5px rgba(229, 57, 53, 0.5);
+        }
+        
+        #submitBtn {
+            width: 100%;
+        }
+
+        /* --- 9. FOOTER --- */
+        footer {
+            border-top: var(--border-thick);
+            padding: 60px 0;
+            text-align: center;
+            font-size: 0.8rem;
+            background: var(--bg-dark);
+            color: var(--bg-paper);
+            font-family: var(--font-mono);
+        }
+        footer a { color: var(--accent-red) !important; text-decoration: none; }
+        footer svg path { fill: var(--bg-paper) !important; }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .article-journal-frame { padding: 2rem 1.5rem; }
+            .article-journal-frame p { column-count: 1; }
+            .quadrant-map { grid-template-columns: 1fr; gap: 10px; padding: 10px; }
+            .quadrant-map::before, .quadrant-map::after { display: none; }
+            .axis-label { display: none; }
+            .hero h1 { font-size: 2.5rem; }
+            .btn-group { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero">
+        <div class="container">
+            <svg class="hero-logo reveal" viewBox="0 0 583.18 590.21" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#F0F0F0" d="M563.18,20v169.75c0,37.81-30.76,68.58-68.58,68.58h-71.68c-54.07,0-98.07-43.99-98.07-98.07v-71.68c0-37.81,30.76-68.58,68.58-68.58h169.75M583.18,0h-189.75c-48.92,0-88.58,39.66-88.58,88.58v71.68c0,65.21,52.86,118.07,118.07,118.07h71.68c48.92,0,88.58-39.66,88.58-88.58V0h0Z"/>
+                <path fill="#E53935" d="M0,0h189.75C238.64,0,278.33,39.69,278.33,88.58v189.75H88.58C39.69,278.33,0,238.64,0,189.75V0H0Z"/>
+                <path fill="#111111" d="M88.58,311.89h71.68c65.16,0,118.07,52.9,118.07,118.07v71.68c0,48.89-39.69,88.58-88.58,88.58H0v-189.75C0,351.58,39.69,311.89,88.58,311.89Z"/>
+                <path fill="#F0F0F0" d="M304.85,311.89h189.75c48.89,0,88.58,39.69,88.58,88.58v189.75h-189.75c-48.89,0-88.58-39.69-88.58-88.58v-189.75h0Z" transform="translate(888.02 902.1) rotate(180)"/>
+            </svg>
+
+            <h1 class="reveal">Shaping Luck.</h1>
+            <p class="tagline reveal">REPORT TITLE: ENGINEERING SERENDIPITY V.4.0</p>
+            
+            <p class="lead reveal">
+                In a world where everyone is talented and everyone works hard, what separates those who thrive from those who stagnate? It's not just merit. It's the ability to **engineer serendipity**—to actively shape the unexpected encounters and events that define your trajectory.
+            </p>
+
+            <div class="video-wrapper reveal">
+                <div class="log-line prompt">> EXECUTE: SYSTEM.STATUS_REPORT();</div>
+                <div class="log-line">LOADING...</div>
+                <div class="log-line">INITIATING LUCK_ALGORITHM: VERSION 4.0</div>
+                <div class="log-line">STATUS: OPTIMAL.</div>
+                <div class="log-line">TARGETS IDENTIFIED: INDIVIDUAL, CORPORATE, ECOSYSTEM.</div>
+                <div class="log-line prompt">> INPUT_REQUIRED: [ACCESS_KEY]</div>
+            </div>
+
+            <div class="btn-group reveal">
+                <a href="#quadrant" class="btn btn-primary">Access Figure 1</a>
+                <a href="#lab" class="btn btn-outline">Begin Calibration</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="problem">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <h2 class="reveal">Observations: The Volatile Environment</h2>
+                <p class="reveal" style="margin-top: 1rem;">The failure of traditional strategic models in accelerated markets.</p>
+            </div>
+
+            <div class="grid-3">
+                <div class="glass-card reveal">
+                    <div class="card-icon">1.0</div>
+                    <h3>Skill Decay</h3>
+                    <p>The half-life of professional skills is shrinking. Linear progression is no longer a sustainable model for growth.</p>
+                </div>
+                <div class="glass-card reveal">
+                    <div class="card-icon">2.0</div>
+                    <h3>Organizational Fragility</h3>
+                    <p>Corporate lifespans have collapsed. Return on assets continues its long-term decline. Stability is a myth.</p>
+                </div>
+                <div class="glass-card reveal">
+                    <div class="card-icon">3.0</div>
+                    <h3>Orthogonal Shock</h3>
+                    <p>Unpredictability is the norm. Success belongs to those who adapt to simultaneous pressures and expanding opportunity.</p>
+                </div>
+            </div>
+
+            <p class="reveal" style="text-align: center; margin-top: 3rem; font-family: var(--font-mono); font-size: 1.1rem; color: var(--ink-black);">
+                **CONCLUSION:** Those who succeed are not waiting for luck, they are shaping it.
+            </p>
+        </div>
+    </section>
+
+    <section id="quadrant" class="section-quadrant">
+        <div class="container">
+            <div style="text-align: center;">
+                <h2 class="text-gradient reveal">Figure 1: The Luck Quadrant</h2>
+                <p class="reveal" style="max-width: 800px; margin: 1rem auto 0; line-height: 1.6;">
+                    Luck is the intersection of two measurable vectors:
+                    **Internal State (Fear ← → Passion)** and **External Environment (Scarcity ← → Abundance)**.
+                </p>
+            </div>
+
+            <div class="quadrant-figure reveal">
+                <div class="quadrant-map">
+                    <span class="axis-label axis-top">Abundance</span>
+                    <span class="axis-label axis-bottom">Scarcity</span>
+                    <span class="axis-label axis-left">Fear</span>
+                    <span class="axis-label axis-right">Passion</span>
+                    
+                    <div class="q-card">
+                        <h3>Q4. AMPLIFY IMPACT</h3>
+                        <p>Objective: Scale opportunities. Action: Platform building, high-leverage connections.</p>
+                    </div>
+                    <div class="q-card">
+                        <h3>Q3. LEVERAGE SCARCITY</h3>
+                        <p>Objective: Innovation through constraint. Action: Resource-light ingenuity, deep focus.</p>
+                    </div>
+                    <div class="q-card">
+                        <h3>Q1. CAUTION</h3>
+                        <p>Objective: Reduce paralysis. Action: Low-risk, high-return experiments, psychological safety.</p>
+                    </div>
+                    <div class="q-card">
+                        <h3>Q2. RETRENCH</h3>
+                        <p>Objective: Shift from defense. Action: Gather information, seek outside intervention.</p>
+                    </div>
+                </div>
+                 <div class="figure-caption">
+                    
+                    FIGURE 1. The Luck Quadrant: A framework for measuring and manipulating the probability of serendipitous events.
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="#lab" class="btn btn-primary reveal">CALIBRATE YOUR POSITION</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="article">
+        <div class="container">
+            <div class="article-journal-frame reveal">
+                <h2>The Luck Mandate: From Superstition to Strategy</h2>
+                
+                <p>
+                    It was a frigid winter in the late 1920s, and a young Joseph Campbell, having just abandoned his doctoral studies at Columbia, found himself adrift. The Great Depression had descended, extinguishing academic prospects. He retreated to a small, unheated shack in Woodstock, New York. To an outside observer, this was a portrait of failure—a story of profound, unmitigated bad luck. Yet, for five years, Campbell did little but read. He consumed thousands of books, diving into mythology, psychology, and religion, following his intellectual passions without a clear path forward. This period of intense, isolated study, born of misfortune, became the bedrock of his life's work. When he later emerged, the world had begun to recover, and his uniquely synthesized knowledge found a hungry audience. An unlucky event, a contracting environment, had been transformed into the ultimate catalyst.
+                    
+                    We are taught to believe in a simple success equation: talent plus hard work equals results. It's a clean, comforting, and deeply American narrative. But it is also profoundly incomplete. It ignores the invisible variable that courses through every life and every enterprise: luck. The most successful individuals, organizations, and even cities don't just work harder or think smarter; they understand that luck is not a mystical force to be wished for, but a current to be navigated, a phenomenon to be understood, and, most importantly, a reality that can be shaped.
+                    
+                    We stand at a unique juncture in history, defined by what the futurist John Hagel calls "The Big Shift." On one hand, we face mounting performance pressure. Global competition, accelerating change, and the constant threat of disruption create a landscape of unprecedented anxiety. Linear, predictable career paths are dissolving. Corporate lifespans are shrinking. Stability is an illusion. On the other hand, this same churn creates exponentially expanding opportunities. The tools, connections, and knowledge available to us have never been more abundant. In this volatile new world, the ability to harness the unexpected is no longer a luxury; it is the core competency.
+                </p>
+
+                <div class="journal-footer">
+                    — From the forthcoming monograph, *Shaping Luck: The Architecture of Fortune*.
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section>
+        <div class="container" style="text-align: center;">
+            <div class="reveal" style="border: var(--border-thick); padding: 3rem; background: var(--bg-dark); color: var(--bg-paper); max-width: 600px; margin: 0 auto;">
+                <h2 style="color: var(--accent-red);">Paradox.Statement();</h2>
+                <p style="margin-top: 1.5rem; font-family: var(--font-mono); font-size: 1rem; color: #ccc; line-height: 1.5;">
+                    "Luck is not a lightning strike. It is a wind that is always blowing. 
+                    Most people build walls to block it. We build windmills to catch it."
+                </p>
+                <p style="margin-top: 1rem; color: var(--accent-red); font-weight: 600; font-style: normal; font-family: var(--font-mono); font-size: 0.8rem;">— SHAPING LUCK.MANIFESTO</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="lab">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 2rem;" class="reveal">System Calibration Lab (SCL)</h2>
+            <p class="reveal" style="text-align: center; color: var(--ink-grey); max-width: 600px; margin: 0 auto 3rem;">
+                A monthly practice for Fortune Designers. This is not passive learning. This is live protocol testing.
+            </p>
+
+            <table class="price-table reveal">
+                <thead>
+                    <tr>
+                        <th>Module</th>
+                        <th>Cadence</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>[SCL.01] Live Quadrant Mapping</td>
+                        <td>Monthly</td>
+                        <td><span style="color: var(--accent-red);">Required</span></td>
+                    </tr>
+                    <tr>
+                        <td>[SCL.02] Protocol Deployment</td>
+                        <td>Bi-Weekly</td>
+                        <td>Optional</td>
+                    </tr>
+                    <tr>
+                        <td>[SCL.03] Case Study Synthesis</td>
+                        <td>Monthly</td>
+                        <td><span style="color: var(--accent-red);">Required</span></td>
+                    </tr>
+                    <tr>
+                        <td>[SCL.04] Expert Interviews (GUEST)</td>
+                        <td>Quarterly</td>
+                        <td>Optional</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="reveal" style="max-width: 400px; margin: 4rem auto 0; padding: 2rem; border: var(--border-thick); background: var(--bg-dark); color: var(--bg-paper);">
+                <h3 style="color: var(--accent-red); margin-bottom: 1.5rem;">[SYSTEM.INITIATE_WAITLIST]</h3>
+                
+                <form id="waitlistForm" style="display: flex; flex-direction: column;">
+                    <label for="companyName"><span style="color: var(--accent-red);">INPUT:</span> Affiliation Name</label>
+                    <input type="text" id="companyName" name="companyName" placeholder="[Enter Name]" required>
+                    
+                    <label for="email"><span style="color: var(--accent-red);">INPUT:</span> Email (Secure)</label>
+                    <input type="email" id="email" name="email" placeholder="[Enter Email]" required>
+                    
+                    <button type="submit" id="submitBtn" class="btn btn-primary" style="background: var(--accent-red); color: white;">
+                        <span class="btn-text">Transmit Data & Join Waitlist</span>
+                        <span class="btn-loading" style="display: none;">TRANSMITTING...</span>
+                    </button>
+                </form>
+                <div id="formMessage" style="margin-top: 1rem; padding: 10px; display: none; background: white; color: var(--ink-black); font-family: var(--font-mono); font-size: 0.8rem; border: 1px solid var(--accent-red);"></div>
+            </div>
+            <p style="text-align: center; font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-grey); margin-top: 1rem;">// Data is encrypted via SHA-256 protocol.</p>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div style="margin-bottom: 1rem;">
+                <svg width="40" height="40" viewBox="0 0 583.18 590.21" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#F0F0F0" d="M563.18,20v169.75c0,37.81-30.76,68.58-68.58,68.58h-71.68c-54.07,0-98.07-43.99-98.07-98.07v-71.68c0-37.81,30.76-68.58,68.58-68.58h169.75M583.18,0h-189.75c-48.92,0-88.58,39.66-88.58,88.58v71.68c0,65.21,52.86,118.07,118.07,118.07h71.68c48.92,0,88.58-39.66,88.58-88.58V0h0Z"/>
+                    <path fill="#E53935" d="M0,0h189.75C238.64,0,278.33,39.69,278.33,88.58v189.75H88.58C39.69,278.33,0,238.64,0,189.75V0H0Z"/>
+                    <path fill="#F0F0F0" d="M88.58,311.89h71.68c65.16,0,118.07,52.9,118.07,118.07v71.68c0,48.89-39.69,88.58-88.58,88.58H0v-189.75C0,351.58,39.69,311.89,88.58,311.89Z"/>
+                    <path fill="#111111" d="M304.85,311.89h189.75c48.89,0,88.58,39.69,88.58,88.58v189.75h-189.75c-48.89,0-88.58-39.69-88.58-88.58v-189.75h0Z" transform="translate(888.02 902.1) rotate(180)"/>
+                </svg>
+            </div>
+            <p>CONSOLIDATED REPORT. 2025. SHAPING LUCK. <a href="#">DOCUMENTATION</a> | <a href="#">PROTOCOL</a></p>
+        </div>
+    </footer>
+
+    <script>
+        /* --- 1. SCROLL REVEAL ANIMATION --- */
+        document.addEventListener("DOMContentLoaded", function() {
+            const reveals = document.querySelectorAll(".reveal");
+
+            const revealOnScroll = () => {
+                const windowHeight = window.innerHeight;
+                const elementVisible = 100;
+
+                reveals.forEach((reveal) => {
+                    const elementTop = reveal.getBoundingClientRect().top;
+                    if (elementTop < windowHeight - elementVisible) {
+                        reveal.classList.add("active");
+                    }
+                });
+            };
+
+            window.addEventListener("scroll", revealOnScroll);
+            revealOnScroll(); 
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../js/supabase-waitlist.js"></script>
+
+    <script>
+        // Waitlist form handler
+        async function handleWaitlistSubmit(event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const submitBtn = form.querySelector('#submitBtn');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const btnLoading = submitBtn.querySelector('.btn-loading');
+            const messageEl = document.getElementById('formMessage');
+            const emailInput = form.querySelector('#email');
+            const nameInput = form.querySelector('#companyName');
+
+            // Loading state
+            submitBtn.disabled = true;
+            btnText.style.display = 'none';
+            btnLoading.style.display = 'inline';
+
+            messageEl.style.display = 'block';
+            messageEl.textContent = '[STATUS] Initializing secure transfer...';
+            messageEl.style.background = '#F0F0F0';
+            messageEl.style.color = '#111111';
+
+            try {
+                // Ensure WaitlistModule is available before calling submit
+                if (typeof WaitlistModule === 'undefined') {
+                    throw new Error('WaitlistModule is not loaded.');
+                }
+                
+                await new Promise(resolve => setTimeout(resolve, 500)); // Simulate processing
+
+                const result = await WaitlistModule.submit(
+                    emailInput.value,
+                    nameInput.value,
+                    'website'
+                );
+
+                await new Promise(resolve => setTimeout(resolve, 500)); // Simulate processing
+
+                messageEl.textContent = result.success 
+                    ? `[SUCCESS] ${result.message}` 
+                    : `[ERROR] ${result.message}`;
+                
+                messageEl.style.background = result.success ? '#E53935' : '#111111';
+                messageEl.style.color = result.success ? '#F0F0F0' : '#E53935';
+
+                if (result.success) {
+                    form.reset();
+                }
+
+            } catch (err) {
+                console.error(err);
+                messageEl.textContent = '[CRITICAL ERROR] Failed to establish connection. Manual override required.';
+                messageEl.style.background = '#111111';
+                messageEl.style.color = '#E53935';
+            } finally {
+                submitBtn.disabled = false;
+                btnText.style.display = 'inline';
+                btnLoading.style.display = 'none';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if module is loaded before initialization
+            if (typeof WaitlistModule !== 'undefined' && WaitlistModule.init) {
+                WaitlistModule.init();
+            }
+            const waitlistForm = document.getElementById('waitlistForm');
+            if (waitlistForm) {
+                waitlistForm.addEventListener('submit', handleWaitlistSubmit);
+            }
+        });
+    </script>
+</body>
+</html>
