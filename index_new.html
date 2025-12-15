@@ -201,6 +201,23 @@
             background: rgba(255,255,255,0.05);
         }
 
+        /* Mouse Spotlight Effect */
+        .mouse-spotlight {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mouse-spotlight.active {
+            opacity: 1;
+        }
+
         /* --- 5. THE OLD RULES (Cards) --- */
         .grid-3 {
             display: grid;
@@ -365,6 +382,7 @@
 <body>
 
     <canvas id="luckCanvas"></canvas>
+    <div class="mouse-spotlight" id="mouseSpotlight"></div>
 
     <section class="hero">
         <div class="container">
@@ -825,6 +843,30 @@
                 waitlistForm.addEventListener('submit', handleWaitlistSubmit);
             }
         });
+
+        // Mouse Spotlight Effect
+        (function() {
+            const spotlight = document.getElementById('mouseSpotlight');
+            let mouseX = 0, mouseY = 0;
+            let isActive = false;
+
+            document.addEventListener('mousemove', function(e) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+
+                if (!isActive) {
+                    spotlight.classList.add('active');
+                    isActive = true;
+                }
+
+                spotlight.style.background = `radial-gradient(600px circle at ${mouseX}px ${mouseY}px, rgba(0, 242, 234, 0.12), transparent 60%)`;
+            });
+
+            document.addEventListener('mouseleave', function() {
+                spotlight.classList.remove('active');
+                isActive = false;
+            });
+        })();
     </script>
 </body>
 </html>
