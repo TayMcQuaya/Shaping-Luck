@@ -15,21 +15,13 @@
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #0A1128 0%, #1C2541 50%, #3A506B 100%);
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
-            overflow: hidden;
+            min-height: 100vh;
+            padding: 2rem;
         }
 
         .container {
-            max-width: 1400px;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            max-width: 1000px;
+            margin: 0 auto;
         }
 
         h1 {
@@ -45,23 +37,131 @@
             text-align: center;
             color: #F8F5F0;
             font-size: clamp(0.9rem, 1.5vw, 1.1rem);
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
             opacity: 0.9;
         }
 
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 1.5rem;
-            max-width: 1400px;
+        /* Featured Design */
+        .featured {
+            margin-bottom: 3rem;
+        }
+
+        .featured-label {
+            text-align: center;
+            color: #00F2EA;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .featured-card {
+            background: rgba(0, 242, 234, 0.08);
+            border: 3px solid rgba(0, 242, 234, 0.5);
+            border-radius: 24px;
+            padding: 3rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 40px rgba(0, 242, 234, 0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 500px;
             margin: 0 auto;
         }
 
+        .featured-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(0, 242, 234, 0.9);
+            box-shadow: 0 20px 60px rgba(0, 242, 234, 0.25);
+        }
+
+        .featured-card .logo-preview {
+            width: 100px;
+            height: 100px;
+            background: rgba(0, 242, 234, 0.1);
+            border: 2px solid rgba(0, 242, 234, 0.3);
+        }
+
+        .featured-card .card-title {
+            color: #00F2EA;
+            font-size: 1.8rem;
+        }
+
+        .featured-card .card-btn {
+            background: linear-gradient(135deg, #00F2EA 0%, #00b4d8 100%);
+            box-shadow: 0 6px 20px rgba(0, 242, 234, 0.3);
+        }
+
+        .featured-card .card-btn:hover {
+            box-shadow: 0 10px 30px rgba(0, 242, 234, 0.5);
+        }
+
+        /* Archive Section */
+        .archive-section {
+            margin-top: 2rem;
+        }
+
+        .archive-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 50px;
+            margin: 0 auto 1.5rem;
+            transition: all 0.3s ease;
+            max-width: 300px;
+        }
+
+        .archive-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(212, 175, 55, 0.6);
+        }
+
+        .archive-toggle h2 {
+            color: #D4AF37;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .archive-toggle .arrow {
+            color: #D4AF37;
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .archive-toggle.open .arrow {
+            transform: rotate(180deg);
+        }
+
+        .archive-gallery {
+            display: none;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .archive-gallery.open {
+            display: grid;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
         .card {
-            background: rgba(255, 255, 255, 0.08);
-            border: 3px solid rgba(212, 175, 55, 0.5);
+            background: rgba(255, 255, 255, 0.06);
+            border: 2px solid rgba(212, 175, 55, 0.3);
             border-radius: 16px;
-            padding: 2.5rem 1.5rem;
+            padding: 2rem 1.5rem;
             text-align: center;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
@@ -72,59 +172,57 @@
         }
 
         .card:hover {
-            transform: translateY(-10px) scale(1.03);
-            border-color: rgba(212, 175, 55, 0.9);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-8px);
+            border-color: rgba(212, 175, 55, 0.7);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .card-title {
             color: #D4AF37;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
         }
 
         .card-description {
             color: #F8F5F0;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             line-height: 1.6;
             margin-bottom: auto;
-            opacity: 0.85;
+            opacity: 0.8;
             flex-grow: 1;
         }
 
         .card-btn {
             display: inline-block;
-            padding: 1rem 2rem;
+            padding: 0.9rem 1.8rem;
             background: linear-gradient(135deg, #D4AF37 0%, #E8C468 100%);
             color: #0A1128;
             text-decoration: none;
             border-radius: 50px;
             font-weight: 700;
             transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.95rem;
             box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
-            margin-top: 1.5rem;
+            margin-top: 1.25rem;
         }
 
         .card-btn:hover {
-            transform: scale(1.08);
+            transform: scale(1.05);
             box-shadow: 0 10px 30px rgba(212, 175, 55, 0.5);
         }
 
         .logo-preview {
-            width: 90px;
-            height: 90px;
-            margin: 0 auto 1.5rem;
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 1.25rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 14px;
-            padding: 1rem;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 0.75rem;
             border: 2px solid rgba(212, 175, 55, 0.2);
         }
 
@@ -135,25 +233,20 @@
             filter: brightness(1.1);
         }
 
-        @media (max-width: 1200px) {
-            .gallery {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .gallery {
+        /* Responsive */
+        @media (max-width: 900px) {
+            .archive-gallery {
                 grid-template-columns: repeat(2, 1fr);
             }
-
-            body {
-                overflow-y: auto;
-            }
         }
 
-        @media (max-width: 480px) {
-            .gallery {
+        @media (max-width: 580px) {
+            .archive-gallery {
                 grid-template-columns: 1fr;
+            }
+
+            .featured-card {
+                padding: 2rem;
             }
         }
     </style>
@@ -161,59 +254,89 @@
 <body>
     <div class="container">
         <h1>Shaping Luck</h1>
-        <p class="subtitle">Explore our design variations</p>
+        <p class="subtitle">Design Gallery</p>
 
-        <div class="gallery">
-            <!-- Liquid Architecture -->
-            <div class="card">
+        <!-- Featured / Current Design -->
+        <section class="featured">
+            <p class="featured-label">✦ Current Design ✦</p>
+            <div class="featured-card">
                 <div class="logo-preview">
                     <img src="SL_logo.svg" alt="SL Logo">
                 </div>
-                <h2 class="card-title">Liquid Architecture</h2>
-                <p class="card-description">Revolutionary design with morphing animations and organic SVG effects</p>
-                <a href="index_SL.html" class="card-btn">View Design</a>
+                <h2 class="card-title">Void Canvas</h2>
+                <p class="card-description">Deep void aesthetic with glassmorphism, particle canvas, and cyan/gold accents</p>
+                <a href="index_new.html" class="card-btn">View Design →</a>
+            </div>
+        </section>
+
+        <!-- Archive Section -->
+        <section class="archive-section">
+            <div class="archive-toggle" onclick="toggleArchive()">
+                <h2>Previous Designs</h2>
+                <span class="arrow">▼</span>
             </div>
 
-            <!-- Midnight Elegance -->
-            <div class="card">
-                <div class="logo-preview">
-                    <img src="Logo1.png" alt="Logo 1">
+            <div class="archive-gallery" id="archiveGallery">
+                <!-- Liquid Architecture -->
+                <div class="card">
+                    <div class="logo-preview">
+                        <img src="SL_logo.svg" alt="SL Logo">
+                    </div>
+                    <h2 class="card-title">Liquid Architecture</h2>
+                    <p class="card-description">Morphing animations and organic SVG effects</p>
+                    <a href="index_SL.html" class="card-btn">View</a>
                 </div>
-                <h2 class="card-title">Midnight Elegance</h2>
-                <p class="card-description">Dark, sophisticated theme with rose-gold accents</p>
-                <a href="index_v1.html" class="card-btn">View Design</a>
-            </div>
 
-            <!-- Geometric Balance -->
-            <div class="card">
-                <div class="logo-preview">
-                    <img src="Logo1.png" alt="Logo 1">
+                <!-- Midnight Elegance -->
+                <div class="card">
+                    <div class="logo-preview">
+                        <img src="Logo1.png" alt="Logo 1">
+                    </div>
+                    <h2 class="card-title">Midnight Elegance</h2>
+                    <p class="card-description">Dark theme with rose-gold accents</p>
+                    <a href="index_v1.html" class="card-btn">View</a>
                 </div>
-                <h2 class="card-title">Geometric Balance</h2>
-                <p class="card-description">Bauhaus-inspired with rounded squares and 2x2 grid layouts</p>
-                <a href="index_logo1.html" class="card-btn">View Design</a>
-            </div>
 
-            <!-- Navigation Star -->
-            <div class="card">
-                <div class="logo-preview">
-                    <img src="logo2.png" alt="Logo 2">
+                <!-- Geometric Balance -->
+                <div class="card">
+                    <div class="logo-preview">
+                        <img src="Logo1.png" alt="Logo 1">
+                    </div>
+                    <h2 class="card-title">Geometric Balance</h2>
+                    <p class="card-description">Bauhaus-inspired with rounded squares</p>
+                    <a href="index_logo1.html" class="card-btn">View</a>
                 </div>
-                <h2 class="card-title">Navigation Star</h2>
-                <p class="card-description">Tech-forward with compass rose, orbital rings, and circuit patterns</p>
-                <a href="index_logo2.html" class="card-btn">View Design</a>
-            </div>
 
-            <!-- Blooming Mandala -->
-            <div class="card">
-                <div class="logo-preview">
-                    <img src="Logo3.png" alt="Logo 3">
+                <!-- Navigation Star -->
+                <div class="card">
+                    <div class="logo-preview">
+                        <img src="logo2.png" alt="Logo 2">
+                    </div>
+                    <h2 class="card-title">Navigation Star</h2>
+                    <p class="card-description">Tech-forward with compass rose</p>
+                    <a href="index_logo2.html" class="card-btn">View</a>
                 </div>
-                <h2 class="card-title">Blooming Mandala</h2>
-                <p class="card-description">Organic design with petal shapes, radial layouts, and rainbow gradients</p>
-                <a href="index_logo3.html" class="card-btn">View Design</a>
+
+                <!-- Blooming Mandala -->
+                <div class="card">
+                    <div class="logo-preview">
+                        <img src="Logo3.png" alt="Logo 3">
+                    </div>
+                    <h2 class="card-title">Blooming Mandala</h2>
+                    <p class="card-description">Organic petal shapes and radial layouts</p>
+                    <a href="index_logo3.html" class="card-btn">View</a>
+                </div>
             </div>
-        </div>
+        </section>
     </div>
+
+    <script>
+        function toggleArchive() {
+            const gallery = document.getElementById('archiveGallery');
+            const toggle = document.querySelector('.archive-toggle');
+            gallery.classList.toggle('open');
+            toggle.classList.toggle('open');
+        }
+    </script>
 </body>
 </html>
