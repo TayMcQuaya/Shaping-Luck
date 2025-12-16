@@ -3,373 +3,1021 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shaping Luck - Design Gallery</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Shaping Luck | The Quadrant Framework</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;400;600&family=Space+Grotesk:wght@300;400;600&display=swap" rel="stylesheet">
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* --- 1. CORE VARIABLES & RESET --- */
+        :root {
+            /* Palette: Deep Void Navy to Alchemic Gold */
+            --bg-void: #05080f;
+            --bg-panel: #0f1521;
+            --accent-cyan: #00f2ea;
+            --accent-gold: #ffc857;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            
+            /* Glassmorphism */
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-blur: 16px;
+            
+            /* Typography */
+            --font-serif: 'Fraunces', serif;
+            --font-sans: 'Space Grotesk', sans-serif;
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0A1128 0%, #1C2541 50%, #3A506B 100%);
-            min-height: 100vh;
-            padding: 2rem;
+            background-color: var(--bg-void);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- 2. TYPOGRAPHY & UTILITIES --- */
+        h1, h2, h3, h4 {
+            font-family: var(--font-serif);
+            font-weight: 400;
+            line-height: 1.2;
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, var(--text-main) 0%, var(--accent-cyan) 50%, var(--accent-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2; /* Sit above canvas */
         }
 
-        h1 {
-            text-align: center;
-            color: #D4AF37;
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            text-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+        section {
+            padding: 100px 0;
+            position: relative;
         }
 
-        .subtitle {
-            text-align: center;
-            color: #F8F5F0;
-            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
-            margin-bottom: 3rem;
-            opacity: 0.9;
+        /* --- 3. ANIMATION CLASSES --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            filter: blur(10px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
         }
 
-        /* Current Designs Section */
-        .current-section {
-            margin-bottom: 3rem;
+        /* --- 4. HERO SECTION --- */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 0;
+            opacity: 0.6;
+            pointer-events: none;
         }
 
-        .section-label {
-            text-align: center;
-            color: #00F2EA;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 1.5rem;
-        }
-
-        .current-gallery {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
-
-        .current-card {
-            background: rgba(0, 242, 234, 0.06);
-            border: 2px solid rgba(0, 242, 234, 0.4);
-            border-radius: 16px;
-            padding: 2rem 1.5rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 24px rgba(0, 242, 234, 0.1);
+        /* Canvas Intro Overlay */
+        .canvas-intro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-        }
-
-        .current-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(0, 242, 234, 0.8);
-            box-shadow: 0 20px 40px rgba(0, 242, 234, 0.2);
-            background: rgba(0, 242, 234, 0.1);
-        }
-
-        .current-card .card-title {
-            color: #00F2EA;
-        }
-
-        .current-card .logo-preview {
-            background: rgba(0, 242, 234, 0.1);
-            border-color: rgba(0, 242, 234, 0.3);
-        }
-
-        .current-card .card-btn {
-            background: linear-gradient(135deg, #00F2EA 0%, #00b4d8 100%);
-            box-shadow: 0 6px 20px rgba(0, 242, 234, 0.3);
-        }
-
-        .current-card .card-btn:hover {
-            box-shadow: 0 10px 30px rgba(0, 242, 234, 0.5);
-        }
-
-        /* Archive Section */
-        .archive-section {
-            margin-top: 2rem;
-        }
-
-        .archive-toggle {
-            display: flex;
-            align-items: center;
             justify-content: center;
-            gap: 0.75rem;
+            text-align: center;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .canvas-intro .scroll-indicator {
+            pointer-events: auto;
+        }
+
+        .intro-text {
+            font-family: var(--font-serif);
+            font-size: clamp(3rem, 10vw, 7rem);
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            background: linear-gradient(135deg, var(--text-main) 0%, var(--accent-cyan) 50%, var(--accent-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0;
+            animation: fadeInUp 1.5s ease forwards;
+            animation-delay: 0.5s;
+            filter: drop-shadow(0 0 40px rgba(0, 242, 234, 0.4)) drop-shadow(0 0 80px rgba(0, 242, 234, 0.2));
+            text-shadow: 0 0 60px rgba(0, 242, 234, 0.5);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
             cursor: pointer;
-            padding: 1rem 2rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(212, 175, 55, 0.3);
-            border-radius: 50px;
-            margin: 0 auto 1.5rem;
-            transition: all 0.3s ease;
-            max-width: 300px;
-        }
-
-        .archive-toggle:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(212, 175, 55, 0.6);
-        }
-
-        .archive-toggle h2 {
-            color: #D4AF37;
-            font-size: 1rem;
-            font-weight: 600;
-        }
-
-        .archive-toggle .arrow {
-            color: #D4AF37;
-            font-size: 0.8rem;
+            opacity: 0;
+            animation: fadeInUp 1.5s ease forwards;
+            animation-delay: 1.2s;
             transition: transform 0.3s ease;
         }
 
-        .archive-toggle.open .arrow {
-            transform: rotate(180deg);
+        .scroll-indicator:hover {
+            transform: translateY(5px);
         }
 
-        .archive-gallery {
-            display: none;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-            animation: fadeIn 0.3s ease;
+        .scroll-indicator span {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
         }
 
-        .archive-gallery.open {
-            display: grid;
+        .scroll-chevron {
+            width: 30px;
+            height: 30px;
+            border-right: 2px solid var(--accent-cyan);
+            border-bottom: 2px solid var(--accent-cyan);
+            transform: rotate(45deg);
+            animation: bounceChevron 2s ease-in-out infinite;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        /* Cards */
-        .card {
-            background: rgba(255, 255, 255, 0.06);
-            border: 2px solid rgba(212, 175, 55, 0.3);
-            border-radius: 16px;
-            padding: 2rem 1.5rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        @keyframes bounceChevron {
+            0%, 100% {
+                transform: rotate(45deg) translate(0, 0);
+                opacity: 1;
+            }
+            50% {
+                transform: rotate(45deg) translate(5px, 5px);
+                opacity: 0.5;
+            }
         }
 
-        .card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(212, 175, 55, 0.7);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .card-title {
-            color: #D4AF37;
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-        }
-
-        .card-description {
-            color: #F8F5F0;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            margin-bottom: auto;
-            opacity: 0.8;
-            flex-grow: 1;
-        }
-
-        .card-btn {
-            display: inline-block;
-            padding: 0.9rem 1.8rem;
-            background: linear-gradient(135deg, #D4AF37 0%, #E8C468 100%);
-            color: #0A1128;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
-            margin-top: 1.25rem;
-        }
-
-        .card-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.5);
-        }
-
-        .logo-preview {
-            width: 70px;
-            height: 70px;
-            margin: 0 auto 1.25rem;
+        .hero {
+            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255, 255, 255, 0.06);
-            border-radius: 12px;
-            padding: 0.75rem;
-            border: 2px solid rgba(212, 175, 55, 0.2);
+            text-align: center;
+            position: relative;
         }
 
-        .logo-preview img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            filter: brightness(1.1);
+        .hero-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem;
+            animation: float 6s ease-in-out infinite;
         }
 
-        /* Responsive */
-        @media (max-width: 900px) {
-            .current-gallery,
-            .archive-gallery {
-                grid-template-columns: repeat(2, 1fr);
-            }
+        .hero h1 {
+            font-size: clamp(3rem, 5vw, 5rem);
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
         }
 
-        @media (max-width: 580px) {
-            .current-gallery,
-            .archive-gallery {
-                grid-template-columns: 1fr;
-            }
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        /* Video Container with Glow */
+        .video-wrapper {
+            width: 100%;
+            max-width: 800px;
+            aspect-ratio: 16/9;
+            background: linear-gradient(45deg, #1a2333, #0f1521);
+            border-radius: 20px;
+            margin: 0 auto 3rem;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 0 60px -20px rgba(0, 242, 234, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .play-button {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .play-button::after {
+            content: '';
+            border-left: 20px solid var(--text-main);
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            margin-left: 5px;
+        }
+        
+        .play-button:hover { transform: scale(1.1); background: rgba(255,255,255,0.2); }
+
+        .btn-group {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--accent-cyan), #00b4d8);
+            color: var(--bg-void);
+            box-shadow: 0 4px 20px rgba(0, 242, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 4px 30px rgba(0, 242, 234, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--text-main);
+            background: rgba(255,255,255,0.05);
+        }
+
+        /* Mouse Spotlight Effect */
+        .mouse-spotlight {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mouse-spotlight.active {
+            opacity: 1;
+        }
+
+        /* --- 5. THE OLD RULES (Cards) --- */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border: 1px solid var(--glass-border);
+            padding: 2.5rem;
+            border-radius: 24px;
+            transition: transform 0.4s ease, border-color 0.4s ease;
+            text-align: center;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.06);
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-gold);
+            text-align: center;
+        }
+
+        /* --- 6. THE QUADRANT (Centerpiece) --- */
+        .section-quadrant {
+            background: radial-gradient(circle at 50% 50%, #15202b 0%, var(--bg-void) 70%);
+            padding: 120px 0;
+        }
+
+        .quadrant-map {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 40px;
+            max-width: 900px;
+            margin: 4rem auto 0;
+            padding: 40px;
+        }
+
+        /* The Axis Lines */
+        .quadrant-map::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -20px;
+            right: -20px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--text-muted), transparent);
+            z-index: 0;
+        }
+
+        .quadrant-map::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: -20px;
+            bottom: -20px;
+            width: 1px;
+            background: linear-gradient(180deg, transparent, var(--text-muted), transparent);
+            z-index: 0;
+        }
+
+        .q-card {
+            position: relative;
+            z-index: 1;
+            background: rgba(15, 21, 33, 0.8);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .q-card:hover {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 30px rgba(0, 242, 234, 0.1);
+            transform: scale(1.02);
+        }
+
+        .q-card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--accent-cyan); }
+        .q-card p { font-size: 0.9rem; color: var(--text-muted); }
+
+        .axis-label {
+            position: absolute;
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            text-align: center;
+            line-height: 1.4;
+        }
+        .axis-label small {
+            display: block;
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            text-transform: none;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+        .axis-top { top: -55px; left: 50%; transform: translateX(-50%); }
+        .axis-bottom { bottom: -45px; left: 50%; transform: translateX(-50%); }
+        .axis-left { left: -90px; top: 50%; transform: translateY(-50%) rotate(-90deg); white-space: nowrap; }
+        .axis-right { right: -90px; top: 50%; transform: translateY(-50%) rotate(90deg); white-space: nowrap; }
+
+        .axis-title {
+            position: absolute;
+            font-family: var(--font-sans);
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            opacity: 0.8;
+            background: rgba(15, 21, 33, 0.9);
+            padding: 4px 8px;
+            z-index: 1;
+        }
+        .axis-title-vertical {
+            left: 50%;
+            top: 20%;
+            transform: translateX(-50%) rotate(-90deg);
+            white-space: nowrap;
+        }
+        .axis-title-horizontal {
+            top: 50%;
+            right: 5%;
+            left: auto;
+            transform: translateY(-50%);
+            white-space: nowrap;
+        }
+
+        /* --- 7. PARADOX SECTION --- */
+        .paradox-box {
+            background: linear-gradient(135deg, rgba(0,242,234,0.1), rgba(0,0,0,0));
+            border: 1px solid rgba(0,242,234,0.3);
+            border-radius: 30px;
+            padding: 4rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* --- 8. PRICING / LAB --- */
+        .pricing-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+        
+        .price { font-size: 2.5rem; font-family: var(--font-serif); margin: 1rem 0; }
+        
+        .feature-list { list-style: none; margin-bottom: 2rem; text-align: left; }
+        .feature-list li { margin-bottom: 0.8rem; display: flex; align-items: center; gap: 10px; }
+        .feature-list li::before { content: '✦'; color: var(--accent-cyan); }
+
+        /* --- 9. FOOTER --- */
+        footer {
+            border-top: 1px solid var(--glass-border);
+            padding: 60px 0;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .quadrant-map { grid-template-columns: 1fr; gap: 20px; padding: 0; }
+            .quadrant-map::before, .quadrant-map::after { display: none; }
+            .axis-label { display: none; }
+            .hero h1 { font-size: 2.5rem; }
+            .btn-group { flex-direction: column; }
+
+            #waitlistForm > div { grid-template-columns: 1fr !important; }
+            .grid-3[style*="repeat(4"] { grid-template-columns: 1fr 1fr !important; }
+        }
+
+        @media (max-width: 480px) {
+            .grid-3[style*="repeat(4"] { grid-template-columns: 1fr !important; }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Shaping Luck</h1>
-        <p class="subtitle">Design Gallery</p>
 
-        <!-- Current Designs -->
-        <section class="current-section">
-            <p class="section-label">✦ Current Designs ✦</p>
-            <div class="current-gallery">
-                <div class="current-card">
-                    <div class="logo-preview">
-                        <img src="SL_logo.svg" alt="SL Logo">
-                    </div>
-                    <h2 class="card-title">Void Canvas</h2>
-                    <p class="card-description">Deep void aesthetic with particle canvas and cyan/gold accents</p>
-                    <a href="designs/current/index_new.html" class="card-btn">View</a>
-                </div>
+    <canvas id="luckCanvas"></canvas>
+    <div class="mouse-spotlight" id="mouseSpotlight"></div>
 
-                <div class="current-card">
-                    <div class="logo-preview">
-                        <img src="SL_logo.svg" alt="SL Logo">
-                    </div>
-                    <h2 class="card-title">Fortune Architect</h2>
-                    <p class="card-description">Architectural blueprint style with structured layouts</p>
-                    <a href="designs/current/index_new2.html" class="card-btn">View</a>
-                </div>
-
-                <div class="current-card">
-                    <div class="logo-preview">
-                        <img src="SL_logo.svg" alt="SL Logo">
-                    </div>
-                    <h2 class="card-title">Alchemist's Notebook</h2>
-                    <p class="card-description">Hand-drawn aesthetic with mystical elements</p>
-                    <a href="designs/current/index_new3.html" class="card-btn">View</a>
-                </div>
-
-                <div class="current-card">
-                    <div class="logo-preview">
-                        <img src="SL_logo.svg" alt="SL Logo">
-                    </div>
-                    <h2 class="card-title">Human Flow</h2>
-                    <p class="card-description">Organic curves and human-centered design</p>
-                    <a href="designs/current/index_new4.html" class="card-btn">View</a>
-                </div>
-
-                <div class="current-card">
-                    <div class="logo-preview">
-                        <img src="SL_logo.svg" alt="SL Logo">
-                    </div>
-                    <h2 class="card-title">Abstract Matrix</h2>
-                    <p class="card-description">Geometric abstraction with data-driven visuals</p>
-                    <a href="designs/current/index_new5.html" class="card-btn">View</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Archive Section -->
-        <section class="archive-section">
-            <div class="archive-toggle" onclick="toggleArchive()">
-                <h2>Archived Designs</h2>
-                <span class="arrow">▼</span>
-            </div>
-
-            <div class="archive-gallery" id="archiveGallery">
-                <div class="card">
-                    <div class="logo-preview">
-                        <img src="SL_logo.svg" alt="SL Logo">
-                    </div>
-                    <h2 class="card-title">Liquid Architecture</h2>
-                    <p class="card-description">Morphing animations and organic SVG effects</p>
-                    <a href="designs/archive/index_SL.html" class="card-btn">View</a>
-                </div>
-
-                <div class="card">
-                    <div class="logo-preview">
-                        <img src="Logo1.png" alt="Logo 1">
-                    </div>
-                    <h2 class="card-title">Midnight Elegance</h2>
-                    <p class="card-description">Dark theme with rose-gold accents</p>
-                    <a href="designs/archive/index_v1.html" class="card-btn">View</a>
-                </div>
-
-                <div class="card">
-                    <div class="logo-preview">
-                        <img src="Logo1.png" alt="Logo 1">
-                    </div>
-                    <h2 class="card-title">Geometric Balance</h2>
-                    <p class="card-description">Bauhaus-inspired with rounded squares</p>
-                    <a href="designs/archive/index_logo1.html" class="card-btn">View</a>
-                </div>
-
-                <div class="card">
-                    <div class="logo-preview">
-                        <img src="logo2.png" alt="Logo 2">
-                    </div>
-                    <h2 class="card-title">Navigation Star</h2>
-                    <p class="card-description">Tech-forward with compass rose</p>
-                    <a href="designs/archive/index_logo2.html" class="card-btn">View</a>
-                </div>
-
-                <div class="card">
-                    <div class="logo-preview">
-                        <img src="Logo3.png" alt="Logo 3">
-                    </div>
-                    <h2 class="card-title">Blooming Mandala</h2>
-                    <p class="card-description">Organic petal shapes and radial layouts</p>
-                    <a href="designs/archive/index_logo3.html" class="card-btn">View</a>
-                </div>
-            </div>
-        </section>
+    <!-- Canvas intro overlay (fixed, appears on top of canvas) -->
+    <div class="canvas-intro">
+        <h2 class="intro-text">Your Fortune Awaits</h2>
+        <div class="scroll-indicator" onclick="window.scrollTo({top: document.getElementById('hero').offsetTop - 50, behavior: 'smooth'})">
+            <span>Begin</span>
+            <div class="scroll-chevron"></div>
+        </div>
     </div>
 
+    <!-- Spacer to give canvas area scroll room -->
+    <div style="height: 100vh;"></div>
+
+    <section class="hero" id="hero">
+        <div class="container">
+            <img class="hero-logo" src="logo4.png" alt="Shaping Luck Logo">
+
+            <h1 class="text-gradient">Shaping Luck</h1>
+            <p style="text-transform: uppercase; letter-spacing: 0.15em; font-size: 1rem; margin-bottom: 1.5rem; opacity: 0.9;">Systems, Strategy & The Architecture of Fortune</p>
+            <p>In a world where everyone is talented and everyone works hard, what separates those who thrive from those who stagnate? It's not just merit. It's not pure chance. It's the ability to engineer serendipity—to actively shape the unexpected encounters and events that define your trajectory.</p>
+
+            <div class="video-wrapper reveal">
+                <div class="play-button"></div>
+            </div>
+
+            <div class="btn-group reveal">
+                <a href="#quadrant" class="btn btn-primary">Explore the Quadrant</a>
+                <a href="#lab" class="btn btn-outline">Join the Lab</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="problem">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <h2 class="reveal">The Old Rules Are Breaking</h2>
+                <p class="reveal" style="color: var(--text-muted); margin-top: 1rem; max-width: 800px; margin-left: auto; margin-right: auto;">We're living through what futurist John Hagel calls "The Big Shift"—a period of unprecedented acceleration.</p>
+            </div>
+
+            <div class="grid-3">
+                <div class="glass-card reveal">
+                    <div class="card-icon">⚡</div>
+                    <h3>Career paths are dissolving</h3>
+                    <p>The half-life of professional skills is shrinking. Linear progression is a relic.</p>
+                </div>
+                <div class="glass-card reveal">
+                    <div class="card-icon">🌪</div>
+                    <h3>Organizations are under siege</h3>
+                    <p>S&P 500 lifespans have collapsed. Return on assets is in long-term decline.</p>
+                </div>
+                <div class="glass-card reveal">
+                    <div class="card-icon">🛡</div>
+                    <h3>Predictability is dead</h3>
+                    <p>The pace of change means mounting pressure and expanding opportunity arrive simultaneously.</p>
+                </div>
+            </div>
+
+            <p class="reveal" style="text-align: center; margin-top: 3rem; font-size: 1.2rem;">
+                Those who succeed aren't just working harder—they're navigating uncertainty differently.<br>
+                <span style="color: var(--accent-cyan); font-weight: 600;">They're shaping their luck.</span>
+            </p>
+        </div>
+    </section>
+
+    <section id="quadrant" class="section-quadrant">
+        <div class="container">
+            <div style="text-align: center;">
+                <h2 class="text-gradient reveal">The Luck Quadrant: Your Map to Fortune</h2>
+                <p class="reveal" style="color: var(--text-muted); max-width: 800px; margin: 1rem auto 0; line-height: 1.8;">
+                    Luck isn't mystical. It's measurable. It's the intersection of two forces:<br>
+                    <strong style="color: var(--text-main);">Your Internal State (Fear ← → Passion)</strong><br>
+                    <strong style="color: var(--text-main);">Your External Environment (Scarcity ← → Abundance)</strong>
+                </p>
+            </div>
+
+            <div class="quadrant-map reveal">
+                <span class="axis-title axis-title-vertical">Opportunity Axis</span>
+                <span class="axis-title axis-title-horizontal">Emotional Axis</span>
+                <span class="axis-label axis-top">Abundance<br><small>(Opportunity expanding)</small></span>
+                <span class="axis-label axis-bottom">Scarcity<br><small>(Opportunity contracting)</small></span>
+                <span class="axis-label axis-left">Fear<br><small>(Contracting)</small></span>
+                <span class="axis-label axis-right">Love/Passion<br><small>(Expanding)</small></span>
+
+                <div class="q-card" style="border-color: var(--accent-cyan); box-shadow: 0 0 20px rgba(0,242,234,0.1);">
+                    <h3>THE GILDED CAGE</h3>
+                    <p>Passion meets abundance. This is where exponential growth lives. Your job: scale your connections, build platforms, create more opportunity for everyone around you.</p>
+                </div>
+                <div class="q-card">
+                    <h3>THE LAUNCHPAD</h3>
+                    <p>Passion meets constraint. The domain of the scrappy innovator. Joseph Campbell in his Woodstock shack. Your job: turn limitations into advantage through ingenuity.</p>
+                </div>
+                <div class="q-card">
+                    <h3>THE BUNKER</h3>
+                    <p>Fear meets abundance. The tragic quadrant. You're standing in a field of diamonds but too afraid to bend over. Your job: take small, reversible risks to prove engagement is safer than paralysis.</p>
+                </div>
+                <div class="q-card">
+                    <h3>THE FORGE</h3>
+                    <p>Fear meets scarcity. The vicious cycle. Pure survival mode. Your job: shift from defense to inquiry. One small connection. One new piece of information. Start there.</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 5rem;">
+                <a href="#lab" class="btn btn-primary reveal">Map Your Position</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="article">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 1rem;" class="reveal">The Luck Mandate</h2>
+            <p class="reveal" style="text-align: center; color: var(--text-muted); margin-bottom: 3rem;">
+                Why actively shaping your luck is the most critical capability of our time.
+            </p>
+
+            <div class="glass-card reveal" style="max-width: 900px; margin: 0 auto; padding: 3rem; text-align: left; max-height: 500px; overflow-y: auto;">
+                <h3 style="color: var(--accent-cyan); margin-bottom: 1.5rem;">The Luck Mandate</h3>
+
+                <p style="margin-bottom: 1.5rem; line-height: 1.9;">It was a frigid winter in the late 1920s, and a young Joseph Campbell, having just abandoned his doctoral studies at Columbia, found himself adrift. The Great Depression had descended, extinguishing academic prospects. He retreated to a small, unheated shack in Woodstock, New York. To an outside observer, this was a portrait of failure—a story of profound, unmitigated bad luck. Yet, for five years, Campbell did little but read. He consumed thousands of books, diving into mythology, psychology, and religion, following his intellectual passions without a clear path forward. This period of intense, isolated study, born of misfortune, became the bedrock of his life's work. When he later emerged, the world had begun to recover, and his uniquely synthesized knowledge found a hungry audience. An unlucky event, a contracting environment, had been transformed into the ultimate catalyst.</p>
+
+                <p style="margin-bottom: 1.5rem; line-height: 1.9;">We are taught to believe in a simple success equation: talent plus hard work equals results. It's a clean, comforting, and deeply American narrative. But it is also profoundly incomplete. It ignores the invisible variable that courses through every life and every enterprise: luck. The most successful individuals, organizations, and even cities don't just work harder or think smarter; they understand that luck is not a mystical force to be wished for, but a current to be navigated, a phenomenon to be understood, and, most importantly, a reality that can be shaped.</p>
+
+                <p style="margin-bottom: 1.5rem; line-height: 1.9;">We stand at a unique juncture in history, defined by what the futurist John Hagel calls "The Big Shift." On one hand, we face mounting performance pressure. Global competition, accelerating change, and the constant threat of disruption create a landscape of unprecedented anxiety. Linear, predictable career paths are dissolving. Corporate lifespans are shrinking. Stability is an illusion. On the other hand, this same churn creates exponentially expanding opportunities. The tools, connections, and knowledge available to us have never been more abundant.</p>
+
+                <p style="margin-bottom: 1.5rem; line-height: 1.9;">In this volatile new world, the ability to harness the unexpected is no longer a luxury; it is the core competency. The old models of strategic planning, rooted in prediction and control, are failing us. Success now belongs to those who can move from passively experiencing luck to actively cultivating it. This is not a matter of superstition, but of strategy. It requires a new framework for seeing the world, a new language for describing our position in it, and a new set of actions for influencing our trajectory. It requires that we learn to shape our luck.</p>
+
+                <h3 style="color: var(--accent-gold); margin: 2rem 0 1.5rem;">From Superstition to Strategy</h3>
+
+                <p style="margin-bottom: 1.5rem; line-height: 1.9;">For centuries, our understanding of luck has been mired in passivity. The Oxford English Dictionary defines it as "success or failure apparently brought by chance rather than through one's own actions." The Roman philosopher Seneca gave us a slightly more empowering version: "Luck is what happens when preparation meets opportunity." While an improvement, Seneca's formulation still positions us as actors waiting in the wings for an external "opportunity" to arrive on stage. It's a philosophy of readiness, but not of agency.</p>
+
+                <p style="margin-bottom: 1.5rem; line-height: 1.9;">To truly harness luck, we need a more actionable definition. Let's redefine it as: <strong style="color: var(--accent-cyan);">unexpected events and encounters that have meaningful impact.</strong></p>
+
+                <p style="margin-bottom: 1.5rem; line-height: 1.9;">This definition is powerful for three key reasons. First, it focuses on the orthogonal—the sideways events that genuinely alter our trajectory, rather than the incremental gains from simply working harder. Second, it encompasses both good and bad luck, recognizing that moments of misfortune, like Campbell's retreat to Woodstock, are often potent sources of information and change. Finally, it removes the element of pure chance and puts the focus on things we can influence: the frequency and quality of our unexpected encounters and our ability to extract meaning from them.</p>
+
+                <p style="text-align: center; margin: 2rem 0; font-size: 1.1rem; color: var(--accent-cyan);">
+                    [Continue reading the full 10-page article...]
+                </p>
+
+                <p style="font-style: italic; color: var(--text-muted);">The complete article includes: The Luck Quadrant framework, detailed case studies, your Luck Quotient assessment, and a practical 3-step playbook for creating serendipity in your life.</p>
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="#lab" class="btn btn-primary reveal">Download Full PDF →</a>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="paradox-box reveal">
+                <h2>The Luck Paradox</h2>
+                <p style="margin-top: 1.5rem; font-size: 1.1rem; line-height: 1.8;">
+                    "Luck is not a lightning strike. It is a wind that is always blowing. 
+                    Most people build walls to block it. We build windmills to catch it."
+                </p>
+                <p style="margin-top: 1rem; color: var(--accent-cyan);">— The Shaping Luck Manifesto</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="lab">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 1rem;" class="reveal">Join The Luck Lab</h2>
+            <p class="reveal" style="text-align: center; color: var(--text-muted); max-width: 600px; margin: 0 auto 1rem;">
+                A monthly practice for Fortune Designers who are done waiting for lucky breaks.
+            </p>
+            <p class="reveal" style="text-align: center; max-width: 800px; margin: 0 auto 2rem; font-size: 1.1rem;">
+                Every month, we gather for 90 minutes to apply the framework together. This isn't a lecture. It's a lab.
+            </p>
+
+            <div class="grid-3" style="grid-template-columns: repeat(4, 1fr); max-width: 900px; margin: 0 auto 2rem;">
+                <div class="glass-card reveal" style="padding: 1.5rem; text-align: center;">
+                    <h4 style="color: var(--accent-cyan); margin-bottom: 0.5rem;">Live Mapping</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Diagnose your position</p>
+                </div>
+                <div class="glass-card reveal" style="padding: 1.5rem; text-align: center;">
+                    <h4 style="color: var(--accent-cyan); margin-bottom: 0.5rem;">Case Studies</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Learn from real examples</p>
+                </div>
+                <div class="glass-card reveal" style="padding: 1.5rem; text-align: center;">
+                    <h4 style="color: var(--accent-cyan); margin-bottom: 0.5rem;">Peer Pods</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Small group accountability</p>
+                </div>
+                <div class="glass-card reveal" style="padding: 1.5rem; text-align: center;">
+                    <h4 style="color: var(--accent-cyan); margin-bottom: 0.5rem;">Guest Designers</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Expert strategies</p>
+                </div>
+            </div>
+
+            <div class="glass-card reveal" style="max-width: 700px; margin: 0 auto 3rem; padding: 2rem; text-align: center;">
+                <p style="font-size: 1.1rem; margin-bottom: 0.5rem;"><strong>Format:</strong> Live video sessions + ongoing async community</p>
+                <p style="font-size: 1.1rem; margin-bottom: 0.5rem;"><strong>Cadence:</strong> Monthly, 90 minutes</p>
+                <p style="font-size: 1.1rem;"><strong>Commitment:</strong> Drop-in or join a structured cohort track</p>
+            </div>
+
+            <div class="glass-card reveal" style="max-width: 600px; margin: 0 auto; padding: 3rem; text-align: center; border-color: var(--accent-gold); background: rgba(255, 200, 87, 0.03);">
+                <h3 style="color: var(--accent-gold); margin-bottom: 0.5rem;">Reserve Your Spot</h3>
+                <p style="color: var(--text-muted); margin-bottom: 2rem;">Next Lab Session: Launching Soon</p>
+
+                <form id="waitlistForm" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <input type="text" id="companyName" name="companyName" placeholder="Company name" required
+                            style="padding: 1rem 1.5rem; border-radius: 50px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05); color: var(--text-main); font-size: 1rem;">
+                        <input type="email" id="email" name="email" placeholder="Email address" required
+                            style="padding: 1rem 1.5rem; border-radius: 50px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05); color: var(--text-main); font-size: 1rem;">
+                    </div>
+                    <button type="submit" id="submitBtn" class="btn btn-primary" style="background: var(--accent-gold); color: black; align-self: center;">
+                        <span class="btn-text">Join the Waitlist →</span>
+                        <span class="btn-loading" style="display: none;">Joining...</span>
+                    </button>
+                </form>
+                <div id="formMessage" style="margin-top: 1rem; padding: 1rem; border-radius: 10px; display: none;"></div>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem;">Join our community of Fortune Designers.</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 3rem;" class="reveal">This Is For You If...</h2>
+
+            <div class="grid-3">
+                <div class="glass-card reveal">
+                    <h3 style="color: var(--accent-cyan);">Individuals</h3>
+                    <p style="margin-top: 1rem; color: var(--text-muted);">You're talented. You work hard. But you're stuck. You watch others catch breaks that seem random. You want to stop waiting and start engineering serendipity in your career, creative work, or next venture.</p>
+                </div>
+                <div class="glass-card reveal">
+                    <h3 style="color: var(--accent-cyan);">Leaders</h3>
+                    <p style="margin-top: 1rem; color: var(--text-muted);">You run a team, division, or organization. You know innovation can't be commanded from the top. You want to design an environment where lucky collisions happen by design, not accident.</p>
+                </div>
+                <div class="glass-card reveal">
+                    <h3 style="color: var(--accent-cyan);">Cities & Ecosystems</h3>
+                    <p style="margin-top: 1rem; color: var(--text-muted);">You're building a startup hub, innovation district, or regional ecosystem. You want to understand why Silicon Valley works and how to replicate those dynamics in your context.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 3rem;" class="reveal">About John Hagel</h2>
+            <div class="glass-card reveal" style="max-width: 900px; margin: 0 auto 4rem; padding: 3rem;">
+                <p style="margin-bottom: 1.5rem; line-height: 1.9;">John Hagel is a futurist, author, and former Co-Chairman of Deloitte's Center for the Edge. For decades, he's studied the forces reshaping business, society, and human potential. His work on "The Big Shift," "The Power of Pull," and exponential organizations has influenced leaders at the highest levels of government and industry.</p>
+                <p style="margin-bottom: 1.5rem; line-height: 1.9;">Shaping Luck is his framework for navigating the defining challenge of our time: how to thrive when the pace of change exceeds our institutions' ability to adapt.</p>
+                <p style="font-weight: 600; margin-bottom: 0.5rem;">Previous Work:</p>
+                <ul style="list-style: none; padding-left: 0; color: var(--text-muted);">
+                    <li style="margin-bottom: 0.5rem;">• <em>The Power of Pull</em> (co-author)</li>
+                    <li style="margin-bottom: 0.5rem;">• <em>The Big Shift</em> research program</li>
+                    <li>• Advisor to OpenExO, Singularity University, and leading innovation ecosystems worldwide</li>
+                </ul>
+            </div>
+
+            <h2 style="text-align: center; margin-bottom: 3rem;" class="reveal">About Salim Ismail</h2>
+            <div class="glass-card reveal" style="max-width: 900px; margin: 0 auto; padding: 3rem;">
+                <p style="margin-bottom: 1.5rem; line-height: 1.9;">Salim Ismail is an Indo-Canadian serial entrepreneur, angel investor, author, speaker, and technology strategist. He is the Founding Executive Director of Singularity University and lead author of the international bestseller <em>Exponential Organizations</em>.</p>
+                <p style="line-height: 1.9;">His pioneering work explores how organizations can leverage exponential technologies and new organizational models to achieve 10x performance improvements. As founder of ExO Works and Chairman of OpenExO, he helps transform businesses worldwide to thrive in an era of unprecedented acceleration.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div style="margin-bottom: 2rem; opacity: 0.4;">
+                <img src="logo4.png" alt="Shaping Luck Logo" width="50" height="50" style="filter: brightness(0) invert(1);">
+            </div>
+            <p>&copy; 2025 Shaping Luck. All Interconnected Rights Reserved.</p>
+            <p style="margin-top: 10px;"><a href="#" style="color: var(--text-muted); margin: 0 10px;">Manifesto</a> <a href="#" style="color: var(--text-muted); margin: 0 10px;">Privacy</a></p>
+        </div>
+    </footer>
+
     <script>
-        function toggleArchive() {
-            const gallery = document.getElementById('archiveGallery');
-            const toggle = document.querySelector('.archive-toggle');
-            gallery.classList.toggle('open');
-            toggle.classList.toggle('open');
+        /* --- 1. SCROLL REVEAL ANIMATION --- */
+        document.addEventListener("DOMContentLoaded", function() {
+            const reveals = document.querySelectorAll(".reveal");
+
+            const revealOnScroll = () => {
+                const windowHeight = window.innerHeight;
+                const elementVisible = 100;
+
+                reveals.forEach((reveal) => {
+                    const elementTop = reveal.getBoundingClientRect().top;
+                    if (elementTop < windowHeight - elementVisible) {
+                        reveal.classList.add("active");
+                    }
+                });
+            };
+
+            window.addEventListener("scroll", revealOnScroll);
+            revealOnScroll(); // Trigger once on load
+        });
+
+        /* --- 2. GENERATIVE PARTICLE SYSTEM (THE "LUCK" MESH) --- */
+        const canvas = document.getElementById("luckCanvas");
+        const ctx = canvas.getContext("2d");
+        
+        let width, height;
+        let particles = [];
+        
+        // Configuration
+        const particleCount = 60; // Keep it performant
+        const connectionDistance = 150;
+        const mouseDistance = 200;
+
+        // Resize handling
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
         }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Mouse tracking
+        const mouse = { x: null, y: null };
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.x;
+            mouse.y = e.y;
+        });
+        window.addEventListener('mouseout', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        // Particle Class
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5; // Slow drift
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2 + 1;
+                // Randomly assign colors (Cyan or Goldish white)
+                this.color = Math.random() > 0.8 ? 'rgba(0, 242, 234, ' : 'rgba(255, 255, 255, '; 
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Bounce off edges
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+
+                // Mouse Interaction (The "Shaping" Effect)
+                if (mouse.x != null) {
+                    let dx = mouse.x - this.x;
+                    let dy = mouse.y - this.y;
+                    let distance = Math.sqrt(dx*dx + dy*dy);
+                    
+                    if (distance < mouseDistance) {
+                        const forceDirectionX = dx / distance;
+                        const forceDirectionY = dy / distance;
+                        const force = (mouseDistance - distance) / mouseDistance;
+                        // Gentle repulsion
+                        const directionX = forceDirectionX * force * 0.5;
+                        const directionY = forceDirectionY * force * 0.5;
+                        this.x -= directionX;
+                        this.y -= directionY;
+                    }
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color + '0.4)';
+                ctx.fill();
+            }
+        }
+
+        // Initialize
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        // Animation Loop
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            for (let i = 0; i < particles.length; i++) {
+                let p = particles[i];
+                p.update();
+                p.draw();
+
+                // Draw Connections
+                for (let j = i; j < particles.length; j++) {
+                    let p2 = particles[j];
+                    let dx = p.x - p2.x;
+                    let dy = p.y - p2.y;
+                    let distance = Math.sqrt(dx*dx + dy*dy);
+
+                    if (distance < connectionDistance) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 - distance/connectionDistance/10})`;
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Waitlist Module -->
+    <script src="js/supabase-waitlist.js"></script>
+
+    <script>
+        // Waitlist form handler
+        async function handleWaitlistSubmit(event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const submitBtn = form.querySelector('#submitBtn');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const btnLoading = submitBtn.querySelector('.btn-loading');
+            const messageEl = document.getElementById('formMessage');
+            const emailInput = form.querySelector('#email');
+            const nameInput = form.querySelector('#companyName');
+
+            // Loading state
+            submitBtn.disabled = true;
+            btnText.style.display = 'none';
+            btnLoading.style.display = 'inline';
+
+            try {
+                const result = await WaitlistModule.submit(
+                    emailInput.value,
+                    nameInput.value,
+                    'website'
+                );
+
+                messageEl.textContent = result.message;
+                messageEl.style.display = 'block';
+                messageEl.style.background = result.success ? 'rgba(0, 242, 234, 0.1)' : 'rgba(255, 100, 100, 0.1)';
+                messageEl.style.color = result.success ? 'var(--accent-cyan)' : '#ff6b6b';
+
+                if (result.success) {
+                    form.reset();
+                }
+
+            } catch (err) {
+                messageEl.textContent = 'Something went wrong. Please try again.';
+                messageEl.style.display = 'block';
+                messageEl.style.background = 'rgba(255, 100, 100, 0.1)';
+                messageEl.style.color = '#ff6b6b';
+            } finally {
+                submitBtn.disabled = false;
+                btnText.style.display = 'inline';
+                btnLoading.style.display = 'none';
+            }
+        }
+
+        // Initialize waitlist form
+        document.addEventListener('DOMContentLoaded', function() {
+            WaitlistModule.init();
+
+            const waitlistForm = document.getElementById('waitlistForm');
+            if (waitlistForm) {
+                waitlistForm.addEventListener('submit', handleWaitlistSubmit);
+            }
+        });
+
+        // Mouse Spotlight Effect
+        (function() {
+            const spotlight = document.getElementById('mouseSpotlight');
+            let mouseX = 0, mouseY = 0;
+            let isActive = false;
+
+            document.addEventListener('mousemove', function(e) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+
+                if (!isActive) {
+                    spotlight.classList.add('active');
+                    isActive = true;
+                }
+
+                spotlight.style.background = `radial-gradient(600px circle at ${mouseX}px ${mouseY}px, rgba(0, 242, 234, 0.12), transparent 60%)`;
+            });
+
+            document.addEventListener('mouseleave', function() {
+                spotlight.classList.remove('active');
+                isActive = false;
+            });
+        })();
+
+        // Canvas Intro Fade on Scroll
+        (function() {
+            const intro = document.querySelector('.canvas-intro');
+
+            window.addEventListener('scroll', function() {
+                const scrollY = window.scrollY;
+                const fadeStart = 0;
+                const fadeEnd = window.innerHeight * 0.5;
+
+                if (scrollY <= fadeStart) {
+                    intro.style.opacity = 1;
+                } else if (scrollY >= fadeEnd) {
+                    intro.style.opacity = 0;
+                } else {
+                    intro.style.opacity = 1 - (scrollY - fadeStart) / (fadeEnd - fadeStart);
+                }
+            });
+        })();
     </script>
 </body>
 </html>

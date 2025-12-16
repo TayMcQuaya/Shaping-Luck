@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shaping Luck - Design Gallery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0A1128 0%, #1C2541 50%, #3A506B 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #D4AF37;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #F8F5F0;
+            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+
+        /* Current Designs Section */
+        .current-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-label {
+            text-align: center;
+            color: #00F2EA;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+        }
+
+        .current-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .current-card {
+            background: rgba(0, 242, 234, 0.06);
+            border: 2px solid rgba(0, 242, 234, 0.4);
+            border-radius: 16px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 24px rgba(0, 242, 234, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .current-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(0, 242, 234, 0.8);
+            box-shadow: 0 20px 40px rgba(0, 242, 234, 0.2);
+            background: rgba(0, 242, 234, 0.1);
+        }
+
+        .current-card .card-title {
+            color: #00F2EA;
+        }
+
+        .current-card .logo-preview {
+            background: rgba(0, 242, 234, 0.1);
+            border-color: rgba(0, 242, 234, 0.3);
+        }
+
+        .current-card .card-btn {
+            background: linear-gradient(135deg, #00F2EA 0%, #00b4d8 100%);
+            box-shadow: 0 6px 20px rgba(0, 242, 234, 0.3);
+        }
+
+        .current-card .card-btn:hover {
+            box-shadow: 0 10px 30px rgba(0, 242, 234, 0.5);
+        }
+
+        /* Archive Section */
+        .archive-section {
+            margin-top: 2rem;
+        }
+
+        .archive-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 50px;
+            margin: 0 auto 1.5rem;
+            transition: all 0.3s ease;
+            max-width: 300px;
+        }
+
+        .archive-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(212, 175, 55, 0.6);
+        }
+
+        .archive-toggle h2 {
+            color: #D4AF37;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .archive-toggle .arrow {
+            color: #D4AF37;
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .archive-toggle.open .arrow {
+            transform: rotate(180deg);
+        }
+
+        .archive-gallery {
+            display: none;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .archive-gallery.open {
+            display: grid;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(255, 255, 255, 0.06);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 16px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(212, 175, 55, 0.7);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .card-title {
+            color: #D4AF37;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-description {
+            color: #F8F5F0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: auto;
+            opacity: 0.8;
+            flex-grow: 1;
+        }
+
+        .card-btn {
+            display: inline-block;
+            padding: 0.9rem 1.8rem;
+            background: linear-gradient(135deg, #D4AF37 0%, #E8C468 100%);
+            color: #0A1128;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
+            margin-top: 1.25rem;
+        }
+
+        .card-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.5);
+        }
+
+        .logo-preview {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 0.75rem;
+            border: 2px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .logo-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            filter: brightness(1.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .current-gallery,
+            .archive-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 580px) {
+            .current-gallery,
+            .archive-gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Shaping Luck</h1>
+        <p class="subtitle">Design Gallery</p>
+
+        <!-- Current Designs -->
+        <section class="current-section">
+            <p class="section-label">✦ Current Designs ✦</p>
+            <div class="current-gallery">
+                <div class="current-card">
+                    <div class="logo-preview">
+                        <img src="SL_logo.svg" alt="SL Logo">
+                    </div>
+                    <h2 class="card-title">Void Canvas</h2>
+                    <p class="card-description">Deep void aesthetic with particle canvas and cyan/gold accents</p>
+                    <a href="designs/current/index_new.html" class="card-btn">View</a>
+                </div>
+
+                <div class="current-card">
+                    <div class="logo-preview">
+                        <img src="SL_logo.svg" alt="SL Logo">
+                    </div>
+                    <h2 class="card-title">Fortune Architect</h2>
+                    <p class="card-description">Architectural blueprint style with structured layouts</p>
+                    <a href="designs/current/index_new2.html" class="card-btn">View</a>
+                </div>
+
+                <div class="current-card">
+                    <div class="logo-preview">
+                        <img src="SL_logo.svg" alt="SL Logo">
+                    </div>
+                    <h2 class="card-title">Alchemist's Notebook</h2>
+                    <p class="card-description">Hand-drawn aesthetic with mystical elements</p>
+                    <a href="designs/current/index_new3.html" class="card-btn">View</a>
+                </div>
+
+                <div class="current-card">
+                    <div class="logo-preview">
+                        <img src="SL_logo.svg" alt="SL Logo">
+                    </div>
+                    <h2 class="card-title">Human Flow</h2>
+                    <p class="card-description">Organic curves and human-centered design</p>
+                    <a href="designs/current/index_new4.html" class="card-btn">View</a>
+                </div>
+
+                <div class="current-card">
+                    <div class="logo-preview">
+                        <img src="SL_logo.svg" alt="SL Logo">
+                    </div>
+                    <h2 class="card-title">Abstract Matrix</h2>
+                    <p class="card-description">Geometric abstraction with data-driven visuals</p>
+                    <a href="designs/current/index_new5.html" class="card-btn">View</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Archive Section -->
+        <section class="archive-section">
+            <div class="archive-toggle" onclick="toggleArchive()">
+                <h2>Archived Designs</h2>
+                <span class="arrow">▼</span>
+            </div>
+
+            <div class="archive-gallery" id="archiveGallery">
+                <div class="card">
+                    <div class="logo-preview">
+                        <img src="SL_logo.svg" alt="SL Logo">
+                    </div>
+                    <h2 class="card-title">Liquid Architecture</h2>
+                    <p class="card-description">Morphing animations and organic SVG effects</p>
+                    <a href="designs/archive/index_SL.html" class="card-btn">View</a>
+                </div>
+
+                <div class="card">
+                    <div class="logo-preview">
+                        <img src="Logo1.png" alt="Logo 1">
+                    </div>
+                    <h2 class="card-title">Midnight Elegance</h2>
+                    <p class="card-description">Dark theme with rose-gold accents</p>
+                    <a href="designs/archive/index_v1.html" class="card-btn">View</a>
+                </div>
+
+                <div class="card">
+                    <div class="logo-preview">
+                        <img src="Logo1.png" alt="Logo 1">
+                    </div>
+                    <h2 class="card-title">Geometric Balance</h2>
+                    <p class="card-description">Bauhaus-inspired with rounded squares</p>
+                    <a href="designs/archive/index_logo1.html" class="card-btn">View</a>
+                </div>
+
+                <div class="card">
+                    <div class="logo-preview">
+                        <img src="logo2.png" alt="Logo 2">
+                    </div>
+                    <h2 class="card-title">Navigation Star</h2>
+                    <p class="card-description">Tech-forward with compass rose</p>
+                    <a href="designs/archive/index_logo2.html" class="card-btn">View</a>
+                </div>
+
+                <div class="card">
+                    <div class="logo-preview">
+                        <img src="Logo3.png" alt="Logo 3">
+                    </div>
+                    <h2 class="card-title">Blooming Mandala</h2>
+                    <p class="card-description">Organic petal shapes and radial layouts</p>
+                    <a href="designs/archive/index_logo3.html" class="card-btn">View</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function toggleArchive() {
+            const gallery = document.getElementById('archiveGallery');
+            const toggle = document.querySelector('.archive-toggle');
+            gallery.classList.toggle('open');
+            toggle.classList.toggle('open');
+        }
+    </script>
+</body>
+</html>
