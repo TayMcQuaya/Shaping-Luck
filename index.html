@@ -311,6 +311,106 @@
             opacity: 1;
         }
 
+        /* --- LOGO SHAPE APPLICATIONS --- */
+
+        /* Q2 Shape - Form Inputs (Potential/Growth) */
+        .shape-input-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+        .shape-input-wrapper .shape-input-accent {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+        }
+        .shape-input-wrapper .shape-input-accent path {
+            fill: none;
+            stroke: var(--accent-gold);
+            stroke-width: 2;
+        }
+        .shape-input-wrapper .accent-tl {
+            top: -4px;
+            left: -4px;
+        }
+        .shape-input-wrapper .accent-br {
+            bottom: -4px;
+            right: -4px;
+            transform: rotate(180deg);
+        }
+        .shape-input-wrapper:focus-within .shape-input-accent {
+            opacity: 0.8;
+        }
+        .shape-input-wrapper:focus-within .accent-tl {
+            transform: translate(2px, 2px);
+        }
+        .shape-input-wrapper:focus-within .accent-br {
+            transform: rotate(180deg) translate(2px, 2px);
+        }
+
+        /* Q4 Shape - Success State (Completion/Transformation) */
+        .success-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 242, 234, 0.1);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 8px;
+            color: var(--accent-cyan);
+            font-size: 0.9rem;
+        }
+        .success-badge .shape-icon {
+            width: 20px;
+            height: 20px;
+            animation: successPulse 2s ease-in-out infinite;
+        }
+        .success-badge .shape-icon path {
+            fill: var(--accent-cyan);
+        }
+        @keyframes successPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+        }
+
+        /* Shape-enhanced CTA button */
+        .btn-shape {
+            position: relative;
+            overflow: visible;
+        }
+        .btn-shape .btn-shape-accent {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        .btn-shape .btn-shape-accent path {
+            fill: var(--accent-cyan);
+        }
+        .btn-shape .btn-accent-tl {
+            top: -6px;
+            left: -6px;
+        }
+        .btn-shape .btn-accent-br {
+            bottom: -6px;
+            right: -6px;
+            transform: rotate(180deg);
+        }
+        .btn-shape:hover .btn-shape-accent {
+            opacity: 0.6;
+        }
+        .btn-shape:hover .btn-accent-tl {
+            transform: translate(-2px, -2px);
+        }
+        .btn-shape:hover .btn-accent-br {
+            transform: rotate(180deg) translate(-2px, -2px);
+        }
+
         /* --- 5. THE OLD RULES (Cards) --- */
         .grid-3 {
             display: grid;
@@ -328,12 +428,54 @@
             border-radius: 24px;
             transition: transform 0.4s ease, border-color 0.4s ease;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
         .glass-card:hover {
             transform: translateY(-10px);
             border-color: rgba(255,255,255,0.2);
             background: rgba(255,255,255,0.06);
+        }
+
+        /* Animated Corner Accents */
+        .corner-accent {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            opacity: 0;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            pointer-events: none;
+        }
+        .corner-accent path {
+            fill: none;
+            stroke: var(--accent-cyan);
+            stroke-width: 2;
+        }
+        .glass-card:hover .corner-accent {
+            opacity: 0.6;
+        }
+
+        /* Corner positions */
+        .corner-tl { top: 8px; left: 8px; }
+        .corner-tr { top: 8px; right: 8px; transform: rotate(90deg); }
+        .corner-bl { bottom: 8px; left: 8px; transform: rotate(-90deg); }
+        .corner-br { bottom: 8px; right: 8px; transform: rotate(180deg); }
+
+        /* Hover animations - corners slide in */
+        .glass-card:hover .corner-tl { transform: translate(0, 0); }
+        .glass-card:hover .corner-tr { transform: rotate(90deg) translate(0, 0); }
+        .glass-card:hover .corner-bl { transform: rotate(-90deg) translate(0, 0); }
+        .glass-card:hover .corner-br { transform: rotate(180deg) translate(0, 0); }
+
+        .corner-tl { transform: translate(-10px, -10px); }
+        .corner-tr { transform: rotate(90deg) translate(-10px, -10px); }
+        .corner-bl { transform: rotate(-90deg) translate(-10px, -10px); }
+        .corner-br { transform: rotate(180deg) translate(-10px, -10px); }
+
+        /* Gold variant for special cards */
+        .corner-accent-gold path {
+            stroke: var(--accent-gold);
         }
 
         .card-icon {
@@ -402,6 +544,48 @@
         .q-card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--accent-cyan); }
         .q-card p { font-size: 0.9rem; color: var(--text-muted); }
 
+        /* Quadrant Shape Backgrounds */
+        .q-card .shape-bg {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            opacity: 0.04;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            pointer-events: none;
+        }
+        .q-card:hover .shape-bg {
+            opacity: 0.08;
+            transform: scale(1.1);
+        }
+
+        /* Q1 - Gilded Cage (top-left of grid, passion + abundance) */
+        .q-card-q1 .shape-bg {
+            bottom: -10px;
+            right: -10px;
+        }
+        .q-card-q1:hover .shape-bg path { fill: var(--accent-cyan); }
+
+        /* Q2 - Launchpad (top-right of grid, passion + scarcity) */
+        .q-card-q2 .shape-bg {
+            bottom: -10px;
+            left: -10px;
+        }
+        .q-card-q2:hover .shape-bg path { fill: var(--accent-gold); }
+
+        /* Q3 - Bunker (bottom-left of grid, fear + abundance) */
+        .q-card-q3 .shape-bg {
+            top: -10px;
+            right: -10px;
+        }
+        .q-card-q3:hover .shape-bg path { fill: var(--text-muted); }
+
+        /* Q4 - Forge (bottom-right of grid, fear + scarcity) */
+        .q-card-q4 .shape-bg {
+            top: -10px;
+            left: -10px;
+        }
+        .q-card-q4:hover .shape-bg path { fill: var(--accent-gold); }
+
         .axis-label {
             position: absolute;
             font-family: var(--font-body);
@@ -449,6 +633,246 @@
             left: auto;
             transform: translateY(-50%);
             white-space: nowrap;
+        }
+
+        /* --- INTERACTIVE QUADRANT TOOL --- */
+        .interactive-quadrant-section {
+            background: radial-gradient(circle at 50% 50%, #15202b 0%, var(--bg-void) 70%);
+            padding: 100px 0;
+        }
+
+        .interactive-quadrant-wrapper {
+            position: relative;
+            max-width: 500px;
+            margin: 3rem auto 0;
+            aspect-ratio: 1;
+        }
+
+        .interactive-quadrant {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 8px;
+            padding: 20px;
+        }
+
+        /* Axis lines for interactive quadrant */
+        .interactive-quadrant::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--text-muted), transparent);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .interactive-quadrant::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, transparent, var(--text-muted), transparent);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .iq-shape {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .iq-shape svg {
+            width: 70%;
+            height: 70%;
+            opacity: 0.15;
+            transition: all 0.4s ease;
+        }
+
+        .iq-shape svg path {
+            fill: currentColor;
+            transition: fill 0.4s ease;
+        }
+
+        /* Quadrant base colors */
+        .iq-shape-q1 {
+            background: rgba(0, 242, 234, 0.05);
+            color: var(--accent-cyan);
+        }
+        .iq-shape-q2 {
+            background: rgba(255, 200, 87, 0.05);
+            color: var(--accent-gold);
+        }
+        .iq-shape-q3 {
+            background: rgba(148, 163, 184, 0.05);
+            color: var(--text-muted);
+        }
+        .iq-shape-q4 {
+            background: rgba(255, 200, 87, 0.05);
+            color: var(--accent-gold);
+        }
+
+        /* Active/proximity states */
+        .iq-shape.active {
+            transform: scale(1.02);
+        }
+        .iq-shape.active svg {
+            opacity: 0.6;
+            transform: scale(1.1);
+        }
+
+        .iq-shape-q1.active {
+            background: rgba(0, 242, 234, 0.15);
+            box-shadow: 0 0 40px rgba(0, 242, 234, 0.3), inset 0 0 30px rgba(0, 242, 234, 0.1);
+        }
+        .iq-shape-q2.active {
+            background: rgba(255, 200, 87, 0.15);
+            box-shadow: 0 0 40px rgba(255, 200, 87, 0.3), inset 0 0 30px rgba(255, 200, 87, 0.1);
+        }
+        .iq-shape-q3.active {
+            background: rgba(148, 163, 184, 0.15);
+            box-shadow: 0 0 40px rgba(148, 163, 184, 0.2), inset 0 0 30px rgba(148, 163, 184, 0.1);
+        }
+        .iq-shape-q4.active {
+            background: rgba(255, 200, 87, 0.2);
+            box-shadow: 0 0 50px rgba(255, 200, 87, 0.4), inset 0 0 40px rgba(255, 200, 87, 0.15);
+        }
+
+        /* Proximity glow effect (intensity levels) */
+        .iq-shape[data-proximity="high"] svg { opacity: 0.5; transform: scale(1.08); }
+        .iq-shape[data-proximity="medium"] svg { opacity: 0.35; transform: scale(1.04); }
+        .iq-shape[data-proximity="low"] svg { opacity: 0.2; }
+
+        /* Draggable marker */
+        .luck-marker {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--accent-cyan), var(--accent-gold));
+            border: 3px solid white;
+            box-shadow: 0 0 20px rgba(0, 242, 234, 0.5), 0 0 40px rgba(255, 200, 87, 0.3);
+            cursor: grab;
+            z-index: 10;
+            transform: translate(-50%, -50%);
+            transition: box-shadow 0.3s ease;
+            /* Start in center */
+            top: 50%;
+            left: 50%;
+        }
+
+        .luck-marker:active {
+            cursor: grabbing;
+            box-shadow: 0 0 30px rgba(0, 242, 234, 0.8), 0 0 60px rgba(255, 200, 87, 0.5);
+        }
+
+        .luck-marker::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Quadrant labels on interactive */
+        .iq-label {
+            position: absolute;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            opacity: 0.6;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .iq-label-q1 { top: 8px; right: 8px; }
+        .iq-label-q2 { top: 8px; left: 8px; }
+        .iq-label-q3 { bottom: 8px; right: 8px; }
+        .iq-label-q4 { bottom: 8px; left: 8px; }
+
+        .iq-shape.active .iq-label {
+            opacity: 1;
+            color: var(--text-main);
+        }
+
+        /* Interactive axis labels */
+        .iq-axis-label {
+            position: absolute;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-gold);
+            z-index: 5;
+        }
+        .iq-axis-top { top: -30px; left: 50%; transform: translateX(-50%); }
+        .iq-axis-bottom { bottom: -30px; left: 50%; transform: translateX(-50%); }
+        .iq-axis-left { left: -60px; top: 50%; transform: translateY(-50%) rotate(-90deg); }
+        .iq-axis-right { right: -60px; top: 50%; transform: translateY(-50%) rotate(90deg); }
+
+        /* Result display */
+        .quadrant-result {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            transition: all 0.4s ease;
+        }
+
+        .quadrant-result h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .quadrant-result p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .quadrant-result.result-q1 { border-color: var(--accent-cyan); }
+        .quadrant-result.result-q1 h4 { color: var(--accent-cyan); }
+
+        .quadrant-result.result-q2 { border-color: var(--accent-gold); }
+        .quadrant-result.result-q2 h4 { color: var(--accent-gold); }
+
+        .quadrant-result.result-q3 { border-color: var(--text-muted); }
+        .quadrant-result.result-q3 h4 { color: var(--text-muted); }
+
+        .quadrant-result.result-q4 { border-color: var(--accent-gold); }
+        .quadrant-result.result-q4 h4 { color: var(--accent-gold); }
+
+        @media (max-width: 768px) {
+            .interactive-quadrant-wrapper {
+                max-width: 350px;
+            }
+            .iq-axis-label { display: none; }
+            .luck-marker {
+                width: 32px;
+                height: 32px;
+            }
         }
 
         /* --- 7. PARADOX SECTION --- */
@@ -538,7 +962,11 @@
             </div>
 
             <div class="btn-group reveal">
-                <a href="#quadrant" class="btn btn-primary">Explore the Quadrant</a>
+                <a href="#quadrant" class="btn btn-primary btn-shape">
+                    <svg class="btn-shape-accent btn-accent-tl" viewBox="0 0 20 20"><path d="M0,0h13c3.9,0,7,3.1,7,7v13H7c-3.9,0-7-3.1-7-7V0Z"/></svg>
+                    <svg class="btn-shape-accent btn-accent-br" viewBox="0 0 20 20"><path d="M0,0h13c3.9,0,7,3.1,7,7v13H7c-3.9,0-7-3.1-7-7V0Z"/></svg>
+                    Explore the Quadrant
+                </a>
                 <a href="#lab" class="btn btn-outline">Join the Lab</a>
             </div>
         </div>
@@ -553,16 +981,22 @@
 
             <div class="grid-3">
                 <div class="glass-card reveal">
+                    <svg class="corner-accent corner-tl" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
+                    <svg class="corner-accent corner-br" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
                     <div class="card-icon">⚡</div>
                     <h3>Career paths are dissolving</h3>
                     <p>The half-life of professional skills is shrinking. Linear progression is a relic.</p>
                 </div>
                 <div class="glass-card reveal">
+                    <svg class="corner-accent corner-tl" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
+                    <svg class="corner-accent corner-br" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
                     <div class="card-icon">🌪</div>
                     <h3>Organizations are under siege</h3>
                     <p>S&P 500 lifespans have collapsed. Return on assets is in long-term decline.</p>
                 </div>
                 <div class="glass-card reveal">
+                    <svg class="corner-accent corner-tl" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
+                    <svg class="corner-accent corner-br" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
                     <div class="card-icon">🛡</div>
                     <h3>Predictability is dead</h3>
                     <p>The pace of change means mounting pressure and expanding opportunity arrive simultaneously.</p>
@@ -595,26 +1029,101 @@
                 <span class="axis-label axis-left">Fear<br><small>(Contracting)</small></span>
                 <span class="axis-label axis-right">Love/Passion<br><small>(Expanding)</small></span>
 
-                <div class="q-card" style="border-color: var(--accent-cyan); box-shadow: 0 0 20px rgba(0,242,234,0.1);">
+                <div class="q-card q-card-q1" style="border-color: var(--accent-cyan); box-shadow: 0 0 20px rgba(0,242,234,0.1);">
+                    <svg class="shape-bg" viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="currentColor" d="M0,0h189.75C238.64,0,278.33,39.69,278.33,88.58v189.75H88.58C39.69,278.33,0,238.64,0,189.75V0H0Z"/>
+                    </svg>
                     <h3>THE GILDED CAGE</h3>
                     <p>Passion meets abundance. This is where exponential growth lives. Your job: scale your connections, build platforms, create more opportunity for everyone around you.</p>
                 </div>
-                <div class="q-card">
+                <div class="q-card q-card-q2">
+                    <svg class="shape-bg" viewBox="0 0 290 280" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="currentColor" d="M268.33,20v169.75c0,37.81-30.76,68.58-68.58,68.58h-71.68c-54.07,0-98.07-43.99-98.07-98.07v-71.68c0-37.81,30.76-68.58,68.58-68.58h169.75M288.33,0h-189.75c-48.92,0-88.58,39.66-88.58,88.58v71.68c0,65.21,52.86,118.07,118.07,118.07h71.68c48.92,0,88.58-39.66,88.58-88.58V0h0Z"/>
+                    </svg>
                     <h3>THE LAUNCHPAD</h3>
                     <p>Passion meets constraint. The domain of the scrappy innovator. Joseph Campbell in his Woodstock shack. Your job: turn limitations into advantage through ingenuity.</p>
                 </div>
-                <div class="q-card">
+                <div class="q-card q-card-q3">
+                    <svg class="shape-bg" viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="currentColor" d="M88.58,0h71.68c65.16,0,118.07,52.9,118.07,118.07v71.68c0,48.89-39.69,88.58-88.58,88.58H0V88.58C0,39.69,39.69,0,88.58,0Z"/>
+                    </svg>
                     <h3>THE BUNKER</h3>
                     <p>Fear meets abundance. The tragic quadrant. You're standing in a field of diamonds but too afraid to bend over. Your job: take small, reversible risks to prove engagement is safer than paralysis.</p>
                 </div>
-                <div class="q-card">
+                <div class="q-card q-card-q4">
+                    <svg class="shape-bg" viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="currentColor" d="M0,0h189.75c48.89,0,88.58,39.69,88.58,88.58v189.75H88.58C39.69,278.33,0,238.64,0,189.75V0h0Z" transform="translate(278.33 278.33) rotate(180)"/>
+                    </svg>
                     <h3>THE FORGE</h3>
                     <p>Fear meets scarcity. The vicious cycle. Pure survival mode. Your job: shift from defense to inquiry. One small connection. One new piece of information. Start there.</p>
                 </div>
             </div>
             
             <div style="text-align: center; margin-top: 5rem;">
-                <a href="#lab" class="btn btn-primary reveal">Map Your Position</a>
+                <a href="#shape-your-luck" class="btn btn-primary reveal">Map Your Position</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive "Shape Your Luck" Assessment Tool -->
+    <section id="shape-your-luck" class="interactive-quadrant-section">
+        <div class="container">
+            <div style="text-align: center;">
+                <h2 class="text-gradient reveal">Shape Your Luck</h2>
+                <p class="reveal" style="color: var(--text-muted); max-width: 600px; margin: 1rem auto 0;">
+                    Drag the marker to where you feel you are right now. Watch how your position shapes the energy around you.
+                </p>
+            </div>
+
+            <div class="interactive-quadrant-wrapper reveal">
+                <span class="iq-axis-label iq-axis-top">Abundance</span>
+                <span class="iq-axis-label iq-axis-bottom">Scarcity</span>
+                <span class="iq-axis-label iq-axis-left">Fear</span>
+                <span class="iq-axis-label iq-axis-right">Passion</span>
+
+                <div class="interactive-quadrant" id="interactiveQuadrant">
+                    <!-- Q1: Top-Right (Passion + Abundance) = Gilded Cage -->
+                    <div class="iq-shape iq-shape-q1" data-quadrant="q1">
+                        <span class="iq-label iq-label-q1">Gilded Cage</span>
+                        <svg viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0,0h189.75C238.64,0,278.33,39.69,278.33,88.58v189.75H88.58C39.69,278.33,0,238.64,0,189.75V0H0Z"/>
+                        </svg>
+                    </div>
+                    <!-- Q2: Top-Left (Fear + Abundance) = Bunker -->
+                    <div class="iq-shape iq-shape-q2" data-quadrant="q2">
+                        <span class="iq-label iq-label-q2">Launchpad</span>
+                        <svg viewBox="0 0 290 280" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M268.33,20v169.75c0,37.81-30.76,68.58-68.58,68.58h-71.68c-54.07,0-98.07-43.99-98.07-98.07v-71.68c0-37.81,30.76-68.58,68.58-68.58h169.75M288.33,0h-189.75c-48.92,0-88.58,39.66-88.58,88.58v71.68c0,65.21,52.86,118.07,118.07,118.07h71.68c48.92,0,88.58-39.66,88.58-88.58V0h0Z"/>
+                        </svg>
+                    </div>
+                    <!-- Q3: Bottom-Right (Passion + Scarcity) = Launchpad -->
+                    <div class="iq-shape iq-shape-q3" data-quadrant="q3">
+                        <span class="iq-label iq-label-q3">Bunker</span>
+                        <svg viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M88.58,0h71.68c65.16,0,118.07,52.9,118.07,118.07v71.68c0,48.89-39.69,88.58-88.58,88.58H0V88.58C0,39.69,39.69,0,88.58,0Z"/>
+                        </svg>
+                    </div>
+                    <!-- Q4: Bottom-Left (Fear + Scarcity) = Forge -->
+                    <div class="iq-shape iq-shape-q4" data-quadrant="q4">
+                        <span class="iq-label iq-label-q4">Forge</span>
+                        <svg viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0,0h189.75c48.89,0,88.58,39.69,88.58,88.58v189.75H88.58C39.69,278.33,0,238.64,0,189.75V0h0Z" transform="translate(278.33 278.33) rotate(180)"/>
+                        </svg>
+                    </div>
+
+                    <!-- Draggable Marker -->
+                    <div class="luck-marker" id="luckMarker"></div>
+                </div>
+            </div>
+
+            <!-- Result Display -->
+            <div class="quadrant-result reveal" id="quadrantResult">
+                <h4>Drag the marker to discover your quadrant</h4>
+                <p>Your position reveals insights about your current relationship with luck and opportunity.</p>
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="#lab" class="btn btn-outline reveal">Ready to shift? Join the Lab →</a>
             </div>
         </div>
     </section>
@@ -712,17 +1221,32 @@
 
                 <form id="waitlistForm" style="display: flex; flex-direction: column; gap: 1rem;">
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                        <input type="text" id="companyName" name="companyName" placeholder="Company name" required
-                            style="padding: 1rem 1.5rem; border-radius: 50px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05); color: var(--text-main); font-size: 1rem;">
-                        <input type="email" id="email" name="email" placeholder="Email address" required
-                            style="padding: 1rem 1.5rem; border-radius: 50px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05); color: var(--text-main); font-size: 1rem;">
+                        <div class="shape-input-wrapper">
+                            <svg class="shape-input-accent accent-tl" viewBox="0 0 24 24"><path d="M0,24 L0,8 Q0,0 8,0 L24,0"/></svg>
+                            <svg class="shape-input-accent accent-br" viewBox="0 0 24 24"><path d="M0,24 L0,8 Q0,0 8,0 L24,0"/></svg>
+                            <input type="text" id="companyName" name="companyName" placeholder="Company name" required
+                                style="padding: 1rem 1.5rem; border-radius: 50px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05); color: var(--text-main); font-size: 1rem; width: 100%;">
+                        </div>
+                        <div class="shape-input-wrapper">
+                            <svg class="shape-input-accent accent-tl" viewBox="0 0 24 24"><path d="M0,24 L0,8 Q0,0 8,0 L24,0"/></svg>
+                            <svg class="shape-input-accent accent-br" viewBox="0 0 24 24"><path d="M0,24 L0,8 Q0,0 8,0 L24,0"/></svg>
+                            <input type="email" id="email" name="email" placeholder="Email address" required
+                                style="padding: 1rem 1.5rem; border-radius: 50px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05); color: var(--text-main); font-size: 1rem; width: 100%;">
+                        </div>
                     </div>
-                    <button type="submit" id="submitBtn" class="btn btn-primary" style="background: var(--accent-gold); color: black; align-self: center;">
+                    <button type="submit" id="submitBtn" class="btn btn-primary btn-shape" style="background: var(--accent-gold); color: black; align-self: center;">
+                        <svg class="btn-shape-accent btn-accent-tl" viewBox="0 0 20 20"><path d="M0,0h13c3.9,0,7,3.1,7,7v13H7c-3.9,0-7-3.1-7-7V0Z"/></svg>
+                        <svg class="btn-shape-accent btn-accent-br" viewBox="0 0 20 20"><path d="M0,0h13c3.9,0,7,3.1,7,7v13H7c-3.9,0-7-3.1-7-7V0Z"/></svg>
                         <span class="btn-text">Join the Waitlist →</span>
                         <span class="btn-loading" style="display: none;">Joining...</span>
                     </button>
                 </form>
-                <div id="formMessage" style="margin-top: 1rem; padding: 1rem; border-radius: 10px; display: none;"></div>
+                <div id="formMessage" style="margin-top: 1rem; padding: 1rem; border-radius: 10px; display: none;">
+                    <span class="success-badge" style="display: none;">
+                        <svg class="shape-icon" viewBox="0 0 20 20"><path d="M0,0h13c3.9,0,7,3.1,7,7v13H7c-3.9,0-7-3.1-7-7V0Z" transform="translate(20 20) rotate(180)"/></svg>
+                        <span>You're on the list!</span>
+                    </span>
+                </div>
                 <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem;">Join our community of Fortune Designers.</p>
             </div>
         </div>
@@ -734,14 +1258,20 @@
 
             <div class="grid-3">
                 <div class="glass-card reveal">
+                    <svg class="corner-accent corner-accent-gold corner-tl" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
+                    <svg class="corner-accent corner-accent-gold corner-br" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
                     <h3 style="color: var(--accent-cyan);">Individuals</h3>
                     <p style="margin-top: 1rem; color: var(--text-muted);">You're talented. You work hard. But you're stuck. You watch others catch breaks that seem random. You want to stop waiting and start engineering serendipity in your career, creative work, or next venture.</p>
                 </div>
                 <div class="glass-card reveal">
+                    <svg class="corner-accent corner-accent-gold corner-tl" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
+                    <svg class="corner-accent corner-accent-gold corner-br" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
                     <h3 style="color: var(--accent-cyan);">Leaders</h3>
                     <p style="margin-top: 1rem; color: var(--text-muted);">You run a team, division, or organization. You know innovation can't be commanded from the top. You want to design an environment where lucky collisions happen by design, not accident.</p>
                 </div>
                 <div class="glass-card reveal">
+                    <svg class="corner-accent corner-accent-gold corner-tl" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
+                    <svg class="corner-accent corner-accent-gold corner-br" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
                     <h3 style="color: var(--accent-cyan);">Cities & Ecosystems</h3>
                     <p style="margin-top: 1rem; color: var(--text-muted);">You're building a startup hub, innovation district, or regional ecosystem. You want to understand why Silicon Valley works and how to replicate those dynamics in your context.</p>
                 </div>
@@ -753,6 +1283,10 @@
         <div class="container">
             <h2 style="text-align: center; margin-bottom: 3rem;" class="reveal">About John Hagel</h2>
             <div class="glass-card reveal" style="max-width: 900px; margin: 0 auto 4rem; padding: 3rem;">
+                <svg class="corner-accent corner-tl" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
+                <svg class="corner-accent corner-tr" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
+                <svg class="corner-accent corner-bl" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
+                <svg class="corner-accent corner-br" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
                 <p style="margin-bottom: 1.5rem; line-height: 1.9;">John Hagel is a futurist, author, and former Co-Chairman of Deloitte's Center for the Edge. For decades, he's studied the forces reshaping business, society, and human potential. His work on "The Big Shift," "The Power of Pull," and exponential organizations has influenced leaders at the highest levels of government and industry.</p>
                 <p style="margin-bottom: 1.5rem; line-height: 1.9;">Shaping Luck is his framework for navigating the defining challenge of our time: how to thrive when the pace of change exceeds our institutions' ability to adapt.</p>
                 <p style="font-weight: 600; margin-bottom: 0.5rem;">Previous Work:</p>
@@ -1018,6 +1552,195 @@
                     intro.style.opacity = 1 - (scrollY - fadeStart) / (fadeEnd - fadeStart);
                 }
             });
+        })();
+
+        // Interactive "Shape Your Luck" Quadrant Tool
+        (function() {
+            const quadrant = document.getElementById('interactiveQuadrant');
+            const marker = document.getElementById('luckMarker');
+            const resultBox = document.getElementById('quadrantResult');
+            const shapes = document.querySelectorAll('.iq-shape');
+
+            if (!quadrant || !marker) return;
+
+            let isDragging = false;
+            let currentQuadrant = null;
+
+            // Quadrant data
+            const quadrantData = {
+                q1: {
+                    name: 'The Gilded Cage',
+                    description: 'Passion meets abundance. You have resources and drive—scale your impact. Build platforms, create opportunities for others.',
+                    color: 'var(--accent-cyan)'
+                },
+                q2: {
+                    name: 'The Launchpad',
+                    description: 'Passion meets constraint. The domain of the scrappy innovator. Turn limitations into advantages through ingenuity.',
+                    color: 'var(--accent-gold)'
+                },
+                q3: {
+                    name: 'The Bunker',
+                    description: 'Fear meets abundance. You\'re standing in a field of diamonds but too afraid to bend. Take small, reversible risks.',
+                    color: 'var(--text-muted)'
+                },
+                q4: {
+                    name: 'The Forge',
+                    description: 'Fear meets scarcity. Pure survival mode. Shift from defense to inquiry. One small connection. Start there.',
+                    color: 'var(--accent-gold)'
+                }
+            };
+
+            // Get marker position as percentage
+            function getMarkerPosition(e) {
+                const rect = quadrant.getBoundingClientRect();
+                let clientX, clientY;
+
+                if (e.touches) {
+                    clientX = e.touches[0].clientX;
+                    clientY = e.touches[0].clientY;
+                } else {
+                    clientX = e.clientX;
+                    clientY = e.clientY;
+                }
+
+                let x = ((clientX - rect.left) / rect.width) * 100;
+                let y = ((clientY - rect.top) / rect.height) * 100;
+
+                // Clamp to bounds
+                x = Math.max(5, Math.min(95, x));
+                y = Math.max(5, Math.min(95, y));
+
+                return { x, y };
+            }
+
+            // Determine which quadrant the marker is in
+            function getActiveQuadrant(x, y) {
+                // Grid layout: q1 (top-left), q2 (top-right), q3 (bottom-left), q4 (bottom-right)
+                if (x < 50 && y < 50) return 'q1';
+                if (x >= 50 && y < 50) return 'q2';
+                if (x < 50 && y >= 50) return 'q3';
+                return 'q4';
+            }
+
+            // Calculate proximity to each quadrant center
+            function getProximities(x, y) {
+                const centers = {
+                    q1: { x: 25, y: 25 },
+                    q2: { x: 75, y: 25 },
+                    q3: { x: 25, y: 75 },
+                    q4: { x: 75, y: 75 }
+                };
+
+                const proximities = {};
+                for (const [q, center] of Object.entries(centers)) {
+                    const dist = Math.sqrt(Math.pow(x - center.x, 2) + Math.pow(y - center.y, 2));
+                    const maxDist = 70; // Max possible distance
+                    proximities[q] = Math.max(0, 1 - (dist / maxDist));
+                }
+                return proximities;
+            }
+
+            // Update shape states based on marker position
+            function updateShapes(x, y) {
+                const active = getActiveQuadrant(x, y);
+                const proximities = getProximities(x, y);
+
+                shapes.forEach(shape => {
+                    const q = shape.dataset.quadrant;
+                    const prox = proximities[q];
+
+                    // Set active state
+                    if (q === active) {
+                        shape.classList.add('active');
+                    } else {
+                        shape.classList.remove('active');
+                    }
+
+                    // Set proximity level
+                    if (prox > 0.6) {
+                        shape.dataset.proximity = 'high';
+                    } else if (prox > 0.3) {
+                        shape.dataset.proximity = 'medium';
+                    } else {
+                        shape.dataset.proximity = 'low';
+                    }
+                });
+
+                // Update result display
+                if (active !== currentQuadrant) {
+                    currentQuadrant = active;
+                    updateResult(active);
+                }
+            }
+
+            // Update the result box
+            function updateResult(q) {
+                const data = quadrantData[q];
+                resultBox.className = 'quadrant-result reveal active result-' + q;
+                resultBox.innerHTML = `
+                    <h4>${data.name}</h4>
+                    <p>${data.description}</p>
+                `;
+            }
+
+            // Move marker to position
+            function moveMarker(x, y) {
+                marker.style.left = x + '%';
+                marker.style.top = y + '%';
+                updateShapes(x, y);
+            }
+
+            // Event handlers
+            function startDrag(e) {
+                e.preventDefault();
+                isDragging = true;
+                marker.style.cursor = 'grabbing';
+                const pos = getMarkerPosition(e);
+                moveMarker(pos.x, pos.y);
+            }
+
+            function doDrag(e) {
+                if (!isDragging) return;
+                e.preventDefault();
+                const pos = getMarkerPosition(e);
+                moveMarker(pos.x, pos.y);
+            }
+
+            function endDrag() {
+                isDragging = false;
+                marker.style.cursor = 'grab';
+            }
+
+            // Click on quadrant to move marker there
+            shapes.forEach(shape => {
+                shape.addEventListener('click', function(e) {
+                    const pos = getMarkerPosition(e);
+                    moveMarker(pos.x, pos.y);
+                });
+            });
+
+            // Mouse events
+            marker.addEventListener('mousedown', startDrag);
+            document.addEventListener('mousemove', doDrag);
+            document.addEventListener('mouseup', endDrag);
+
+            // Touch events
+            marker.addEventListener('touchstart', startDrag, { passive: false });
+            document.addEventListener('touchmove', doDrag, { passive: false });
+            document.addEventListener('touchend', endDrag);
+
+            // Also allow starting drag from anywhere in quadrant
+            quadrant.addEventListener('mousedown', function(e) {
+                if (e.target === marker) return;
+                startDrag(e);
+            });
+            quadrant.addEventListener('touchstart', function(e) {
+                if (e.target === marker) return;
+                startDrag(e);
+            }, { passive: false });
+
+            // Initialize with marker in center
+            updateShapes(50, 50);
         })();
     </script>
 </body>
