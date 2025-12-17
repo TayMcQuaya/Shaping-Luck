@@ -7,7 +7,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;400;600&family=Space+Grotesk:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
     <style>
         /* --- 1. CORE VARIABLES & RESET --- */
@@ -26,8 +26,9 @@
             --glass-blur: 16px;
             
             /* Typography */
-            --font-serif: 'Fraunces', serif;
-            --font-sans: 'Space Grotesk', sans-serif;
+            --font-heading: 'Montserrat', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-accent: 'Playfair Display', serif;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -35,7 +36,7 @@
         body {
             background-color: var(--bg-void);
             color: var(--text-main);
-            font-family: var(--font-sans);
+            font-family: var(--font-body);
             line-height: 1.6;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
@@ -43,8 +44,8 @@
 
         /* --- 2. TYPOGRAPHY & UTILITIES --- */
         h1, h2, h3, h4 {
-            font-family: var(--font-serif);
-            font-weight: 400;
+            font-family: var(--font-heading);
+            font-weight: 600;
             line-height: 1.2;
         }
 
@@ -115,7 +116,7 @@
         }
 
         .intro-text {
-            font-family: var(--font-serif);
+            font-family: var(--font-heading);
             font-size: clamp(3rem, 10vw, 7rem);
             font-weight: 400;
             letter-spacing: 0.02em;
@@ -403,7 +404,7 @@
 
         .axis-label {
             position: absolute;
-            font-family: var(--font-sans);
+            font-family: var(--font-body);
             font-size: 0.75rem;
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -426,7 +427,7 @@
 
         .axis-title {
             position: absolute;
-            font-family: var(--font-sans);
+            font-family: var(--font-body);
             font-size: 0.6rem;
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -469,7 +470,7 @@
             height: 100%;
         }
         
-        .price { font-size: 2.5rem; font-family: var(--font-serif); margin: 1rem 0; }
+        .price { font-size: 2.5rem; font-family: var(--font-heading); margin: 1rem 0; }
         
         .feature-list { list-style: none; margin-bottom: 2rem; text-align: left; }
         .feature-list li { margin-bottom: 0.8rem; display: flex; align-items: center; gap: 10px; }
