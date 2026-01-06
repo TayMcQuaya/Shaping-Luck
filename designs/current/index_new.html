@@ -29,6 +29,21 @@
             --font-heading: 'Montserrat', sans-serif;
             --font-body: 'Inter', sans-serif;
             --font-accent: 'Playfair Display', serif;
+
+            /* Color scheme support */
+            color-scheme: dark light;
+        }
+
+        /* --- LIGHT MODE OVERRIDES --- */
+        [data-theme="light"] {
+            --bg-void: #faf8f5;
+            --bg-panel: #ffffff;
+            --accent-cyan: #0891b2;
+            --accent-gold: #d97706;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --glass-bg: rgba(0, 0, 0, 0.02);
+            --glass-border: rgba(0, 0, 0, 0.08);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -40,6 +55,258 @@
             line-height: 1.6;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* --- THEME TOGGLE BUTTON --- */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="light"] .theme-toggle:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .theme-toggle svg {
+            width: 20px;
+            height: 20px;
+            transition: opacity 0.3s, transform 0.3s;
+            position: absolute;
+        }
+
+        .theme-toggle .sun-icon {
+            opacity: 0;
+            transform: rotate(-90deg) scale(0);
+            color: var(--accent-gold);
+        }
+
+        .theme-toggle .moon-icon {
+            opacity: 1;
+            transform: rotate(0) scale(1);
+            color: var(--accent-cyan);
+        }
+
+        [data-theme="light"] .theme-toggle .sun-icon {
+            opacity: 1;
+            transform: rotate(0) scale(1);
+        }
+
+        [data-theme="light"] .theme-toggle .moon-icon {
+            opacity: 0;
+            transform: rotate(90deg) scale(0);
+        }
+
+        /* --- LIGHT MODE COMPONENT OVERRIDES --- */
+
+        /* Glass cards */
+        [data-theme="light"] .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        [data-theme="light"] .glass-card:hover {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Video wrapper */
+        [data-theme="light"] .video-wrapper {
+            background: linear-gradient(45deg, #f0f4f8, #e8ecf0);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Buttons */
+        [data-theme="light"] .btn-primary {
+            background: linear-gradient(90deg, #0891b2, #0e7490);
+            color: white;
+            box-shadow: 0 4px 14px rgba(8, 145, 178, 0.3);
+        }
+
+        [data-theme="light"] .btn-outline {
+            border-color: rgba(0, 0, 0, 0.2);
+            color: var(--text-main);
+        }
+
+        [data-theme="light"] .btn-outline:hover {
+            border-color: var(--text-main);
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        /* Quadrant section */
+        [data-theme="light"] .section-quadrant {
+            background: radial-gradient(circle at 50% 50%, #e8f4f8 0%, var(--bg-void) 70%);
+        }
+
+        [data-theme="light"] .q-card {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        [data-theme="light"] .q-card:hover {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 30px rgba(8, 145, 178, 0.15);
+        }
+
+        [data-theme="light"] .q-card .shape-bg {
+            opacity: 0.08;
+        }
+
+        [data-theme="light"] .q-card:hover .shape-bg {
+            opacity: 0.15;
+        }
+
+        /* Interactive quadrant section */
+        [data-theme="light"] .interactive-quadrant-section {
+            background: radial-gradient(circle at 50% 50%, #e8f0f5 0%, var(--bg-void) 70%);
+        }
+
+        [data-theme="light"] .iq-shape-q1 {
+            background: rgba(8, 145, 178, 0.08);
+        }
+        [data-theme="light"] .iq-shape-q1.active {
+            background: rgba(8, 145, 178, 0.15);
+            box-shadow: 0 0 40px rgba(8, 145, 178, 0.2);
+        }
+
+        [data-theme="light"] .iq-shape-q2 {
+            background: rgba(217, 119, 6, 0.08);
+        }
+        [data-theme="light"] .iq-shape-q2.active {
+            background: rgba(217, 119, 6, 0.15);
+            box-shadow: 0 0 40px rgba(217, 119, 6, 0.2);
+        }
+
+        [data-theme="light"] .iq-shape-q3 {
+            background: rgba(100, 116, 139, 0.08);
+        }
+        [data-theme="light"] .iq-shape-q3.active {
+            background: rgba(100, 116, 139, 0.15);
+            box-shadow: 0 0 40px rgba(100, 116, 139, 0.15);
+        }
+
+        [data-theme="light"] .iq-shape-q4 {
+            background: rgba(217, 119, 6, 0.08);
+        }
+        [data-theme="light"] .iq-shape-q4.active {
+            background: rgba(217, 119, 6, 0.2);
+            box-shadow: 0 0 50px rgba(217, 119, 6, 0.25);
+        }
+
+        /* Luck marker in light mode */
+        [data-theme="light"] .luck-marker {
+            background: radial-gradient(circle, #0891b2, #d97706);
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Form inputs */
+        [data-theme="light"] input {
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            color: var(--text-main);
+        }
+
+        [data-theme="light"] input:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
+        }
+
+        [data-theme="light"] input::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* Paradox box */
+        [data-theme="light"] .paradox-box {
+            background: linear-gradient(135deg, rgba(8, 145, 178, 0.08), rgba(255, 255, 255, 0));
+            border-color: rgba(8, 145, 178, 0.2);
+        }
+
+        /* Canvas and particles - reduce visibility */
+        [data-theme="light"] #luckCanvas {
+            filter: invert(1) hue-rotate(180deg);
+            opacity: 0.12;
+        }
+
+        /* Mouse spotlight - warm glow */
+        [data-theme="light"] .mouse-spotlight.active {
+            background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(217, 119, 6, 0.06), transparent 60%);
+        }
+
+        /* Footer */
+        [data-theme="light"] footer {
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+            background: var(--bg-panel);
+        }
+
+        [data-theme="light"] footer img {
+            filter: none;
+            opacity: 0.6;
+        }
+
+        /* Corner accents */
+        [data-theme="light"] .corner-accent path {
+            stroke-width: 2.5;
+        }
+
+        /* Play button */
+        [data-theme="light"] .play-button {
+            background: rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="light"] .play-button::after {
+            border-left-color: var(--text-main);
+        }
+
+        [data-theme="light"] .play-button:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Intro text in light mode */
+        [data-theme="light"] .intro-text {
+            filter: drop-shadow(0 0 40px rgba(8, 145, 178, 0.3)) drop-shadow(0 0 80px rgba(8, 145, 178, 0.15));
+        }
+
+        /* Gold form card */
+        [data-theme="light"] .glass-card[style*="accent-gold"] {
+            background: rgba(217, 119, 6, 0.05);
+        }
+
+        /* Axis labels */
+        [data-theme="light"] .axis-title {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            .theme-toggle {
+                transition: none;
+            }
+            body {
+                transition: none;
+            }
         }
 
         /* --- 2. TYPOGRAPHY & UTILITIES --- */
@@ -934,6 +1201,24 @@
 </head>
 <body>
 
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+    </button>
+
     <canvas id="luckCanvas"></canvas>
     <div class="mouse-spotlight" id="mouseSpotlight"></div>
 
@@ -1316,6 +1601,53 @@
     </footer>
 
     <script>
+        /* --- 0. THEME TOGGLE FUNCTIONALITY --- */
+        (function() {
+            const html = document.documentElement;
+            const toggle = document.getElementById('themeToggle');
+
+            // Check for saved preference or system preference
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            // Set initial theme (dark is default, light needs data-theme attribute)
+            if (savedTheme === 'light' || (!savedTheme && !systemPrefersDark)) {
+                html.dataset.theme = 'light';
+            }
+            // If dark or system prefers dark, no attribute needed (default is dark)
+
+            // Toggle handler
+            if (toggle) {
+                toggle.addEventListener('click', () => {
+                    const currentTheme = html.dataset.theme;
+                    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+                    if (newTheme === 'dark') {
+                        delete html.dataset.theme;
+                    } else {
+                        html.dataset.theme = 'light';
+                    }
+
+                    localStorage.setItem('theme', newTheme);
+
+                    // Dispatch event for other components (like canvas)
+                    window.dispatchEvent(new CustomEvent('themechange', { detail: newTheme }));
+                });
+            }
+
+            // Listen for system preference changes
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                if (!localStorage.getItem('theme')) {
+                    if (e.matches) {
+                        delete html.dataset.theme;
+                    } else {
+                        html.dataset.theme = 'light';
+                    }
+                    window.dispatchEvent(new CustomEvent('themechange', { detail: e.matches ? 'dark' : 'light' }));
+                }
+            });
+        })();
+
         /* --- 1. SCROLL REVEAL ANIMATION --- */
         document.addEventListener("DOMContentLoaded", function() {
             const reveals = document.querySelectorAll(".reveal");
@@ -1339,10 +1671,10 @@
         /* --- 2. GENERATIVE PARTICLE SYSTEM (THE "LUCK" MESH) --- */
         const canvas = document.getElementById("luckCanvas");
         const ctx = canvas.getContext("2d");
-        
+
         let width, height;
         let particles = [];
-        
+
         // Configuration
         const particleCount = 60; // Keep it performant
         const connectionDistance = 150;
@@ -1367,6 +1699,24 @@
             mouse.y = null;
         });
 
+        // Helper to get particle colors based on theme
+        function getParticleColors() {
+            const isLightMode = document.documentElement.dataset.theme === 'light';
+            if (isLightMode) {
+                // Light mode: darker colors for visibility
+                return {
+                    accent: 'rgba(8, 145, 178, ',     // Darker cyan
+                    base: 'rgba(30, 41, 59, '         // Slate 800
+                };
+            } else {
+                // Dark mode: original colors
+                return {
+                    accent: 'rgba(0, 242, 234, ',     // Bright cyan
+                    base: 'rgba(255, 255, 255, '      // White
+                };
+            }
+        }
+
         // Particle Class
         class Particle {
             constructor() {
@@ -1375,8 +1725,13 @@
                 this.vx = (Math.random() - 0.5) * 0.5; // Slow drift
                 this.vy = (Math.random() - 0.5) * 0.5;
                 this.size = Math.random() * 2 + 1;
-                // Randomly assign colors (Cyan or Goldish white)
-                this.color = Math.random() > 0.8 ? 'rgba(0, 242, 234, ' : 'rgba(255, 255, 255, '; 
+                this.isAccent = Math.random() > 0.8;
+                this.updateColor();
+            }
+
+            updateColor() {
+                const colors = getParticleColors();
+                this.color = this.isAccent ? colors.accent : colors.base;
             }
 
             update() {
@@ -1392,7 +1747,7 @@
                     let dx = mouse.x - this.x;
                     let dy = mouse.y - this.y;
                     let distance = Math.sqrt(dx*dx + dy*dy);
-                    
+
                     if (distance < mouseDistance) {
                         const forceDirectionX = dx / distance;
                         const forceDirectionY = dy / distance;
@@ -1419,10 +1774,20 @@
             particles.push(new Particle());
         }
 
+        // Get connection line color based on theme
+        function getConnectionColor(distance) {
+            const isLightMode = document.documentElement.dataset.theme === 'light';
+            const opacity = 0.1 - distance/connectionDistance/10;
+            if (isLightMode) {
+                return `rgba(30, 41, 59, ${opacity})`; // Slate for light mode
+            }
+            return `rgba(255, 255, 255, ${opacity})`; // White for dark mode
+        }
+
         // Animation Loop
         function animate() {
             ctx.clearRect(0, 0, width, height);
-            
+
             for (let i = 0; i < particles.length; i++) {
                 let p = particles[i];
                 p.update();
@@ -1437,7 +1802,7 @@
 
                     if (distance < connectionDistance) {
                         ctx.beginPath();
-                        ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 - distance/connectionDistance/10})`;
+                        ctx.strokeStyle = getConnectionColor(distance);
                         ctx.lineWidth = 1;
                         ctx.moveTo(p.x, p.y);
                         ctx.lineTo(p2.x, p2.y);
@@ -1448,6 +1813,11 @@
             requestAnimationFrame(animate);
         }
         animate();
+
+        // Listen for theme changes and update particle colors
+        window.addEventListener('themechange', () => {
+            particles.forEach(p => p.updateColor());
+        });
     </script>
 
     <!-- Supabase SDK -->

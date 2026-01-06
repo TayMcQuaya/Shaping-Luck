@@ -3,7 +3,11 @@
     "allow": [
       "Bash(find:*)",
       "WebFetch(domain:supabase.com)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nUpdate typography to modern minimalist font stack\n\n- Headings: Montserrat (geometric, contemporary)\n- Body: Inter (optimized for screen readability)\n- Accent: Playfair Display (available for quotes/emphasis)\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git push:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nAdd interactive Shape Your Luck quadrant assessment tool\n\n- Implement draggable marker with proximity-based shape animations\n- Add CSS for interactive quadrant with glowing active states\n- Include touch support for mobile devices\n- Display dynamic result text based on marker position\n- Add logo-design-exploration.md with design concepts\n- Add Shaping_luck_logo.svg asset\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n)\")"
     ]
   }
 }
