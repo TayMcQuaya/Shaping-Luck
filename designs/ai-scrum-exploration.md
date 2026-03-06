@@ -19,6 +19,7 @@ Cycle time: idea → production = weeks to months
 ```
 
 **Built for a world where:**
+
 - Writing code was the bottleneck
 - Context switching was expensive
 - Knowledge transfer took meetings
@@ -28,6 +29,7 @@ Cycle time: idea → production = weeks to months
 ### The AI Disruption
 
 A single developer with AI assistance can now:
+
 - Ship a complete 3 features in an afternoon that would have taken a sprint
 - Explore 5 architectural approaches before lunch
 - Generate, test, and iterate faster than they can context-switch
@@ -35,6 +37,7 @@ A single developer with AI assistance can now:
 - Document as they build (or have AI document after)
 
 **The math has changed:**
+
 ```
 Old: 1 developer mass = ~5-8 story points/sprint
 New: 1 developer + AI = ??? (the units don't translate)
@@ -82,6 +85,7 @@ AI-augmented development demands optimization for **direction** in a world of **
 ### The New Cadences
 
 #### Micro-Sprints (2-4 hours)
+
 ```
 ┌────────────────────────────────────────────────────────────┐
 │ MICRO-SPRINT: "Lightning Loop"                              │
@@ -115,6 +119,7 @@ AI-augmented development demands optimization for **direction** in a world of **
 ```
 
 #### Day Sprints (Full Working Day)
+
 ```
 ┌────────────────────────────────────────────────────────────┐
 │ DAY SPRINT: "The Blitz"                                     │
@@ -148,6 +153,7 @@ AI-augmented development demands optimization for **direction** in a world of **
 ```
 
 #### Week Sprints (Major Initiatives)
+
 For larger features that require sustained exploration:
 
 ```
@@ -186,6 +192,7 @@ Friday:    Ship, reflect, plan next week
 ### The Skill Stack Inversion
 
 **What becomes LESS valuable:**
+
 - Typing speed
 - Syntax memorization
 - Boilerplate generation
@@ -194,6 +201,7 @@ Friday:    Ship, reflect, plan next week
 - Code review for obvious issues
 
 **What becomes MORE valuable:**
+
 - Knowing what to build
 - Recognizing quality
 - Taste and judgment
@@ -210,6 +218,7 @@ Friday:    Ship, reflect, plan next week
 ### The Intent Doc (Replaces User Story)
 
 Traditional user story:
+
 ```
 As a [user], I want [feature], so that [benefit].
 Acceptance criteria: ...
@@ -217,34 +226,41 @@ Story points: 5
 ```
 
 Lightning intent:
+
 ```markdown
 # Intent: Add Light Mode
 
 ## Why Now?
+
 User feedback shows 30% prefer light themes. Current dark-only
 limits adoption among enterprise users.
 
 ## Success Looks Like
+
 - Toggle in UI that persists preference
 - All components readable in both modes
 - No flash of wrong theme on load
 - Respects system preference
 
 ## Constraints
+
 - Must work with existing glassmorphism
 - No breaking changes to current users
 - Mobile must work perfectly
 
 ## Open Questions
+
 - [ ] Warm cream vs cool gray background?
 - [ ] Should particles change color?
 
 ## Not In Scope (This Sprint)
+
 - Per-section theme overrides
 - Scheduled auto-switching
 ```
 
 **Key differences:**
+
 - Focused on **why** and **constraints**, not **how**
 - Open questions acknowledged upfront
 - Scope explicitly bounded
@@ -253,29 +269,35 @@ limits adoption among enterprise users.
 ### The Exploration Doc (Replaces Spike)
 
 Instead of time-boxed research, produce:
+
 ```markdown
 # Exploration: Authentication Approaches
 
 ## Options Analyzed
+
 1. JWT + HttpOnly cookies
 2. Session-based with Redis
 3. Auth0/Clerk (managed)
 4. Supabase Auth (already using Supabase)
 
 ## Recommendation
+
 Option 4 (Supabase Auth)
 
 ## Reasoning
+
 - Already integrated for waitlist
 - Row-level security built-in
 - Reduces external dependencies
 - Cost: $0 at current scale
 
 ## Trade-offs Accepted
+
 - Vendor lock-in to Supabase
 - Less customizable than self-hosted
 
 ## Implementation Notes
+
 [AI-generated code snippets, gotchas, examples]
 ```
 
@@ -284,41 +306,48 @@ Option 4 (Supabase Auth)
 ### The Ship Log (Replaces Sprint Review)
 
 Real-time, append-only log:
+
 ```markdown
 # Ship Log - January 2025
 
 ## 2025-01-20
 
 ### 14:32 - Light Mode v1 shipped
+
 - Theme toggle in top-right corner
 - Persists to localStorage
 - Respects prefers-color-scheme
 - All components updated
 - Particle system adapts to theme
-Files: index.html, designs/current/index_new.html
+  Files: index.html, designs/current/index_new.html
 
 ### 11:15 - Interactive Quadrant Tool
+
 - Drag-and-drop marker
 - Proximity-based animations
 - Touch support for mobile
 - Result display updates live
 
 ### 09:00 - Day started
+
 Focus: Complete theme system
 
 ---
 
 ## 2025-01-19
+
 [...]
 ```
 
 ### The Decision Log (Replaces ADRs)
 
 Lightweight, queryable:
+
 ```markdown
 # Decisions
 
 ## 2025-01-20: Light mode palette
+
 **Context:** Needed to choose light theme colors
 **Options:** Warm Cream, Cool Gray, Soft Sage
 **Decision:** Warm Cream (#faf8f5)
@@ -326,6 +355,7 @@ Lightweight, queryable:
 **Revisit if:** User feedback indicates eye strain
 
 ## 2025-01-19: Interactive quadrant position
+
 **Context:** Where to place the "Shape Your Luck" tool
 **Decision:** Separate section after static quadrant
 **Rationale:** Users see framework first, then engage
@@ -337,17 +367,18 @@ Lightweight, queryable:
 
 ### Deprecated Metrics
 
-| Old Metric | Why It's Broken |
-|------------|-----------------|
-| Story Points | AI makes estimation meaningless |
-| Velocity | Measures output, not outcomes |
-| Lines of Code | AI generates thousands trivially |
-| Cycle Time | Compression makes days feel like hours |
-| Sprint Burndown | Sprints are too short to chart |
+| Old Metric      | Why It's Broken                        |
+| --------------- | -------------------------------------- |
+| Story Points    | AI makes estimation meaningless        |
+| Velocity        | Measures output, not outcomes          |
+| Lines of Code   | AI generates thousands trivially       |
+| Cycle Time      | Compression makes days feel like hours |
+| Sprint Burndown | Sprints are too short to chart         |
 
 ### New Metrics
 
 #### 1. Decisions Per Day (DPD)
+
 The throughput of meaningful choices made.
 
 ```
@@ -356,11 +387,13 @@ Low DPD = Blocked (unclear direction, over-thinking)
 ```
 
 Track:
+
 - Major decisions (architectural, directional)
 - Minor decisions (implementation details)
 - Blocked decisions (need more info)
 
 #### 2. Ship Frequency
+
 How often working software reaches users.
 
 ```
@@ -370,6 +403,7 @@ Anti-pattern: "Working on it" for days
 ```
 
 #### 3. Reversal Rate
+
 How often decisions need to be undone.
 
 ```
@@ -379,6 +413,7 @@ Too high (>30%): Not enough forethought, thrashing
 ```
 
 #### 4. Value Latency
+
 Time from "this would be valuable" to "users have it."
 
 ```
@@ -388,6 +423,7 @@ Target: Same day for small features
 ```
 
 #### 5. Context Retention
+
 How much the human remembers vs. relies on AI to recall.
 
 ```
@@ -403,6 +439,7 @@ Danger zone: AI is source of truth for "why"
 For individual developers moving at lightning speed:
 
 ### Morning Ritual (10 minutes)
+
 ```
 1. Review yesterday's ship log (2 min)
 2. Check for overnight feedback/issues (2 min)
@@ -411,6 +448,7 @@ For individual developers moving at lightning speed:
 ```
 
 ### Work Blocks (90-120 minute chunks)
+
 ```
 ┌────────────────────────────────────────────────────────────┐
 │ THE FOCUS BLOCK                                             │
@@ -437,6 +475,7 @@ For individual developers moving at lightning speed:
 ```
 
 ### The "Stuck" Protocol
+
 When progress stalls:
 
 ```
@@ -448,6 +487,7 @@ When progress stalls:
 ```
 
 ### End of Day (10 minutes)
+
 ```
 1. Commit everything (even incomplete work on branches)
 2. Update ship log
@@ -462,12 +502,14 @@ When progress stalls:
 ### The New Standup
 
 **Old standup (15 min):**
+
 ```
 "Yesterday I worked on X, today I'll work on Y, no blockers."
 × 8 people = status theater
 ```
 
 **Lightning standup (10 min max):**
+
 ```
 Round 1: "My ONE thing today is ___" (30 sec each)
 Round 2: "I need decision/input on ___" (only if blocked)
@@ -518,19 +560,20 @@ ALSO NEW: "AI Racing"
 
 ### New Risks in AI-Speed Development
 
-| Risk | Description | Mitigation |
-|------|-------------|------------|
-| **Velocity Addiction** | Shipping for shipping's sake | Weekly "Why did we build this?" review |
-| **Context Collapse** | Human loses understanding of codebase | Mandatory code review of AI output |
-| **Quality Erosion** | Moving too fast to catch issues | Automated tests, staged rollouts |
-| **Decision Fatigue** | Too many choices, all day | Timebox decisions, accept "good enough" |
-| **Scope Creep** | "AI can do one more thing..." | Hard stop at intent boundary |
-| **Documentation Debt** | Building faster than you can explain | AI-generated docs after each ship |
-| **Dependency Blindness** | AI adds packages without consideration | Review all dependency changes |
+| Risk                     | Description                            | Mitigation                              |
+| ------------------------ | -------------------------------------- | --------------------------------------- |
+| **Velocity Addiction**   | Shipping for shipping's sake           | Weekly "Why did we build this?" review  |
+| **Context Collapse**     | Human loses understanding of codebase  | Mandatory code review of AI output      |
+| **Quality Erosion**      | Moving too fast to catch issues        | Automated tests, staged rollouts        |
+| **Decision Fatigue**     | Too many choices, all day              | Timebox decisions, accept "good enough" |
+| **Scope Creep**          | "AI can do one more thing..."          | Hard stop at intent boundary            |
+| **Documentation Debt**   | Building faster than you can explain   | AI-generated docs after each ship       |
+| **Dependency Blindness** | AI adds packages without consideration | Review all dependency changes           |
 
 ### The "Slow Down" Signals
 
 When to deliberately reduce speed:
+
 ```
 □ Multiple production incidents in a week
 □ Can't explain recent changes to a colleague
@@ -546,6 +589,7 @@ When to deliberately reduce speed:
 ## Sample Weekly Flow
 
 ### Monday: Direction Day
+
 ```
 09:00 - Week intent setting (30 min)
         What MUST ship this week?
@@ -571,6 +615,7 @@ When to deliberately reduce speed:
 ```
 
 ### Tuesday-Thursday: Build Days
+
 ```
 09:00 - Morning ritual (10 min)
 09:10 - Build sprint (2.5 hours)
@@ -583,6 +628,7 @@ When to deliberately reduce speed:
 ```
 
 ### Friday: Ship + Reflect Day
+
 ```
 09:00 - Final build sprint (2 hours)
         Last features, bug fixes
@@ -616,15 +662,15 @@ When to deliberately reduce speed:
 
 ### Essential for Lightning Development
 
-| Category | Tool | Purpose |
-|----------|------|---------|
-| **AI Coding** | Claude Code, Cursor, Copilot | Real-time AI collaboration |
-| **Version Control** | Git + GitHub | Branches for parallel exploration |
-| **CI/CD** | GitHub Actions, Vercel | Instant deployment |
-| **Monitoring** | Sentry, LogRocket | Catch issues fast |
-| **Ship Log** | Markdown in repo | Permanent record |
-| **Communication** | Slack + Loom | Async-first |
-| **Decisions** | Notion or repo Markdown | Searchable decisions |
+| Category            | Tool                         | Purpose                           |
+| ------------------- | ---------------------------- | --------------------------------- |
+| **AI Coding**       | Claude Code, Cursor, Copilot | Real-time AI collaboration        |
+| **Version Control** | Git + GitHub                 | Branches for parallel exploration |
+| **CI/CD**           | GitHub Actions, Vercel       | Instant deployment                |
+| **Monitoring**      | Sentry, LogRocket            | Catch issues fast                 |
+| **Ship Log**        | Markdown in repo             | Permanent record                  |
+| **Communication**   | Slack + Loom                 | Async-first                       |
+| **Decisions**       | Notion or repo Markdown      | Searchable decisions              |
 
 ### Repo Structure for Speed
 
@@ -686,6 +732,7 @@ OLD IDENTITY                    NEW IDENTITY
 ## Anti-Patterns to Avoid
 
 ### 1. The AI Avalanche
+
 ```
 ❌ "Generate all the things!"
    Letting AI produce more than you can review/understand
@@ -695,6 +742,7 @@ OLD IDENTITY                    NEW IDENTITY
 ```
 
 ### 2. The Trust Trap
+
 ```
 ❌ "AI knows best, ship it"
    Blindly accepting AI output without review
@@ -704,6 +752,7 @@ OLD IDENTITY                    NEW IDENTITY
 ```
 
 ### 3. The Planning Paradox
+
 ```
 ❌ "Let me spec this perfectly before AI builds it"
    Over-planning when building is faster
@@ -713,6 +762,7 @@ OLD IDENTITY                    NEW IDENTITY
 ```
 
 ### 4. The Context Collapse
+
 ```
 ❌ Starting fresh conversations every task
    Losing accumulated context
@@ -722,6 +772,7 @@ OLD IDENTITY                    NEW IDENTITY
 ```
 
 ### 5. The Speed Obsession
+
 ```
 ❌ "How fast can we go?"
    Velocity as the goal itself
@@ -737,6 +788,7 @@ OLD IDENTITY                    NEW IDENTITY
 Traditional scrum was designed for a world of scarcity—scarce developer time, scarce attention, scarce ability to execute. It optimized for predictability and incremental progress.
 
 The AI era inverts this completely. Execution capacity is now abundant. The new scarcity is:
+
 - **Knowing what to build**
 - **Recognizing quality**
 - **Making good decisions**
@@ -745,6 +797,7 @@ The AI era inverts this completely. Execution capacity is now abundant. The new 
 The Lightning Sprint framework doesn't abandon agile principles—it accelerates them to their logical conclusion. Ship early, learn fast, adapt continuously. Just now "early" means hours, not weeks.
 
 The developers who thrive won't be the fastest typists or the best memorizers of syntax. They'll be the ones who:
+
 1. Know what matters
 2. Recognize good when they see it
 3. Decide quickly and confidently

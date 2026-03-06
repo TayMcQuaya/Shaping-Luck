@@ -1,0 +1,1497 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alex — Serendipity Engine Mind Map</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --bg: #0a0a0f;
+        --surface: #12121a;
+        --surface-hover: #1a1a28;
+        --border: #2a2a3a;
+        --text: #e8e8f0;
+        --text-dim: #8888a0;
+        --text-muted: #555570;
+        --know: #6366f1;
+        --know-glow: rgba(99, 102, 241, 0.3);
+        --connect: #f59e0b;
+        --connect-glow: rgba(245, 158, 11, 0.3);
+        --grow: #10b981;
+        --grow-glow: rgba(16, 185, 129, 0.3);
+        --alex: #a855f7;
+        --alex-glow: rgba(168, 85, 247, 0.4);
+        --flywheel: #ec4899;
+        --flywheel-glow: rgba(236, 72, 153, 0.3);
+      }
+
+      body {
+        font-family:
+          "Inter",
+          -apple-system,
+          sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        overflow-x: hidden;
+        min-height: 100vh;
+      }
+
+      /* === CANVAS FOR LINES === */
+      #lines-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* === HEADER === */
+      .header {
+        text-align: center;
+        padding: 60px 20px 20px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .header h1 {
+        font-size: 3rem;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        background: linear-gradient(135deg, var(--alex), #c084fc, var(--alex));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 8px;
+      }
+
+      .header .subtitle {
+        font-size: 1.1rem;
+        color: var(--text-dim);
+        font-weight: 300;
+        letter-spacing: 0.05em;
+      }
+
+      /* === MAIN CONTAINER === */
+      .mind-map {
+        position: relative;
+        z-index: 1;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      /* === ALEX CORE NODE === */
+      .alex-core {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 60px;
+      }
+
+      .alex-node {
+        background: linear-gradient(
+          135deg,
+          rgba(168, 85, 247, 0.15),
+          rgba(168, 85, 247, 0.05)
+        );
+        border: 2px solid rgba(168, 85, 247, 0.4);
+        border-radius: 20px;
+        padding: 28px 48px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        position: relative;
+        box-shadow: 0 0 40px rgba(168, 85, 247, 0.15);
+      }
+
+      .alex-node:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 0 60px rgba(168, 85, 247, 0.3);
+        border-color: rgba(168, 85, 247, 0.7);
+      }
+
+      .alex-node .label {
+        font-size: 1.5rem;
+        font-weight: 800;
+        letter-spacing: 0.15em;
+        color: var(--alex);
+      }
+
+      .alex-node .desc {
+        font-size: 0.85rem;
+        color: var(--text-dim);
+        margin-top: 4px;
+      }
+
+      .alex-node .equation {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        margin-top: 8px;
+        font-style: italic;
+      }
+
+      /* === PILLAR SECTIONS === */
+      .pillars {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+        margin-bottom: 60px;
+      }
+
+      .pillar {
+        position: relative;
+      }
+
+      .pillar-header {
+        text-align: center;
+        padding: 20px;
+        border-radius: 16px;
+        margin-bottom: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .pillar-header::before {
+        content: "";
+        position: absolute;
+        top: -30px;
+        left: 50%;
+        width: 2px;
+        height: 30px;
+        background: var(--border);
+      }
+
+      .pillar.know .pillar-header {
+        background: linear-gradient(
+          135deg,
+          rgba(99, 102, 241, 0.12),
+          rgba(99, 102, 241, 0.04)
+        );
+        border: 1.5px solid rgba(99, 102, 241, 0.3);
+      }
+
+      .pillar.connect .pillar-header {
+        background: linear-gradient(
+          135deg,
+          rgba(245, 158, 11, 0.12),
+          rgba(245, 158, 11, 0.04)
+        );
+        border: 1.5px solid rgba(245, 158, 11, 0.3);
+      }
+
+      .pillar.grow .pillar-header {
+        background: linear-gradient(
+          135deg,
+          rgba(16, 185, 129, 0.12),
+          rgba(16, 185, 129, 0.04)
+        );
+        border: 1.5px solid rgba(16, 185, 129, 0.3);
+      }
+
+      .pillar-header:hover {
+        transform: translateY(-2px);
+      }
+
+      .pillar.know .pillar-header:hover {
+        box-shadow: 0 8px 30px var(--know-glow);
+      }
+      .pillar.connect .pillar-header:hover {
+        box-shadow: 0 8px 30px var(--connect-glow);
+      }
+      .pillar.grow .pillar-header:hover {
+        box-shadow: 0 8px 30px var(--grow-glow);
+      }
+
+      .pillar-header h2 {
+        font-size: 1.15rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+      }
+
+      .pillar.know .pillar-header h2 {
+        color: var(--know);
+      }
+      .pillar.connect .pillar-header h2 {
+        color: var(--connect);
+      }
+      .pillar.grow .pillar-header h2 {
+        color: var(--grow);
+      }
+
+      .pillar-header .pillar-sub {
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        margin-top: 2px;
+      }
+
+      /* === NODE CARDS === */
+      .nodes {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .node-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 20px;
+        cursor: pointer;
+        transition: all 0.35s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .node-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        border-radius: 14px 0 0 14px;
+        transition: width 0.3s ease;
+      }
+
+      .pillar.know .node-card::before {
+        background: var(--know);
+      }
+      .pillar.connect .node-card::before {
+        background: var(--connect);
+      }
+      .pillar.grow .node-card::before {
+        background: var(--grow);
+      }
+
+      .node-card:hover {
+        background: var(--surface-hover);
+        transform: translateX(4px);
+      }
+
+      .pillar.know .node-card:hover {
+        border-color: rgba(99, 102, 241, 0.4);
+        box-shadow: 0 4px 20px var(--know-glow);
+      }
+      .pillar.connect .node-card:hover {
+        border-color: rgba(245, 158, 11, 0.4);
+        box-shadow: 0 4px 20px var(--connect-glow);
+      }
+      .pillar.grow .node-card:hover {
+        border-color: rgba(16, 185, 129, 0.4);
+        box-shadow: 0 4px 20px var(--grow-glow);
+      }
+
+      .node-card.expanded {
+        background: var(--surface-hover);
+      }
+
+      .pillar.know .node-card.expanded {
+        border-color: rgba(99, 102, 241, 0.5);
+      }
+      .pillar.connect .node-card.expanded {
+        border-color: rgba(245, 158, 11, 0.5);
+      }
+      .pillar.grow .node-card.expanded {
+        border-color: rgba(16, 185, 129, 0.5);
+      }
+
+      .node-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .node-num {
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 700;
+        flex-shrink: 0;
+      }
+
+      .pillar.know .node-num {
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--know);
+      }
+      .pillar.connect .node-num {
+        background: rgba(245, 158, 11, 0.2);
+        color: var(--connect);
+      }
+      .pillar.grow .node-num {
+        background: rgba(16, 185, 129, 0.2);
+        color: var(--grow);
+      }
+
+      .node-title {
+        font-size: 0.95rem;
+        font-weight: 600;
+        flex-grow: 1;
+      }
+
+      .node-phase {
+        font-size: 0.65rem;
+        font-weight: 600;
+        padding: 3px 8px;
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--text-muted);
+        flex-shrink: 0;
+        letter-spacing: 0.05em;
+      }
+
+      .node-tagline {
+        font-size: 0.82rem;
+        color: var(--text-dim);
+        margin-top: 8px;
+        font-style: italic;
+        padding-left: 40px;
+      }
+
+      .node-details {
+        max-height: 0;
+        overflow: hidden;
+        transition:
+          max-height 0.4s ease,
+          opacity 0.3s ease;
+        opacity: 0;
+      }
+
+      .node-card.expanded .node-details {
+        max-height: 600px;
+        opacity: 1;
+      }
+
+      .node-details-inner {
+        padding: 16px 0 4px 40px;
+      }
+
+      .node-details ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .node-details li {
+        font-size: 0.82rem;
+        color: var(--text-dim);
+        padding: 5px 0;
+        padding-left: 16px;
+        position: relative;
+        line-height: 1.5;
+      }
+
+      .node-details li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 12px;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+      }
+
+      .pillar.know .node-details li::before {
+        background: rgba(99, 102, 241, 0.5);
+      }
+      .pillar.connect .node-details li::before {
+        background: rgba(245, 158, 11, 0.5);
+      }
+      .pillar.grow .node-details li::before {
+        background: rgba(16, 185, 129, 0.5);
+      }
+
+      .node-details .key-insight {
+        font-size: 0.78rem;
+        font-style: italic;
+        padding: 10px 14px;
+        margin-top: 10px;
+        border-radius: 8px;
+        border-left: 3px solid;
+      }
+
+      .pillar.know .key-insight {
+        color: var(--know);
+        background: rgba(99, 102, 241, 0.08);
+        border-color: var(--know);
+      }
+      .pillar.connect .key-insight {
+        color: var(--connect);
+        background: rgba(245, 158, 11, 0.08);
+        border-color: var(--connect);
+      }
+      .pillar.grow .key-insight {
+        color: var(--grow);
+        background: rgba(16, 185, 129, 0.08);
+        border-color: var(--grow);
+      }
+
+      /* === FLYWHEEL === */
+      .flywheel-section {
+        margin: 60px auto;
+        max-width: 700px;
+        text-align: center;
+      }
+
+      .flywheel-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--flywheel);
+        letter-spacing: 0.08em;
+        margin-bottom: 30px;
+      }
+
+      .flywheel-ring {
+        position: relative;
+        width: 420px;
+        height: 420px;
+        margin: 0 auto;
+      }
+
+      .flywheel-step {
+        position: absolute;
+        width: 140px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .flywheel-step:hover {
+        transform: scale(1.08);
+      }
+
+      .flywheel-step .fw-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 8px;
+        font-size: 1.2rem;
+        border: 2px solid;
+        transition: all 0.3s ease;
+      }
+
+      .flywheel-step:hover .fw-icon {
+        box-shadow: 0 0 20px var(--flywheel-glow);
+      }
+
+      .flywheel-step .fw-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--text);
+        line-height: 1.3;
+      }
+
+      .flywheel-step .fw-sub {
+        font-size: 0.65rem;
+        color: var(--text-muted);
+        margin-top: 2px;
+      }
+
+      .flywheel-center {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+      }
+
+      .flywheel-center-circle {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          rgba(236, 72, 153, 0.15),
+          rgba(168, 85, 247, 0.15)
+        );
+        border: 2px solid rgba(236, 72, 153, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        animation: pulse-slow 3s ease-in-out infinite;
+      }
+
+      @keyframes pulse-slow {
+        0%,
+        100% {
+          box-shadow: 0 0 20px rgba(236, 72, 153, 0.15);
+        }
+        50% {
+          box-shadow: 0 0 40px rgba(236, 72, 153, 0.3);
+        }
+      }
+
+      .flywheel-center-circle span {
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: var(--flywheel);
+        letter-spacing: 0.05em;
+        line-height: 1.3;
+      }
+
+      /* === FLYWHEEL SVG ARROWS === */
+      .flywheel-arrows {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+      }
+
+      /* === PHASE TIMELINE === */
+      .timeline-section {
+        margin: 60px auto;
+        max-width: 900px;
+        padding: 0 20px;
+      }
+
+      .timeline-title {
+        text-align: center;
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--alex);
+        letter-spacing: 0.08em;
+        margin-bottom: 40px;
+      }
+
+      .timeline {
+        position: relative;
+        padding-left: 40px;
+      }
+
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 15px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(
+          to bottom,
+          var(--know),
+          var(--connect),
+          var(--grow),
+          var(--flywheel)
+        );
+      }
+
+      .phase {
+        position: relative;
+        margin-bottom: 32px;
+        padding: 18px 24px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .phase:hover {
+        background: var(--surface-hover);
+        transform: translateX(4px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .phase::before {
+        content: "";
+        position: absolute;
+        left: -33px;
+        top: 24px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: 2px solid;
+        background: var(--bg);
+      }
+
+      .phase:nth-child(1)::before {
+        border-color: var(--text-muted);
+      }
+      .phase:nth-child(2)::before {
+        border-color: var(--know);
+      }
+      .phase:nth-child(3)::before {
+        border-color: var(--connect);
+      }
+      .phase:nth-child(4)::before {
+        border-color: var(--grow);
+      }
+      .phase:nth-child(5)::before {
+        border-color: var(--flywheel);
+      }
+      .phase:nth-child(6)::before {
+        border-color: var(--alex);
+      }
+
+      .phase-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .phase-label {
+        font-size: 0.95rem;
+        font-weight: 700;
+      }
+
+      .phase-timing {
+        font-size: 0.7rem;
+        color: var(--text-muted);
+        background: rgba(255, 255, 255, 0.05);
+        padding: 3px 10px;
+        border-radius: 6px;
+        font-weight: 500;
+      }
+
+      .phase-cost {
+        font-size: 0.7rem;
+        color: var(--text-muted);
+        font-weight: 500;
+      }
+
+      .phase-desc {
+        font-size: 0.82rem;
+        color: var(--text-dim);
+        margin-top: 6px;
+      }
+
+      .phase-goal {
+        font-size: 0.78rem;
+        color: var(--connect);
+        margin-top: 8px;
+        font-style: italic;
+      }
+
+      .phase-nodes {
+        display: flex;
+        gap: 6px;
+        margin-top: 10px;
+        flex-wrap: wrap;
+      }
+
+      .phase-node-tag {
+        font-size: 0.65rem;
+        padding: 3px 8px;
+        border-radius: 6px;
+        font-weight: 600;
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--text-dim);
+      }
+
+      /* === ONE RULE FOOTER === */
+      .one-rule {
+        text-align: center;
+        padding: 60px 20px 80px;
+        max-width: 700px;
+        margin: 0 auto;
+      }
+
+      .one-rule .rule-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        color: var(--text-muted);
+        margin-bottom: 12px;
+      }
+
+      .one-rule .rule-text {
+        font-size: 1.4rem;
+        font-weight: 300;
+        color: var(--text);
+        line-height: 1.6;
+      }
+
+      .one-rule .rule-text strong {
+        color: var(--alex);
+        font-weight: 600;
+      }
+
+      /* === RESPONSIVE === */
+      @media (max-width: 900px) {
+        .pillars {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+
+        .pillar-header::before {
+          display: none;
+        }
+
+        .header h1 {
+          font-size: 2rem;
+        }
+
+        .flywheel-ring {
+          width: 320px;
+          height: 320px;
+        }
+
+        .flywheel-step {
+          width: 110px;
+        }
+
+        .flywheel-step .fw-icon {
+          width: 42px;
+          height: 42px;
+          font-size: 1rem;
+        }
+
+        .flywheel-step .fw-label {
+          font-size: 0.68rem;
+        }
+
+        .flywheel-center-circle {
+          width: 80px;
+          height: 80px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>A L E X</h1>
+      <div class="subtitle">
+        9 AI loops that compound into engineered serendipity
+      </div>
+    </div>
+
+    <div class="mind-map">
+      <!-- ALEX CORE -->
+      <div class="alex-core">
+        <div class="alex-node" onclick="this.classList.toggle('expanded')">
+          <div class="label">SERENDIPITY ENGINE</div>
+          <div class="desc">Know them. Connect them. Grow them.</div>
+          <div class="equation">
+            serendipity = connection_strength &times; surprise_factor
+          </div>
+        </div>
+      </div>
+
+      <!-- THREE PILLARS -->
+      <div class="pillars">
+        <!-- KNOW THEM -->
+        <div class="pillar know">
+          <div class="pillar-header">
+            <h2>KNOW THEM</h2>
+            <div class="pillar-sub">Understanding Each Human</div>
+          </div>
+          <div class="nodes">
+            <div class="node-card" onclick="toggleNode(this)">
+              <div class="node-header">
+                <div class="node-num">1</div>
+                <div class="node-title">The 7 Questions</div>
+                <div class="node-phase">P0</div>
+              </div>
+              <div class="node-tagline">"3 minutes to map a whole person."</div>
+              <div class="node-details">
+                <div class="node-details-inner">
+                  <ul>
+                    <li>
+                      Onboarding micro-experience capturing career, personality,
+                      quirks, values, fears, aspirations, and relationship with
+                      luck
+                    </li>
+                    <li>
+                      Each question maps to a different psychological dimension
+                    </li>
+                    <li>
+                      Enneagram framework runs silently underneath &mdash;
+                      captures core motivation without labeling anyone
+                    </li>
+                  </ul>
+                  <div class="key-insight">
+                    This is the seed data that makes everything else work.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="node-card" onclick="toggleNode(this)">
+              <div class="node-header">
+                <div class="node-num">2</div>
+                <div class="node-title">Luck DNA Generator</div>
+                <div class="node-phase">P1</div>
+              </div>
+              <div class="node-tagline">
+                "Turn raw answers into a structured identity the system can
+                reason about."
+              </div>
+              <div class="node-details">
+                <div class="node-details-inner">
+                  <ul>
+                    <li>
+                      LLM interprets 7 answers &rarr; structured JSON profile
+                    </li>
+                    <li>
+                      Core fields: ambition, energy style, hidden interests,
+                      risk profile, aspirational identity, key tension,
+                      serendipity pattern
+                    </li>
+                    <li>
+                      Enneagram signals inferred (center, stance, patterns)
+                    </li>
+                    <li>
+                      Quadrant positioning (Launchpad / Forge / Gilded Cage /
+                      Bunker)
+                    </li>
+                    <li>Embedded as vector for similarity/distance matching</li>
+                  </ul>
+                  <div class="key-insight">
+                    The profile is the person's "address" in serendipity-space.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="node-card" onclick="toggleNode(this)">
+              <div class="node-header">
+                <div class="node-num">3</div>
+                <div class="node-title">Profile Evolution</div>
+                <div class="node-phase">P5</div>
+              </div>
+              <div class="node-tagline">
+                "People change. The system should notice."
+              </div>
+              <div class="node-details">
+                <div class="node-details-inner">
+                  <ul>
+                    <li>
+                      Passive updates from behavior (Luck Feed clicks, meeting
+                      feedback, follow-up patterns)
+                    </li>
+                    <li>Active re-calibration prompts every 30-60 days</li>
+                    <li>Life event detection from self-reported updates</li>
+                    <li>Embedding re-computed on profile changes</li>
+                  </ul>
+                  <div class="key-insight">
+                    A stale profile kills serendipity. This keeps it alive.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONNECT THEM -->
+        <div class="pillar connect">
+          <div class="pillar-header">
+            <h2>CONNECT THEM</h2>
+            <div class="pillar-sub">Engineering the Right Collisions</div>
+          </div>
+          <div class="nodes">
+            <div class="node-card" onclick="toggleNode(this)">
+              <div class="node-header">
+                <div class="node-num">4</div>
+                <div class="node-title">Meeting Matcher</div>
+                <div class="node-phase">P2</div>
+              </div>
+              <div class="node-tagline">
+                "Not who's in the same industry. Who's in the same existential
+                question."
+              </div>
+              <div class="node-details">
+                <div class="node-details-inner">
+                  <ul>
+                    <li>
+                      <strong>Resonance:</strong> cosine similarity on hidden
+                      interests + shared contradiction themes
+                    </li>
+                    <li>
+                      <strong>Stretch:</strong> cosine distance + LLM-verified
+                      "non-obvious thread" (no thread = no pair)
+                    </li>
+                    <li>
+                      <strong>Catalyst:</strong> ambition-to-skill matching,
+                      rotating who's the dreamer
+                    </li>
+                    <li>
+                      Human facilitator reviews &mdash; ideally overrides
+                      &lt;15% of the time
+                    </li>
+                  </ul>
+                  <div class="key-insight">
+                    The algorithm's job isn't to be perfect. It's to be
+                    surprisingly good.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="node-card" onclick="toggleNode(this)">
+              <div class="node-header">
+                <div class="node-num">5</div>
+                <div class="node-title">Brief Generator</div>
+                <div class="node-phase">P2</div>
+              </div>
+              <div class="node-tagline">"You walk in already known."</div>
+              <div class="node-details">
+                <div class="node-details-inner">
+                  <ul>
+                    <li>
+                      Takes a pairing &rarr; personalized pre-meeting message
+                      for each person
+                    </li>
+                    <li>
+                      Includes: who you're meeting, something real about them,
+                      what you share, a custom conversation starter
+                    </li>
+                    <li>
+                      Tone: warm, specific, like a thoughtful host who actually
+                      knows both of you
+                    </li>
+                    <li>
+                      Sent 24-48 hours before (earlier for observers/anxious
+                      types)
+                    </li>
+                  </ul>
+                  <div class="key-insight">
+                    This is a belonging artifact. It transforms how people enter
+                    the room.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="node-card" onclick="toggleNode(this)">
+              <div class="node-header">
+                <div class="node-num">6</div>
+                <div class="node-title">Luck Prompt Generator</div>
+                <div class="node-phase">P2</div>
+              </div>
+              <div class="node-tagline">
+                "The room's opening question, designed from the room's
+                collective data."
+              </div>
+              <div class="node-details">
+                <div class="node-details-inner">
+                  <ul>
+                    <li>Batch all attendee Q1 + Q6 answers</li>
+                    <li>LLM finds thematic clusters in the group</li>
+                    <li>
+                      Generates one opening question that touches the dominant
+                      theme without excluding anyone
+                    </li>
+                    <li>
+                      Replaces "tell us your name and what you do" with
+                      something that makes people lean in
+                    </li>
+                  </ul>
+                  <div class="key-insight">
+                    The first 60 seconds set the emotional tone for everything
+                    after.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- GROW THEM -->
+        <div class="pillar grow">
+          <div class="pillar-header">
+            <h2>GROW THEM</h2>
+            <div class="pillar-sub">Keeping Momentum After the Meeting</div>
+          </div>
+          <div class="nodes">
+            <div class="node-card" onclick="toggleNode(this)">
+              <div class="node-header">
+                <div class="node-num">7</div>
+                <div class="node-title">Serendipity Crawler</div>
+                <div class="node-phase">P3</div>
+              </div>
+              <div class="node-tagline">
+                "Most people can't see the opportunities meant for them."
+              </div>
+              <div class="node-details">
+                <div class="node-details-inner">
+                  <ul>
+                    <li>
+                      Curated sources: events, grants, communities, podcasts,
+                      jobs, trends
+                    </li>
+                    <li>
+                      Crawler agents run daily/weekly &rarr; LLM parses into
+                      structured opportunity objects
+                    </li>
+                    <li>
+                      Serendipity = Connection Strength &times; Surprise Factor
+                    </li>
+                    <li>Luck Feed: 3-5 personalized items per user per week</li>
+                    <li>
+                      Each item includes a one-line hook: "Why this matters for
+                      YOU"
+                    </li>
+                  </ul>
+                  <div class="key-insight">
+                    It doesn't find what you're looking for. It finds what you
+                    didn't know you needed.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="node-card" onclick="toggleNode(this)">
+              <div class="node-header">
+                <div class="node-num">8</div>
+                <div class="node-title">Nudge Engine</div>
+                <div class="node-phase">P4</div>
+              </div>
+              <div class="node-tagline">
+                "A thoughtful friend who never forgets what you said."
+              </div>
+              <div class="node-details">
+                <div class="node-details-inner">
+                  <ul>
+                    <li>24hr post-meeting &rarr; recap + action items</li>
+                    <li>7 days later &rarr; follow-up check</li>
+                    <li>
+                      Luck Feed click &rarr; related opportunity 3 days later
+                    </li>
+                    <li>Q1 keyword in news &rarr; instant alert</li>
+                    <li>30 days &rarr; re-calibration prompt</li>
+                    <li>
+                      Frequency-capped, confidence-scored (auto-send vs. human
+                      review)
+                    </li>
+                  </ul>
+                  <div class="key-insight">
+                    Most networking dies in the parking lot. This is why ours
+                    doesn't.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="node-card" onclick="toggleNode(this)">
+              <div class="node-header">
+                <div class="node-num">9</div>
+                <div class="node-title">Connection Graph</div>
+                <div class="node-phase">P4</div>
+              </div>
+              <div class="node-tagline">
+                "The relationship map that makes the whole system smarter over
+                time."
+              </div>
+              <div class="node-details">
+                <div class="node-details-inner">
+                  <ul>
+                    <li>
+                      Tracks who met whom, in which round, and what came of it
+                    </li>
+                    <li>
+                      Identifies super-connectors, emerging themes, pairing
+                      patterns that work
+                    </li>
+                    <li>
+                      Feeds back into the Matching Engine &mdash; improving
+                      pairings over time
+                    </li>
+                    <li>
+                      Proprietary data: no competitor can replicate your
+                      connection graph
+                    </li>
+                  </ul>
+                  <div class="key-insight">
+                    This is the moat. Every meeting makes the next meeting
+                    better. That's the flywheel.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FLYWHEEL -->
+      <div class="flywheel-section">
+        <div class="flywheel-title">THE FLYWHEEL</div>
+        <div class="flywheel-ring" id="flywheel">
+          <svg class="flywheel-arrows" viewBox="0 0 420 420">
+            <defs>
+              <marker
+                id="arrow"
+                markerWidth="8"
+                markerHeight="6"
+                refX="8"
+                refY="3"
+                orient="auto"
+              >
+                <polygon
+                  points="0 0, 8 3, 0 6"
+                  fill="rgba(236, 72, 153, 0.5)"
+                />
+              </marker>
+            </defs>
+            <!-- Circular arrows connecting the 6 flywheel nodes -->
+            <path
+              d="M 250 42 Q 340 60 360 140"
+              fill="none"
+              stroke="rgba(236, 72, 153, 0.25)"
+              stroke-width="1.5"
+              marker-end="url(#arrow)"
+            />
+            <path
+              d="M 380 200 Q 380 300 310 355"
+              fill="none"
+              stroke="rgba(236, 72, 153, 0.25)"
+              stroke-width="1.5"
+              marker-end="url(#arrow)"
+            />
+            <path
+              d="M 250 390 Q 170 400 110 360"
+              fill="none"
+              stroke="rgba(236, 72, 153, 0.25)"
+              stroke-width="1.5"
+              marker-end="url(#arrow)"
+            />
+            <path
+              d="M 60 310 Q 30 230 45 160"
+              fill="none"
+              stroke="rgba(236, 72, 153, 0.25)"
+              stroke-width="1.5"
+              marker-end="url(#arrow)"
+            />
+            <path
+              d="M 70 95 Q 110 45 180 35"
+              fill="none"
+              stroke="rgba(236, 72, 153, 0.25)"
+              stroke-width="1.5"
+              marker-end="url(#arrow)"
+            />
+          </svg>
+
+          <!-- Top -->
+          <div
+            class="flywheel-step"
+            style="top: 0; left: 50%; transform: translateX(-50%)"
+          >
+            <div
+              class="fw-icon"
+              style="
+                border-color: var(--know);
+                color: var(--know);
+                background: rgba(99, 102, 241, 0.1);
+              "
+            >
+              <span>DNA</span>
+            </div>
+            <div class="fw-label">Better Profiles</div>
+            <div class="fw-sub">Richer Luck DNA</div>
+          </div>
+
+          <!-- Top Right -->
+          <div class="flywheel-step" style="top: 80px; right: -10px">
+            <div
+              class="fw-icon"
+              style="
+                border-color: var(--connect);
+                color: var(--connect);
+                background: rgba(245, 158, 11, 0.1);
+              "
+            >
+              <span>++</span>
+            </div>
+            <div class="fw-label">Better Pairings</div>
+            <div class="fw-sub">Smarter matches</div>
+          </div>
+
+          <!-- Bottom Right -->
+          <div class="flywheel-step" style="bottom: 40px; right: -10px">
+            <div
+              class="fw-icon"
+              style="
+                border-color: var(--connect);
+                color: var(--connect);
+                background: rgba(245, 158, 11, 0.1);
+              "
+            >
+              <span>++</span>
+            </div>
+            <div class="fw-label">Better Meetings</div>
+            <div class="fw-sub">Higher retention</div>
+          </div>
+
+          <!-- Bottom -->
+          <div
+            class="flywheel-step"
+            style="bottom: -20px; left: 50%; transform: translateX(-50%)"
+          >
+            <div
+              class="fw-icon"
+              style="
+                border-color: var(--grow);
+                color: var(--grow);
+                background: rgba(16, 185, 129, 0.1);
+              "
+            >
+              <span>++</span>
+            </div>
+            <div class="fw-label">Richer Graph</div>
+            <div class="fw-sub">More connection data</div>
+          </div>
+
+          <!-- Bottom Left -->
+          <div class="flywheel-step" style="bottom: 40px; left: -10px">
+            <div
+              class="fw-icon"
+              style="
+                border-color: var(--grow);
+                color: var(--grow);
+                background: rgba(16, 185, 129, 0.1);
+              "
+            >
+              <span>++</span>
+            </div>
+            <div class="fw-label">Smarter Crawling</div>
+            <div class="fw-sub">Better Luck Feed</div>
+          </div>
+
+          <!-- Top Left -->
+          <div class="flywheel-step" style="top: 80px; left: -10px">
+            <div
+              class="fw-icon"
+              style="
+                border-color: var(--know);
+                color: var(--know);
+                background: rgba(99, 102, 241, 0.1);
+              "
+            >
+              <span>++</span>
+            </div>
+            <div class="fw-label">More Data</div>
+            <div class="fw-sub">Engagement signals</div>
+          </div>
+
+          <!-- Center -->
+          <div class="flywheel-center">
+            <div class="flywheel-center-circle">
+              <span>EVERY<br />MEETING<br />BETTER</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE TIMELINE -->
+      <div class="timeline-section">
+        <div class="timeline-title">PHASED ROLLOUT</div>
+        <div class="timeline">
+          <div class="phase">
+            <div class="phase-top">
+              <div class="phase-label">Phase 0 &mdash; The Manual Magic</div>
+              <div class="phase-timing">Weeks 1-4</div>
+              <div class="phase-cost">$0 infra</div>
+            </div>
+            <div class="phase-desc">
+              Wizard of Oz it. Google Form + copy-paste into Claude. The human
+              IS the loop.
+            </div>
+            <div class="phase-goal">Goal: Prove the magic is real</div>
+            <div class="phase-nodes">
+              <span class="phase-node-tag">[1] Google Form</span>
+              <span class="phase-node-tag">[4] Human + LLM</span>
+              <span class="phase-node-tag">[5] Manual email</span>
+            </div>
+          </div>
+
+          <div class="phase">
+            <div class="phase-top">
+              <div class="phase-label">Phase 1 &mdash; The First Real Loop</div>
+              <div class="phase-timing">Months 1-2</div>
+              <div class="phase-cost">$50-100/mo</div>
+            </div>
+            <div class="phase-desc">
+              Automate onboarding-to-profile pipeline. Keep pairings
+              semi-manual.
+            </div>
+            <div class="phase-goal">Goal: Structured profiles, faster prep</div>
+            <div class="phase-nodes">
+              <span class="phase-node-tag">[1] In-app questions</span>
+              <span class="phase-node-tag">[2] Luck DNA API</span>
+              <span class="phase-node-tag">[3] Profile DB + vectors</span>
+            </div>
+          </div>
+
+          <div class="phase">
+            <div class="phase-top">
+              <div class="phase-label">Phase 2 &mdash; The Matching Engine</div>
+              <div class="phase-timing">Months 2-4</div>
+              <div class="phase-cost">$200-400/mo</div>
+            </div>
+            <div class="phase-desc">
+              Automate the pairings. Humans review, not create.
+            </div>
+            <div class="phase-goal">
+              Goal: Facilitator overrides &lt;15% of pairings
+            </div>
+            <div class="phase-nodes">
+              <span class="phase-node-tag">[4] Matching algorithm</span>
+              <span class="phase-node-tag">[5] Brief generator</span>
+              <span class="phase-node-tag">[6] Luck Prompts</span>
+            </div>
+          </div>
+
+          <div class="phase">
+            <div class="phase-top">
+              <div class="phase-label">
+                Phase 3 &mdash; The Serendipity Crawler
+              </div>
+              <div class="phase-timing">Months 3-6</div>
+              <div class="phase-cost">$500-800/mo</div>
+            </div>
+            <div class="phase-desc">
+              Alex starts looking outward. The web becomes the opportunity
+              space.
+            </div>
+            <div class="phase-goal">
+              Goal: "How did it know I'd care about this?"
+            </div>
+            <div class="phase-nodes">
+              <span class="phase-node-tag">[7] Crawler + parser</span>
+              <span class="phase-node-tag">[7] Serendipity scoring</span>
+              <span class="phase-node-tag">[7] Luck Feed</span>
+            </div>
+          </div>
+
+          <div class="phase">
+            <div class="phase-top">
+              <div class="phase-label">Phase 4 &mdash; The Follow-Up Loop</div>
+              <div class="phase-timing">Months 4-6</div>
+              <div class="phase-cost">$300-500/mo</div>
+            </div>
+            <div class="phase-desc">
+              Alex doesn't forget. The system has memory and momentum.
+            </div>
+            <div class="phase-goal">
+              Goal: 60%+ follow-up rate (vs. typical 10-15%)
+            </div>
+            <div class="phase-nodes">
+              <span class="phase-node-tag">[8] Nudge Engine</span>
+              <span class="phase-node-tag">[9] Connection Graph</span>
+            </div>
+          </div>
+
+          <div class="phase">
+            <div class="phase-top">
+              <div class="phase-label">Phase 5 &mdash; The Living System</div>
+              <div class="phase-timing">Months 6-12</div>
+              <div class="phase-cost">$1,000-1,500/mo</div>
+            </div>
+            <div class="phase-desc">
+              Alex learns from its own history. The loops feed each other.
+              Flywheel engaged.
+            </div>
+            <div class="phase-goal">
+              Goal: Every meeting better than the last
+            </div>
+            <div class="phase-nodes">
+              <span class="phase-node-tag">[3] Passive evolution</span>
+              <span class="phase-node-tag">Feedback loops</span>
+              <span class="phase-node-tag">A/B testing</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THE ONE RULE -->
+    <div class="one-rule">
+      <div class="rule-label">THE ONE RULE</div>
+      <div class="rule-text">
+        Every phase must deliver a moment where someone
+        <strong>feels seen</strong> by the system.<br />
+        If it doesn't produce that feeling, it's infrastructure, not product.<br />
+        Infrastructure can wait. The feeling can't.
+      </div>
+    </div>
+
+    <script>
+      function toggleNode(card) {
+        const wasExpanded = card.classList.contains("expanded");
+        // Close all other cards
+        document.querySelectorAll(".node-card.expanded").forEach((c) => {
+          if (c !== card) c.classList.remove("expanded");
+        });
+        // Toggle this one
+        if (wasExpanded) {
+          card.classList.remove("expanded");
+        } else {
+          card.classList.add("expanded");
+        }
+      }
+
+      // Subtle parallax on flywheel center
+      const flywheelCenter = document.querySelector(".flywheel-center-circle");
+      if (flywheelCenter) {
+        document.addEventListener("mousemove", (e) => {
+          const x = (e.clientX / window.innerWidth - 0.5) * 8;
+          const y = (e.clientY / window.innerHeight - 0.5) * 8;
+          flywheelCenter.style.transform = `translate(${x}px, ${y}px)`;
+        });
+      }
+
+      // Animate phases on scroll
+      const phases = document.querySelectorAll(".phase");
+      const nodeCards = document.querySelectorAll(".node-card");
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = "1";
+              entry.target.style.transform = "translateX(0)";
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+
+      phases.forEach((phase, i) => {
+        phase.style.opacity = "0";
+        phase.style.transform = "translateX(-20px)";
+        phase.style.transition = `all 0.5s ease ${i * 0.1}s`;
+        observer.observe(phase);
+      });
+
+      nodeCards.forEach((card, i) => {
+        card.style.opacity = "0";
+        card.style.transform = "translateY(10px)";
+        card.style.transition = `all 0.4s ease ${(i % 3) * 0.1}s, background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, max-height 0.4s ease`;
+        observer.observe(card);
+      });
+
+      // Animate node cards when they come into view
+      const cardObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = "1";
+              entry.target.style.transform = "translateY(0)";
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+
+      nodeCards.forEach((card) => cardObserver.observe(card));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,3188 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shaping Luck — Launch Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0a0a10;
+        --card: #111118;
+        --card-hover: #16161f;
+        --border: #1e1e2a;
+        --gold: #c4a44e;
+        --gold-dim: #8a7535;
+        --blue: #4a8fd4;
+        --blue-dim: #2a5a8a;
+        --red: #d4603a;
+        --red-dim: #8a4025;
+        --green: #3ad47a;
+        --purple: #9b3ad4;
+        --text: #b0aec0;
+        --text-dim: #5a586a;
+        --white: #eeedf2;
+        --sans: "DM Sans", system-ui, sans-serif;
+        --mono: "DM Mono", monospace;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
+        font-size: 15px;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .container {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 48px 24px;
+      }
+
+      /* === HEADER === */
+      .header-label {
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--gold-dim);
+        margin-bottom: 8px;
+      }
+
+      h1 {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--white);
+        margin-bottom: 6px;
+      }
+
+      .header-sub {
+        font-size: 13px;
+        color: var(--text-dim);
+        margin-bottom: 32px;
+      }
+
+      /* === STATS ROW === */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 10px;
+        margin-bottom: 32px;
+      }
+
+      .stat-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 14px 10px;
+        text-align: center;
+      }
+
+      .stat-value {
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--white);
+      }
+
+      .stat-label {
+        font-size: 9px;
+        font-family: var(--mono);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: var(--text-dim);
+        margin-top: 2px;
+      }
+
+      /* === MAIN TABS === */
+      .main-tabs {
+        display: flex;
+        gap: 0;
+        margin-bottom: 0;
+        border: 1px solid var(--border);
+        border-bottom: none;
+        border-radius: 10px 10px 0 0;
+        overflow: hidden;
+      }
+
+      .main-tab {
+        flex: 1;
+        padding: 14px 10px;
+        background: var(--card);
+        border: none;
+        border-right: 1px solid var(--border);
+        color: var(--text-dim);
+        font-family: var(--sans);
+        font-size: 11px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+        letter-spacing: 0.3px;
+      }
+
+      .main-tab:last-child {
+        border-right: none;
+      }
+      .main-tab:hover {
+        background: var(--card-hover);
+        color: var(--text);
+      }
+      .main-tab.active {
+        background: var(--gold);
+        color: var(--bg);
+      }
+      .main-tab.active-blue {
+        background: var(--blue);
+        color: var(--bg);
+      }
+      .main-tab.active-red {
+        background: var(--red);
+        color: var(--bg);
+      }
+      .main-tab.active-green {
+        background: var(--green);
+        color: var(--bg);
+      }
+      .main-tab.active-purple {
+        background: var(--purple);
+        color: var(--bg);
+      }
+
+      .tab-content {
+        border: 1px solid var(--border);
+        border-radius: 0 0 10px 10px;
+        padding: 24px;
+        background: var(--bg);
+        min-height: 400px;
+      }
+
+      /* === VOICE TOGGLE === */
+      .voice-toggle {
+        display: flex;
+        gap: 0;
+        margin-bottom: 24px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .voice-btn {
+        flex: 1;
+        padding: 10px 16px;
+        background: var(--card);
+        border: none;
+        color: var(--text-dim);
+        font-family: var(--sans);
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+      }
+
+      .voice-btn:hover {
+        background: var(--card-hover);
+        color: var(--text);
+      }
+      .voice-btn.active-salim {
+        background: var(--gold);
+        color: var(--bg);
+      }
+      .voice-btn.active-john {
+        background: var(--blue);
+        color: var(--bg);
+      }
+
+      /* === TIMELINE === */
+      .timeline {
+        position: relative;
+        padding-left: 28px;
+      }
+
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 5px;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        background: var(--border);
+      }
+
+      .week-group {
+        margin-bottom: 32px;
+        position: relative;
+      }
+
+      .week-label {
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--text-dim);
+        margin-bottom: 14px;
+        padding-left: 4px;
+      }
+
+      /* === EMAIL CARDS === */
+      .email-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        margin-bottom: 10px;
+        overflow: hidden;
+        transition: border-color 0.2s;
+        position: relative;
+      }
+
+      .email-card::before {
+        content: "";
+        position: absolute;
+        left: -24px;
+        top: 22px;
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        border: 2px solid var(--border);
+        background: var(--bg);
+        z-index: 1;
+      }
+
+      .email-card.type-email::before {
+        border-color: var(--gold-dim);
+      }
+      .email-card.type-task::before {
+        border-color: var(--blue-dim);
+      }
+      .email-card.type-action::before {
+        border-color: var(--red-dim);
+      }
+      .email-card.type-milestone::before {
+        border-color: var(--purple);
+        background: var(--purple);
+      }
+
+      .email-card:hover {
+        border-color: #2a2a3a;
+      }
+
+      .email-header {
+        padding: 14px 18px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        user-select: none;
+      }
+
+      .email-meta {
+        font-family: var(--mono);
+        font-size: 10px;
+        color: var(--text-dim);
+        margin-bottom: 4px;
+      }
+
+      .email-subject {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--white);
+        line-height: 1.3;
+      }
+
+      .email-purpose {
+        font-size: 11px;
+        color: var(--text-dim);
+        margin-top: 4px;
+        font-style: italic;
+      }
+
+      .email-chevron {
+        color: var(--text-dim);
+        font-size: 16px;
+        transition: transform 0.2s;
+        flex-shrink: 0;
+        margin-left: 12px;
+        margin-top: 4px;
+      }
+
+      .email-chevron.open {
+        transform: rotate(90deg);
+      }
+
+      .email-body {
+        padding: 0 18px 18px;
+        display: none;
+      }
+      .email-body.visible {
+        display: block;
+      }
+
+      .email-body-content {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 20px;
+        font-size: 13px;
+        line-height: 1.8;
+        color: var(--text);
+        white-space: pre-wrap;
+      }
+
+      .email-body-content strong {
+        color: var(--white);
+        font-weight: 600;
+      }
+
+      .email-notes {
+        margin-top: 10px;
+        padding: 10px 14px;
+        background: #1a1a25;
+        border-radius: 6px;
+        font-size: 11px;
+        color: var(--text-dim);
+        line-height: 1.6;
+      }
+
+      .email-notes::before {
+        content: "// ";
+        color: var(--gold-dim);
+        font-family: var(--mono);
+      }
+
+      /* === BADGES === */
+      .badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-family: var(--mono);
+        font-size: 9px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        font-weight: 500;
+        margin-left: 6px;
+        vertical-align: middle;
+      }
+
+      .badge-slow {
+        background: #1a2a1a;
+        color: #4a8a4a;
+      }
+      .badge-medium {
+        background: #2a2a1a;
+        color: #c4a44e;
+      }
+      .badge-fast {
+        background: #2a1a1a;
+        color: #d46a4a;
+      }
+
+      .status-badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-family: var(--mono);
+        font-size: 9px;
+        letter-spacing: 1px;
+        font-weight: 600;
+        flex-shrink: 0;
+      }
+
+      .status-draft {
+        background: #e8a83822;
+        color: #e8a838;
+      }
+      .status-todo {
+        background: #ffffff11;
+        color: #888;
+      }
+      .status-done {
+        background: #3ad47a22;
+        color: #3ad47a;
+      }
+
+      .cta-tag {
+        display: inline-block;
+        padding: 2px 7px;
+        border-radius: 3px;
+        font-family: var(--mono);
+        font-size: 8px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        font-weight: 500;
+        margin-right: 4px;
+        margin-top: 6px;
+      }
+
+      .cta-book {
+        background: #1a2a1a;
+        color: var(--green);
+      }
+      .cta-webinar {
+        background: #1a1a2a;
+        color: var(--blue);
+      }
+      .cta-urgency {
+        background: #2a1a1a;
+        color: var(--red);
+      }
+
+      /* === DEV TRACK === */
+      .dev-block {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 12px;
+      }
+
+      .dev-week {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--blue);
+      }
+
+      .dev-date {
+        font-size: 11px;
+        color: var(--text-dim);
+      }
+
+      .dev-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .dev-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--blue);
+        margin-top: 7px;
+        flex-shrink: 0;
+      }
+
+      .dev-item-text {
+        font-size: 13px;
+        color: #bbb;
+        line-height: 1.5;
+      }
+
+      /* === BUDGET === */
+      .budget-section {
+        margin-bottom: 24px;
+      }
+      .budget-section-title {
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--green);
+        margin-bottom: 14px;
+      }
+      .budget-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 8px;
+      }
+      .budget-table th {
+        text-align: left;
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: var(--text-dim);
+        padding: 8px 12px;
+        border-bottom: 1px solid var(--border);
+      }
+      .budget-table td {
+        padding: 10px 12px;
+        font-size: 13px;
+        border-bottom: 1px solid var(--border);
+      }
+      .budget-table tr:last-child td {
+        border-bottom: none;
+      }
+      .budget-table .budget-amount {
+        color: var(--green);
+        font-weight: 600;
+        font-family: var(--mono);
+      }
+      .budget-table .budget-pct {
+        color: var(--gold);
+        font-weight: 600;
+        font-family: var(--mono);
+      }
+      .budget-table .budget-label {
+        color: var(--white);
+        font-weight: 500;
+      }
+      .budget-table .budget-note {
+        color: var(--text-dim);
+        font-size: 12px;
+      }
+      .projection-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-bottom: 8px;
+      }
+      .projection-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 18px;
+        position: relative;
+        overflow: hidden;
+      }
+      .projection-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+      }
+      .projection-card.conservative::before {
+        background: var(--text-dim);
+      }
+      .projection-card.target::before {
+        background: var(--gold);
+      }
+      .projection-card.stretch::before {
+        background: var(--green);
+      }
+      .projection-tier {
+        font-family: var(--mono);
+        font-size: 9px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+      .projection-card.conservative .projection-tier {
+        color: var(--text-dim);
+      }
+      .projection-card.target .projection-tier {
+        color: var(--gold);
+      }
+      .projection-card.stretch .projection-tier {
+        color: var(--green);
+      }
+      .projection-gross {
+        font-size: 26px;
+        font-weight: 700;
+        color: var(--white);
+        margin-bottom: 4px;
+        font-family: var(--mono);
+      }
+      .projection-breakdown {
+        font-size: 11px;
+        color: var(--text-dim);
+        line-height: 1.6;
+        margin-bottom: 14px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid var(--border);
+      }
+      .projection-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        padding: 4px 0;
+      }
+      .projection-row-label {
+        color: var(--text-dim);
+      }
+      .projection-row-value {
+        color: var(--text);
+        font-family: var(--mono);
+        font-weight: 500;
+      }
+      .projection-row.highlight .projection-row-value {
+        color: var(--green);
+        font-weight: 700;
+      }
+      .projection-row.deduct .projection-row-value {
+        color: var(--red);
+      }
+      .projection-divider {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 6px 0;
+      }
+      @media (max-width: 768px) {
+        .projection-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .budget-flow {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 20px;
+        font-family: var(--mono);
+        font-size: 12px;
+        line-height: 1.8;
+        color: var(--text);
+        white-space: pre;
+        overflow-x: auto;
+      }
+      .budget-note-list {
+        list-style: none;
+        padding: 0;
+      }
+      .budget-note-list li {
+        font-size: 13px;
+        color: var(--text);
+        padding: 6px 0;
+        padding-left: 16px;
+        position: relative;
+      }
+      .budget-note-list li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 13px;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--green);
+      }
+
+      /* === OVERVIEW === */
+      .overview-section {
+        margin-bottom: 24px;
+      }
+
+      .overview-section-title {
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 12px;
+      }
+
+      .flow-pre {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 20px;
+        font-family: var(--mono);
+        font-size: 11px;
+        line-height: 1.6;
+        color: var(--text);
+        overflow-x: auto;
+        white-space: pre;
+      }
+
+      .state-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+      }
+
+      .state-table th {
+        background: var(--card);
+        color: var(--gold);
+        font-family: var(--mono);
+        font-size: 9px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        padding: 10px 12px;
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .state-table td {
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--border);
+        color: var(--text);
+      }
+
+      .state-table tr:hover td {
+        background: var(--card);
+      }
+
+      .track-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 14px 16px;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .track-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-top: 4px;
+        flex-shrink: 0;
+      }
+
+      .track-card-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--white);
+      }
+
+      .track-card-meta {
+        font-size: 11px;
+        color: var(--text-dim);
+        margin-top: 2px;
+      }
+
+      .transition-block {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 16px 20px;
+        margin-bottom: 10px;
+      }
+
+      .transition-title {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--white);
+        margin-bottom: 8px;
+      }
+
+      .transition-rule {
+        font-size: 12px;
+        color: var(--text-dim);
+        line-height: 1.7;
+      }
+
+      /* === NOTES PANEL === */
+      .notes-panel {
+        margin-top: 32px;
+        padding: 20px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+      }
+
+      .notes-title {
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+
+      .notes-body {
+        font-size: 12px;
+        color: var(--text-dim);
+        line-height: 1.7;
+      }
+
+      /* === TRACK INFO BOX === */
+      .track-info {
+        margin-bottom: 20px;
+        padding: 14px 18px;
+        background: #12121e;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+      }
+
+      .track-info-label {
+        font-size: 11px;
+        font-weight: 600;
+        margin-bottom: 6px;
+        font-family: var(--mono);
+        letter-spacing: 1px;
+      }
+
+      .track-info-body {
+        font-size: 12px;
+        color: var(--text-dim);
+        line-height: 1.7;
+      }
+
+      /* === SECTION ACCORDION === */
+      .section-block {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        margin-bottom: 12px;
+        overflow: hidden;
+      }
+
+      .section-header {
+        padding: 16px 20px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        user-select: none;
+      }
+
+      .section-header:hover {
+        background: var(--card-hover);
+      }
+
+      .section-body {
+        padding: 0 20px 20px;
+      }
+
+      /* === RESPONSIVE === */
+      @media (max-width: 768px) {
+        .stats-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .main-tabs {
+          flex-wrap: wrap;
+        }
+        .main-tab {
+          flex: 1 1 48%;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .stats-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .main-tab {
+          flex: 1 1 100%;
+        }
+      }
+
+      /* === RESOURCES TAB === */
+      .res-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+
+      .res-group-title {
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--text-dim);
+        margin-bottom: 10px;
+        padding-top: 16px;
+        border-top: 1px solid var(--border);
+      }
+
+      .res-group-title:first-child {
+        border-top: none;
+        padding-top: 0;
+      }
+
+      .res-card {
+        display: block;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 16px;
+        text-decoration: none;
+        transition: all 0.2s;
+        cursor: pointer;
+      }
+
+      .res-card:hover {
+        background: var(--card-hover);
+        border-color: var(--gold-dim);
+        transform: translateY(-1px);
+      }
+
+      .res-card-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 6px;
+      }
+
+      .res-badge {
+        font-family: var(--mono);
+        font-size: 9px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-weight: 500;
+      }
+
+      .res-badge.html {
+        background: rgba(74, 143, 212, 0.15);
+        color: var(--blue);
+      }
+      .res-badge.md {
+        background: rgba(196, 164, 78, 0.15);
+        color: var(--gold);
+      }
+      .res-badge.jsx {
+        background: rgba(155, 58, 212, 0.15);
+        color: var(--purple);
+      }
+
+      .res-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--white);
+      }
+
+      .res-desc {
+        font-size: 12px;
+        color: var(--text-dim);
+        line-height: 1.5;
+      }
+
+      @media (max-width: 768px) {
+        .res-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header-label">Phase 1 — Private Launch</div>
+      <h1>Shaping Luck Launch Dashboard</h1>
+      <p class="header-sub">
+        Mar 5 &rarr; ongoing &middot; 8 email tracks &middot; 6 user states
+        &middot; All sequences in one place
+      </p>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value">8</div>
+          <div class="stat-label">Email Tracks</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">6</div>
+          <div class="stat-label">User States</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">38</div>
+          <div class="stat-label">Total Emails</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" style="color: var(--gold)">$20</div>
+          <div class="stat-label">Book Presale</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" style="color: var(--purple)">$400</div>
+          <div class="stat-label">Founding Offer</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" style="color: var(--red)">600</div>
+          <div class="stat-label">Public Cap</div>
+        </div>
+      </div>
+
+      <!-- Main Tabs -->
+      <div class="main-tabs">
+        <button class="main-tab active" onclick="switchMainTab('overview')">
+          Overview
+        </button>
+        <button class="main-tab" onclick="switchMainTab('nonbuyer')">
+          Non-Buyer (A&middot;B)
+        </button>
+        <button class="main-tab" onclick="switchMainTab('buyer')">
+          Buyer (C&middot;D)
+        </button>
+        <button class="main-tab" onclick="switchMainTab('shared')">
+          VIP &amp; Events
+        </button>
+        <button class="main-tab" onclick="switchMainTab('dev')">
+          Dev Track
+        </button>
+        <button class="main-tab" onclick="switchMainTab('budget')">
+          Budget
+        </button>
+        <button class="main-tab" onclick="switchMainTab('resources')">
+          Resources
+        </button>
+      </div>
+
+      <div class="tab-content" id="tabContent"></div>
+    </div>
+
+    <script>
+      // ============================================================
+      // DATA: TRACK A — Salim Non-Buyer (States 1 & 2)
+      // Voice: Salim | Timeline: Mar 5–24 | 8 emails + 1 milestone
+      // Exit: Buy → Track C or E. Buy + Register → Track E.
+      // ============================================================
+      const TRACK_A = {
+        id: "a",
+        label: "Track A — Salim Non-Buyer",
+        states: "States 1 & 2 (Salim Cold / Salim Warm)",
+        description:
+          "Anyone on Salim's OpenEXO list who hasn't bought the book. CTA adapts based on webinar registration status.",
+        voice: "Salim",
+        color: "#c4a44e",
+        exitRule:
+          "Buy → Track C (if not registered) or Track E (if registered). Immediately suppress from this track on book purchase.",
+        warmNote:
+          '"Warm" = already registered for webinar. Same email body, just drop the webinar CTA and replace with "You\'re already registered — see you April 1st."',
+        weeks: [
+          {
+            label: "Week 1–2: Warm Up",
+            dateRange: "Mar 5–14",
+            freq: "slow",
+            items: [
+              {
+                num: 1,
+                type: "email",
+                day: "Mar 5 (Wed)",
+                subject: "I've been working on something big",
+                purpose:
+                  "Announce the Luck book presale ($20). Light mystery. Webinar date drop. No app mention.",
+                ctaCold: ["book", "webinar"],
+                ctaWarm: ["book"],
+                status: "draft",
+                body: `[First Name],
+
+Here's something most people get wrong about luck: they think it's random.
+
+It's not. I've spent 20 years watching the most successful people I know — founders, inventors, leaders who seem to attract insane opportunities out of thin air — and they all do the same thing. They just don't realize they're doing it.
+
+Luck is a pattern. And patterns can be engineered.
+
+John Hagel and I have been pulling this thread for a long time, coming at it from completely different directions. Him from the networks and strategy side. Me from the exponential organizations side. When we finally compared notes, we realized we'd been solving the same puzzle.
+
+The result is a book called Shaping Luck.
+
+I'm not going to oversell it. I'll just say this: if you've ever had one of those moments — you met someone at a random dinner, said yes to something that made no logical sense, and it changed everything — this book explains why that happened. And how to make it happen on purpose.
+
+You can pre-order it right now for $20. It goes to $40 at launch.
+→ [PRESALE LINK]
+
+One more thing.
+
+On April 1st, John and I are going live together for the first time. We've been building something behind the scenes that goes well beyond the book. I can't get into it yet — but I will say this: what we're revealing that day might be more important than the book itself.
+
+Register for the free session:
+→ [WEBINAR LINK]
+
+Book buyers get priority seating.
+
+More soon.
+
+— Salim`,
+                notes:
+                  "This is the big announcement. Should feel like a personal letter, not a blast. Book CTA is primary, webinar secondary. No app mention — just 'something behind the scenes.'",
+              },
+              {
+                num: 2,
+                type: "email",
+                day: "Mar 7 (Fri)",
+                subject: "The real reason I wrote this book",
+                purpose:
+                  "Personal story about why Salim wrote this book. Reinforce presale. Mention webinar again.",
+                ctaCold: ["book", "webinar"],
+                ctaWarm: ["book"],
+                status: "draft",
+                body: `[First Name],
+
+I need to tell you something personal.
+
+Years ago, I was at a dinner I almost skipped. Tired. Overbooked. Didn't want to be there. The person sitting next to me — total stranger — started talking about a problem she'd been stuck on. Within five minutes I realized it was exactly the problem I'd been trying to solve from a different angle. That conversation turned into a collaboration that changed both our trajectories.
+
+I used to call that luck. Now I'd call it inevitable — because I'd accidentally built the conditions that made it almost certain to happen. I just didn't have the language for it.
+
+Here's the thing, right? Every successful person I've ever worked with has a version of this story. "I met someone at a random event." "I said yes to something that made no sense." "I wasn't looking for it, but it found me."
+
+They all chalk it up to luck. But when you study it — really study it — it's not luck at all. It's a set of behaviors, environments, and network structures that make serendipity almost inevitable. The people who "get lucky" have built these systems. Most of them unconsciously.
+
+I wrote this book because I got tired of watching brilliant, hardworking people wait for their break instead of building toward it. Because the pattern is too consistent and too important to keep to myself.
+
+Shaping Luck is about making the unconscious conscious. Making the accidental deliberate. Making the lucky... systematic.
+
+$20 presale — goes to $40 at launch:
+→ [PRESALE LINK]
+
+P.S. — April 1st. John Hagel and me, live. I'll share more soon — but don't sleep on this one.
+→ [WEBINAR LINK]
+
+— Salim`,
+                notes:
+                  "Emotional anchor of the warm-up. Pure personal story. Salim's voice should feel reflective, not performative. Book CTA primary, webinar mention light and natural.",
+              },
+              {
+                num: 3,
+                type: "email",
+                day: "Mar 10 (Mon)",
+                subject: '"I wasn\'t looking for her — but there she was"',
+                purpose:
+                  "Share 2-3 real stories of serendipity from the community. Presale + webinar CTA.",
+                ctaCold: ["book", "webinar"],
+                ctaWarm: ["book"],
+                status: "draft",
+                body: `[First Name],
+
+I want to tell you about three things that happened recently. All real. None of them planned.
+
+One. A founder in São Paulo had been stuck on a distribution problem for six months. She had a three-minute conversation with a stranger — someone from a completely different industry, no obvious overlap — and that stranger had solved the exact same problem two years earlier. They're collaborating now.
+
+Two. Two people on a call — one in New York, one in Nairobi — discovered they'd been independently building tools for the same underserved community. Neither had heard of the other. Neither could have predicted the connection. Within a week they'd merged their roadmaps.
+
+Three. A retired executive described one of our sessions as "the most meaningful professional conversation I've had in five years." It lasted less time than making coffee.
+
+None of these were matchmade. Nobody picked who talked to whom. We just created a set of conditions — and then stood back.
+
+Serendipity did the rest.
+
+This is what the book is about. Not hoping for good things to happen. Not "manifesting." Building the actual architecture that makes unexpected, high-value connections almost inevitable. It's a design problem, not a divine blessing.
+
+Pre-order Shaping Luck — $20 (goes to $40 at launch):
+→ [PRESALE LINK]
+
+And register for April 1st — John Hagel and I are going live to show you how this works:
+→ [WEBINAR LINK]
+
+— Salim`,
+                notes:
+                  "Social proof is the highest-converting content type in warm-up sequences. Swap placeholder stories for real community examples if available. The three-story structure creates pattern recognition.",
+              },
+              {
+                num: 4,
+                type: "email",
+                day: "Mar 12 (Wed)",
+                subject: "I want to introduce you to someone",
+                purpose:
+                  "Introduce John as co-host. Build credibility. Strongest 'something bigger' tease yet.",
+                ctaCold: ["webinar", "book"],
+                ctaWarm: ["book"],
+                status: "draft",
+                body: `[First Name],
+
+There are a handful of people I've met in my career who made me rethink everything I thought I knew. John Hagel is one of them.
+
+John ran the Center for the Edge at Deloitte for over a decade. He wrote The Power of Pull. He's been studying networks, strategy, and the forces that create outsized impact for longer than most people have been thinking about this stuff.
+
+And here's what's wild — he'd been circling the exact same question I have for years:
+
+Why do some people consistently attract extraordinary opportunity while others, equally talented, don't?
+
+When we finally sat down and compared notes, it was one of those conversations where you realize you've been building the same house from opposite sides. Me from the exponential organizations angle. Him from the networks and narrative side. The frameworks fit together almost perfectly.
+
+That's how Shaping Luck was born.
+
+But the book is only part of it.
+
+John and I have been working on something together — something that takes these ideas and puts them into practice. Not another framework. Not another model. Something you can actually use. I'm not ready to reveal it yet, but I will say this: it's the thing I'm most excited about in my career right now.
+
+On April 1st, we're going live together for the first time to share what we've built.
+
+Register for the free session:
+→ [WEBINAR LINK]
+
+And if you haven't grabbed the book — $20 presale, goes to $40:
+→ [PRESALE LINK]
+
+— Salim`,
+                notes:
+                  "Three purposes: (1) elevate John's credibility, (2) double the authority, (3) strongest 'something bigger' tease yet. 'John and I have been working on something together' plants the seed without revealing the app.",
+              },
+              {
+                type: "milestone",
+                day: "Mar 14 (Fri)",
+                subject: null,
+                title: "Abundance Event Pre-Announce",
+                purpose:
+                  "Salim announces to ~200 person live audience. Book presale + webinar. Creates word-of-mouth buzz.",
+                status: "draft",
+                body: `TALKING POINTS — ~5 min segment, not a full talk.
+
+OPEN (drop it immediately — don't build up):
+"Okay, I want to share something with this room before anyone else hears about it. You're literally the first people I'm saying this to publicly."
+
+THE REFRAME:
+"Here's a question I've been obsessed with for 20 years: why do some people consistently attract insane opportunities while others — equally talented, equally hardworking — don't? We all know people like this, right? They seem to get lucky over and over again. And the standard explanation is... luck. Which is not an explanation. It's a shrug."
+
+THE BOOK:
+"John Hagel and I have written a book called Shaping Luck. The core thesis is simple: luck isn't random. It's a pattern. And patterns can be engineered. We've identified the conditions that make serendipity almost inevitable — and we've built a framework for making it repeatable. Not theoretical. Practical."
+
+THE PRESALE (keep it casual):
+"The book is available for pre-order right now — $20. It'll be $40 at launch. If this resonates with you, grab it today. I'll drop the link in [chat / on screen]."
+
+THE TEASE (this is the key moment):
+"But here's the thing — and this is the part I'm really excited about. The book is just the beginning. John and I have been building something that takes these ideas from theory to something you can actually use. I'm not going to reveal it here. But on April 1st, we're going live together for the first time to show it. If you've ever felt like the right connection or the right opportunity was just out of reach — you want to be in that room."
+
+THE CLOSE (turn 200 into recruiters):
+"April 1st. Free. Live. I'll send you all the link. And honestly? Tell the people who should be there. This is one of those things that gets exponentially better the more interesting people are in the room."`,
+                notes:
+                  "Keep to ~5 min max. 'You're the first people hearing this' creates insider status. 'Tell the people who should be there' activates word-of-mouth. Have QR code on screen for presale + webinar registration.",
+              },
+            ],
+          },
+          {
+            label: "Week 3: Build Urgency",
+            dateRange: "Mar 17–21",
+            freq: "medium",
+            items: [
+              {
+                num: 5,
+                type: "email",
+                day: "Mar 17 (Mon)",
+                subject: "We've been building something",
+                purpose:
+                  'Hint at the app. "We\'ve been building something that makes luck systematic." Still vague. Webinar is where they find out.',
+                ctaCold: ["webinar", "book"],
+                ctaWarm: ["book"],
+                status: "todo",
+                body: null,
+                notes:
+                  "First email that hints at the app — but framed as 'something we've been building,' not a product. Creates pull toward webinar.",
+              },
+              {
+                num: 6,
+                type: "email",
+                day: "Mar 19 (Wed)",
+                subject: "We're limiting the first wave to 600 people",
+                purpose:
+                  "Introduce scarcity for the webinar. Keep book CTA alive. Frame webinar as the only way in.",
+                ctaCold: ["webinar", "book", "urgency"],
+                ctaWarm: ["book", "urgency"],
+                status: "draft",
+                body: `[First Name],
+
+Quick update on April 1st.
+
+John Hagel and I are going live to reveal something we've been building behind the scenes. It's tied to the ideas in Shaping Luck — but it goes somewhere the book can't go on its own.
+
+We've decided to keep the first wave small. Very small. I'll explain why on the call, but for now — if you're interested, register sooner rather than later.
+
+Register for the free live session:
+→ [WEBINAR LINK]
+
+And if you haven't grabbed your copy of Shaping Luck yet — the $20 pre-sale price won't last forever. It goes to $40 at launch.
+
+→ [PRESALE LINK]
+
+— Salim`,
+                notes:
+                  "First scarcity play. '600 people' plants the founding member concept without revealing it. The 'I'll explain why on the call' creates a reason to show up.",
+              },
+              {
+                num: 7,
+                type: "email",
+                day: "Mar 21 (Fri)",
+                subject:
+                  "A quick story about a stranger and a three-minute call",
+                purpose:
+                  "Testimonial / Community Voice. Emotional proof. Make the webinar feel unmissable.",
+                ctaCold: ["webinar", "book"],
+                ctaWarm: ["book"],
+                status: "draft",
+                body: `[First Name],
+
+I want to tell you about something that happened during one of our early experiments.
+
+Two people — a founder in New York and a nonprofit leader in London — got matched for a three-minute call. No context. No introductions. Just a few questions and an open conversation.
+
+Within 90 seconds, they realized they were working on nearly identical problems from opposite ends of the spectrum. Within a week, they were collaborating. That partnership is still going.
+
+Neither of them was looking for the other. Neither of them could have predicted the connection. But the conditions were right — and serendipity did what it does.
+
+This is what Shaping Luck is about. And what we're revealing on April 1st takes it from a concept to something you can actually use.
+
+→ [WEBINAR LINK]
+
+— Salim`,
+                notes:
+                  "Pure storytelling email. Webinar CTA only — no book push. Use a real story if available.",
+              },
+            ],
+          },
+          {
+            label: "Week 4: Last Chance",
+            dateRange: "Mar 24",
+            freq: "fast",
+            items: [
+              {
+                num: 8,
+                type: "email",
+                day: "Mar 24 (Mon)",
+                subject: "Last call: $20 book price ends Friday",
+                purpose:
+                  "Close the book presale. Final push before webinar. Price goes to $40.",
+                ctaCold: ["book", "urgency"],
+                ctaWarm: ["book", "urgency"],
+                status: "draft",
+                body: `[First Name],
+
+Heads up — the pre-sale price for Shaping Luck ends this Friday.
+
+After that, the price goes to $40.
+
+If you've been thinking about it, now's the time. $20 gets you the book before anyone else — and before the price doubles.
+
+→ [PRESALE LINK]
+
+And a reminder: April 1st, John Hagel and I go live. If you haven't registered yet:
+
+→ [WEBINAR LINK]
+
+See you there.
+
+— Salim`,
+                notes:
+                  "Urgency email. Book price deadline is real and creates FOMO. Keep it short.",
+              },
+            ],
+          },
+        ],
+      };
+
+      // ============================================================
+      // DATA: TRACK B — John Non-Buyer (States 4 & 5)
+      // Voice: John | Timeline: Mar 17–24 (compressed) | 5 emails
+      // Exit: Buy → Track D or E. Buy + Register → Track E.
+      // ============================================================
+      const TRACK_B = {
+        id: "b",
+        label: "Track B — John Non-Buyer",
+        states: "States 4 & 5 (John Cold / John Warm)",
+        description:
+          "Anyone from John's LinkedIn who gave email but didn't buy. Compressed start — fewer warm-up emails, faster to urgency.",
+        voice: "John",
+        color: "#4a8fd4",
+        exitRule:
+          "Buy → Track D (if not registered) or Track E (if registered). Immediately suppress from this track on book purchase.",
+        warmNote:
+          "Same logic as Track A. John's list is compressed — fewer warm-up emails, faster to urgency.",
+        weeks: [
+          {
+            label: "Week 3: Introduction",
+            dateRange: "Mar 17–21",
+            freq: "medium",
+            items: [
+              {
+                num: 1,
+                type: "email",
+                day: "Mar 17",
+                subject: "Something I've been working on with Salim Ismail",
+                purpose:
+                  "First touch. Introduce book + webinar. Establish credibility immediately.",
+                ctaCold: ["book", "webinar"],
+                ctaWarm: ["book"],
+                status: "draft",
+                body: `[First Name],
+
+I want to share something with you that I'm genuinely excited about.
+
+For years, I've been studying a question that most people dismiss as unanswerable: why do certain people consistently attract extraordinary opportunity?
+
+It's not networking. It's not hustle. It's something far more subtle — and far more powerful.
+
+Salim Ismail and I have been collaborating on this question, and the result is a book called Shaping Luck. It lays out the mechanics of engineered serendipity — how to build the conditions that make unexpected, high-value connections almost inevitable.
+
+The book is available for pre-order right now at $20 (it'll be $40 at launch):
+→ [PRESALE LINK]
+
+And on April 1st, Salim and I are hosting a live session together. We'll be revealing something we've been building behind the scenes — something that goes well beyond the book. I believe it could change how you think about connection and opportunity.
+
+Register for the free live session:
+→ [WEBINAR LINK]
+
+Book buyers receive priority seating.
+
+With gratitude,
+John`,
+                notes:
+                  "John's list starts later (Week 3) so this first email does more heavy lifting — book intro + webinar + credibility all at once.",
+              },
+              {
+                num: 2,
+                type: "email",
+                day: "Mar 19",
+                subject:
+                  "The pattern behind the 'luckiest' people I've studied",
+                purpose:
+                  "Sell the book's core thesis. Intellectual hook. Book only.",
+                ctaCold: ["book"],
+                ctaWarm: ["book"],
+                status: "draft",
+                body: `[First Name],
+
+Over decades of advising organizations and leaders, I've noticed a consistent pattern among the most successful people I've encountered.
+
+They don't describe their biggest breakthroughs as the result of strategy or planning. They describe them as serendipity. A chance meeting. An unexpected introduction. A conversation that shouldn't have happened but did.
+
+But here's what's interesting: when you study these moments closely, they're not random at all. There's a set of conditions — behaviors, environments, and network structures — that make them far more likely.
+
+The people who "get lucky" have built these conditions, often unconsciously. Shaping Luck is about making the process conscious, deliberate, and repeatable.
+
+Pre-order for $20 before the price goes to $40:
+→ [PRESALE LINK]
+
+John`,
+                notes:
+                  "Pure book sell. John's intellectual framing gives it weight. No webinar mention — keeps variety.",
+              },
+              {
+                num: 3,
+                type: "email",
+                day: "Mar 21",
+                subject: "We tested something remarkable",
+                purpose:
+                  "Experiment story. Tease the app. Pull toward webinar.",
+                ctaCold: ["webinar"],
+                ctaWarm: [],
+                status: "draft",
+                body: `[First Name],
+
+Recently, Salim and I ran an experiment.
+
+We brought together a small group of people and put them through a carefully designed process. Three minutes. A handful of questions. No scripts, no agendas, no networking pretense.
+
+The results exceeded our expectations.
+
+Strangers found deep, unexpected common ground. Conversations that lasted three minutes led to collaborations that are still unfolding. Participants described it as among the most meaningful professional interactions they'd had in years.
+
+We didn't orchestrate the outcomes. We created the conditions for serendipity to emerge — and it did, consistently and reliably.
+
+This experiment is at the heart of what Salim and I are revealing on April 1st.
+
+Register for the free live session:
+→ [WEBINAR LINK]
+
+John`,
+                notes:
+                  "Same 'experiment' framing as Salim's version. John's version emphasizes rigor and reliability. Skip this email for Warm contacts (they're already registered).",
+              },
+            ],
+          },
+          {
+            label: "Week 4: Final Push",
+            dateRange: "Mar 23–24",
+            freq: "fast",
+            items: [
+              {
+                num: 4,
+                type: "email",
+                day: "Mar 23",
+                subject: "Why I'm limiting this to 600 people",
+                purpose: "Scarcity + webinar push. Create FOMO. Book reminder.",
+                ctaCold: ["webinar", "book", "urgency"],
+                ctaWarm: ["book", "urgency"],
+                status: "draft",
+                body: `[First Name],
+
+A brief note about April 1st.
+
+Salim and I have decided to keep the first wave of what we're building intentionally small. I'll explain the reasoning during our live session, but the short version is: what we're creating works best with a focused, committed group.
+
+If you're considering joining us, I'd encourage you to register sooner rather than later.
+
+→ [WEBINAR LINK]
+
+And if you haven't pre-ordered Shaping Luck yet — the $20 price is temporary. It goes to $40 at launch.
+
+→ [PRESALE LINK]
+
+John`,
+                notes:
+                  "John's scarcity email is more understated than Salim's. 'Brief note' not a countdown. Same effect, different energy.",
+              },
+              {
+                num: 5,
+                type: "email",
+                day: "Mar 24",
+                subject: "Book pre-sale closes Friday — last chance at $20",
+                purpose: "Close book presale. Final price urgency.",
+                ctaCold: ["book", "urgency"],
+                ctaWarm: ["book", "urgency"],
+                status: "draft",
+                body: `[First Name],
+
+The pre-order price for Shaping Luck ends this Friday. After that, it goes to $40.
+
+If you've been considering it, now is the time:
+→ [PRESALE LINK]
+
+And a reminder — on April 1st, Salim and I go live. If you haven't registered:
+→ [WEBINAR LINK]
+
+John`,
+                notes:
+                  "Short, direct. John doesn't oversell. Let the deadline do the work.",
+              },
+            ],
+          },
+        ],
+      };
+
+      // ============================================================
+      // DATA: TRACK C — Salim Buyer, Not Registered (State 3)
+      // Voice: Salim | Timeline: Starts on purchase | 6 emails
+      // Exit: Register → Track E.
+      // ============================================================
+      const TRACK_C = {
+        id: "c",
+        label: "Track C — Salim Buyer, Not Registered",
+        states: "State 3 (Salim Buyer)",
+        description:
+          "Book buyer from Salim's list who hasn't registered for the webinar. Every email nudges toward webinar registration. No book CTA needed — they already bought.",
+        voice: "Salim",
+        color: "#c4a44e",
+        exitRule: "On webinar registration, move to Track E (VIP).",
+        warmNote: null,
+        weeks: [
+          {
+            label: "Week 1: Confirmation & Warmth",
+            dateRange: "On purchase",
+            freq: "slow",
+            items: [
+              {
+                num: 1,
+                type: "email",
+                day: "Immediately",
+                subject: "You're in — here's what happens next",
+                purpose:
+                  "Confirm purchase. Build excitement. Plant the webinar seed.",
+                ctaCold: ["webinar"],
+                status: "draft",
+                body: `[First Name],
+
+Thank you for grabbing your copy of Shaping Luck. It means a lot that you're one of the first people in the world to get this.
+
+The book ships later this year — I'll keep you posted on the timeline. But in the meantime, I want to make sure you know about something.
+
+On April 1st, John Hagel and I are going live together. It's the first time we've done something like this, and we're going to be sharing some things we've been working on behind the scenes.
+
+I can't say much yet. But I can say this: if the ideas in Shaping Luck excite you, what we're revealing on April 1st is going to take it somewhere you didn't expect.
+
+As a book buyer, you have a reserved seat. I'll send you the link closer to the date.
+
+More soon.
+
+— Salim`,
+                notes:
+                  "Trigger: immediately on purchase. This is the most-opened email in any sequence. Keep it warm. Don't oversell.",
+              },
+            ],
+          },
+          {
+            label: "Week 2: Deepen the Relationship",
+            dateRange: "~Day 7",
+            freq: "slow",
+            items: [
+              {
+                num: 2,
+                type: "email",
+                day: "~Day 7",
+                subject: "Why I wrote this book (the real reason)",
+                purpose:
+                  "Personal story. Deepen connection. Soft webinar reminder.",
+                ctaCold: ["webinar"],
+                status: "draft",
+                body: `[First Name],
+
+I've been thinking about luck my entire career.
+
+Not the lottery kind. The kind where you meet someone at a random dinner and three years later they change your life. The kind where you say yes to something that makes no sense and it becomes the most important decision you ever made.
+
+I kept seeing the same pattern in the most successful people I worked with. They weren't smarter or more talented. They were just better at putting themselves in the path of unexpected opportunity — and recognizing it when it showed up.
+
+That's what Shaping Luck is really about. Not hoping for good things. Building the conditions that make them almost inevitable.
+
+John Hagel has been obsessing over this same question from a different angle for decades. When we started comparing notes, we realized we had something worth sharing.
+
+That's also why April 1st matters. It's not just a book talk.
+
+I'll leave it at that for now.
+
+— Salim`,
+                notes:
+                  "Goal is emotional investment. They bought a book — now make them feel like they're part of something. Webinar mention is natural, not forced.",
+              },
+            ],
+          },
+          {
+            label: "Week 3: Build Curiosity",
+            dateRange: "~Day 14–17",
+            freq: "medium",
+            items: [
+              {
+                num: 3,
+                type: "email",
+                day: "~Day 14",
+                subject: "The experiment that started all of this",
+                purpose:
+                  "Tease the app without naming it. Create intrigue for webinar.",
+                ctaCold: ["webinar"],
+                status: "draft",
+                body: `[First Name],
+
+A few months ago, we ran an experiment.
+
+We took a group of people — mostly strangers — and put them through a very specific process. Three minutes. A handful of questions. No agenda, no networking pitch, no LinkedIn small talk.
+
+What happened surprised even us.
+
+People who had nothing obvious in common found deep, unexpected connections. Partnerships formed. Ideas sparked. One conversation led to a collaboration that's still going.
+
+We didn't plan any of that. We just created the right conditions — and serendipity did the rest.
+
+That experiment became a big part of what John and I are revealing on April 1st.
+
+If you've ever felt like the best opportunities in your life came from unexpected places — this is going to resonate.
+
+Your seat is reserved. I'll send you the link soon.
+
+— Salim`,
+                notes:
+                  "This is where the app gets hinted at for the first time — but framed as an 'experiment' and 'process,' not a product. Creates pull toward the webinar.",
+              },
+              {
+                num: 4,
+                type: "email",
+                day: "~Day 17",
+                subject: "A quick note about April 1st",
+                purpose:
+                  "Logistics + light urgency. Drop the webinar link. First real push.",
+                ctaCold: ["webinar"],
+                status: "draft",
+                body: `[First Name],
+
+Quick one.
+
+April 1st is coming up fast. John and I are doing our live session and I want to make sure you're there.
+
+Here's your link: [WEBINAR LINK]
+
+I'll be honest — I'm a little nervous about this one. We're showing something we've been building and it's the first time anyone outside our inner circle will see it.
+
+But that's exactly why I want you in the room. You got the book early. You should see this early too.
+
+Save the date. Add it to your calendar. I'll send a reminder the day before.
+
+— Salim`,
+                notes:
+                  "First time sharing the actual webinar link. Keep it short. The 'nervous' angle is humanizing and builds intrigue.",
+              },
+            ],
+          },
+          {
+            label: "Week 4: Final Push",
+            dateRange: "~Day 21–23",
+            freq: "fast",
+            items: [
+              {
+                num: 5,
+                type: "email",
+                day: "~Day 21",
+                subject: "What to expect on April 1st",
+                purpose:
+                  "Set expectations. Build anticipation. Handle logistics.",
+                ctaCold: ["webinar"],
+                status: "draft",
+                body: `[First Name],
+
+We're almost there. On April 1st,April 1st — John Hagel and I go live.
+
+Here's what you can expect:
+
+We'll talk about the core ideas behind Shaping Luck — the real mechanics of how people engineer serendipity in their lives and careers.
+
+We'll introduce something we've been working on that takes these ideas from theory to practice. This is the part I've been hinting at. You'll see it for the first time on April 1st.
+
+And we'll share some stories from people who've already experienced what this looks like firsthand.
+
+There will also be something special for the people in the room — but I'll save that for the live session.
+
+Here's your link again: [WEBINAR LINK]
+
+See you April 1st.
+
+— Salim`,
+                notes:
+                  "This is the 'agenda without giving away the goods' email. Confirms what they'll get. Teases a special offer without naming it.",
+              },
+              {
+                num: 6,
+                type: "email",
+                day: "~Day 23",
+                subject: "Real people. Real luck. Real stories.",
+                purpose: "Social proof. Make the webinar feel unmissable.",
+                ctaCold: ["webinar"],
+                status: "draft",
+                body: `[First Name],
+
+I want to share something with you before April 1st.
+
+Over the past few months, we've been quietly testing the ideas in Shaping Luck with a small group of people. Here's what happened:
+
+Two people who'd never met discovered they were working on nearly identical projects — in completely different industries. They're now collaborating.
+
+A founder who was stuck on a problem for months had a three-minute conversation that unlocked the answer.
+
+Someone described it as "the most valuable call I've had all year" — and it lasted less time than making coffee.
+
+None of this was engineered. None of it was matchmade. We just created the conditions and let serendipity do what it does.
+
+On April 1st, you'll see exactly how.
+
+[WEBINAR LINK]
+
+— Salim`,
+                notes:
+                  "Social proof is the highest-converting content type at this stage. Use real examples if you have them. Anonymize if needed.",
+              },
+            ],
+          },
+        ],
+      };
+
+      // ============================================================
+      // DATA: TRACK D — John Buyer, Not Registered (State 3 mirror)
+      // Voice: John | Timeline: Starts on purchase (compressed) | 4 emails
+      // Exit: Register → Track E.
+      // ============================================================
+      const TRACK_D = {
+        id: "d",
+        label: "Track D — John Buyer, Not Registered",
+        states: "State 3 equivalent (John Buyer)",
+        description:
+          "Book buyer from John's LinkedIn who hasn't registered for the webinar. Compressed schedule — John's list activates Week 3.",
+        voice: "John",
+        color: "#4a8fd4",
+        exitRule: "On webinar registration, move to Track E (VIP).",
+        warmNote: null,
+        weeks: [
+          {
+            label: "Confirmation",
+            dateRange: "On purchase",
+            freq: "slow",
+            items: [
+              {
+                num: 1,
+                type: "email",
+                day: "Immediately",
+                subject: "Thank you — and mark your calendar",
+                purpose:
+                  "Confirm purchase. Build excitement. Plant the webinar seed.",
+                ctaCold: ["webinar"],
+                status: "draft",
+                body: `[First Name],
+
+Thank you for pre-ordering Shaping Luck. I'm genuinely grateful you're on this journey with us.
+
+This book represents years of research and thinking about a question that's fascinated me for a long time — why do some people consistently find themselves at the center of extraordinary opportunity?
+
+The answer isn't what most people think. And it has profound implications for how we build our careers, our businesses, and our lives.
+
+I want to share something with you. On April 1st, Salim Ismail and I are hosting a live session together. We've been collaborating on something beyond the book — something I believe could change how you think about connection and opportunity.
+
+As a book buyer, you'll have a reserved seat. I'll share details soon.
+
+With gratitude,
+John`,
+                notes:
+                  "John's voice is more measured and intellectual. Same structure as Salim's but with his cadence.",
+              },
+            ],
+          },
+          {
+            label: "Deepen & Build Curiosity",
+            dateRange: "~Day 7–17",
+            freq: "medium",
+            items: [
+              {
+                num: 2,
+                type: "email",
+                day: "~Day 7",
+                subject: "The question I keep coming back to",
+                purpose:
+                  "Personal story. Deepen connection. Soft webinar reminder.",
+                ctaCold: ["webinar"],
+                status: "draft",
+                body: `[First Name],
+
+Throughout my career, I've studied networks, strategy, and the forces that shape how people create impact.
+
+But there's one question I keep returning to: why do certain people attract disproportionate opportunity?
+
+It's not networking. It's not hustle. It's something more subtle — a set of conditions that make unexpected, high-value connections almost inevitable.
+
+Salim and I discovered we'd been circling the same insight from different directions for decades. When we finally sat down and compared notes, the book practically wrote itself.
+
+But what came after the book is what truly excites me. That's what April 1st is about.
+
+I'll share more soon.
+
+John`,
+                notes:
+                  "John is the intellectual anchor. His emails should feel like a letter from a trusted advisor, not a pitch.",
+              },
+              {
+                num: 3,
+                type: "email",
+                day: "~Day 14",
+                subject:
+                  "We tested something — and the results were remarkable",
+                purpose:
+                  "Tease the app without naming it. Create intrigue for webinar.",
+                ctaCold: ["webinar"],
+                status: "draft",
+                body: `[First Name],
+
+I want to tell you about something we tried recently.
+
+We brought together a small group of people and put them through a very simple process. Three minutes. A handful of carefully designed questions. No scripts, no agendas.
+
+The results were remarkable.
+
+Strangers found common ground in unexpected places. Conversations that lasted three minutes led to collaborations that are still unfolding. People described it as one of the most meaningful professional interactions they'd had in years.
+
+We didn't orchestrate the outcomes. We just created the conditions for serendipity to emerge — and it did, consistently.
+
+This experiment is at the heart of what Salim and I are revealing on April 1st.
+
+If the ideas in Shaping Luck resonate with you, what we're showing will take them from theory to something tangible.
+
+More to come.
+
+John`,
+                notes:
+                  "Same 'experiment' framing as Salim's version. John's version emphasizes the intellectual rigor and results.",
+              },
+              {
+                num: 4,
+                type: "email",
+                day: "~Day 17",
+                subject: "April 1st — your link is ready",
+                purpose: "Logistics + light urgency. Drop the webinar link.",
+                ctaCold: ["webinar"],
+                status: "draft",
+                body: `[First Name],
+
+A quick practical note.
+
+On April 1st, Salim and I are going live together. I'd like you to be there.
+
+Here's your reserved link: [WEBINAR LINK]
+
+We'll be sharing something for the first time that we've been developing quietly over the past several months. It goes well beyond the book — into territory I think you'll find both surprising and immediately applicable.
+
+I hope you'll join us.
+
+John`,
+                notes:
+                  "John is more understated. No 'nervous' angle — he's the calm, credible voice.",
+              },
+            ],
+          },
+        ],
+      };
+
+      // ============================================================
+      // DATA: TRACK E — VIP / Buyer + Registered (State 6)
+      // Voice: Matches original source | Lightest touch
+      // Exit: None — they're fully converted.
+      // ============================================================
+      const TRACK_E = {
+        id: "e",
+        label: "Track E — VIP (Buyer + Registered)",
+        states: "State 6 (VIP)",
+        description:
+          "Anyone who has both bought the book AND registered for the webinar. Lightest touch — they've done everything we asked. Just make sure they show up. Most likely $400 founding member converts.",
+        voice: "Matches original source (Salim or John)",
+        color: "#9b3ad4",
+        exitRule:
+          "None — they're fully converted. Enters Track F countdown at Mar 30.",
+        items: [
+          {
+            num: 1,
+            type: "email",
+            day: "On entry (if > 3 days before webinar)",
+            subject: "Something special for the people in the room",
+            purpose:
+              "Build anticipation. Tease exclusive offer. Make them feel like insiders.",
+            status: "todo",
+            body: null,
+            notes:
+              "Only send if they reach VIP status more than 3 days before the webinar. Otherwise, merge directly into Track F countdown. The 'something special' is the $400 founding member offer — never named in email.",
+          },
+          {
+            num: 2,
+            type: "email",
+            day: "~3 days before webinar",
+            subject: "[Merges into Track F countdown]",
+            purpose:
+              "At this point, VIPs join the Track F countdown sequence with everyone else who's registered.",
+            status: "todo",
+            body: null,
+            notes:
+              "No separate email needed — they enter the Track F countdown with everyone else registered.",
+          },
+        ],
+      };
+
+      // ============================================================
+      // DATA: TRACK F — Webinar Countdown (Everyone Registered)
+      // Voice: Salim (primary) | Timeline: Mar 30 – Apr 1
+      // Stacks ON TOP of other tracks — additional sends.
+      // ============================================================
+      const TRACK_F = {
+        id: "f",
+        label: "Track F — Webinar Countdown",
+        states: "Everyone with webinar:registered = true",
+        description:
+          "ALL registered attendees regardless of source or buy status. These are ADDITIONAL sends that stack on top of other tracks, not replacements. Non-buyers also get a P.S. with book CTA.",
+        voice: "Salim (primary)",
+        color: "#d4603a",
+        exitRule: "Leads into Track G (Post-Webinar) after Apr 2.",
+        items: [
+          {
+            num: 1,
+            type: "email",
+            day: "Mar 30 (Mon)",
+            subject:
+              "What to expect on April 1st (and why you should be there)",
+            purpose: "Agenda tease. Handle 'is this worth my time?' objection.",
+            status: "draft",
+            body: `[First Name],
+
+On April 1st,John Hagel and I are going live. Here's what you can expect.
+
+We'll walk through the core ideas behind Shaping Luck — the real mechanics of how people engineer serendipity in their lives and careers.
+
+We'll reveal something we've been building that takes these ideas from theory to practice. This is the first time anyone outside our inner circle will see it.
+
+We'll share real stories from people who've already experienced this firsthand.
+
+And there will be something available exclusively to the people in the room — something I haven't mentioned in any of these emails. You'll have to be there to find out.
+
+This is free. It's live. And it's going to be worth your time.
+
+→ [WEBINAR LINK]
+
+— Salim`,
+            notes:
+              "For non-buyers: add P.S. → 'Last chance to grab the book at $20 before the session.' The 'something exclusive' = $400 founding member offer.",
+          },
+          {
+            num: 2,
+            type: "email",
+            day: "Mar 31 (Tue)",
+            subject: "Tomorrow. Seriously — don't miss this.",
+            purpose: "Short. Punchy. Pure nudge.",
+            status: "draft",
+            body: `[First Name],
+
+Tomorrow's the day.
+
+April 1st. Salim Ismail + John Hagel. Live.
+
+We're showing something for the first time. There's an exclusive offer for the people in the room. And honestly — I think this might be the most important thing I've put out there in years.
+
+If you only make one event this month, make it this one.
+
+→ [WEBINAR LINK]
+
+— Salim`,
+            notes:
+              "Shortest email in the countdown. Don't overthink it. It's a nudge, not a sell. For non-buyers add P.S. with book link.",
+          },
+          {
+            num: 3,
+            type: "email",
+            day: "Apr 1 (AM)",
+            subject: "We're live in a few hours",
+            purpose: "Day-of reminder. Send 3-4 hours before.",
+            status: "draft",
+            body: `[First Name],
+
+In a few hours, John and I go live.
+
+This is it. The thing I've been hinting at. The reveal.
+
+Join us:
+→ [WEBINAR LINK]
+
+See you soon.
+
+— Salim`,
+            notes:
+              "Send 3-4 hours before the webinar. Some ESPs support timezone-based sending — use that if available.",
+          },
+        ],
+      };
+
+      // ============================================================
+      // DATA: TRACK G — Post-Webinar (Segmented by engagement level)
+      // Voice: Salim (primary) | Timeline: Apr 3 – Apr 14
+      // Entry: Entire list — different emails per segment.
+      // ============================================================
+      const TRACK_G = {
+        id: "g",
+        label: "Track G — Post-Webinar",
+        states: "Entire list — segmented by engagement",
+        description:
+          "Post-webinar follow-up segmented into 3 audiences: (1) Attendees who didn't buy $400, (2) Registered but didn't attend, (3) Cold contacts who never bought or registered. Each gets tailored messaging. Cold contacts get a replay + last-chance book offer, then move to evergreen nurture.",
+        voice: "Salim (primary)",
+        color: "#3ad47a",
+        exitRule: "Founding member close → Evergreen nurture for unconverted.",
+        items: [
+          // --- SEGMENT 1: Attendees who didn't buy $400 ---
+          {
+            num: 1,
+            type: "email",
+            day: "Apr 3 (Fri)",
+            subject: "Thank you — and about that offer...",
+            audience: "Attendees who didn't buy $400",
+            purpose:
+              "Replay key moment. Remind founding member offer. Build urgency. They saw the pitch — just need a nudge.",
+            status: "todo",
+            body: null,
+            notes:
+              "Segment: attended webinar AND did NOT purchase $400 founding membership. These are the warmest unconverted leads. Remind them of the key moment and X/600 spots remaining.",
+          },
+          // --- SEGMENT 2: Registered but didn't attend ---
+          {
+            num: 2,
+            type: "email",
+            day: "Apr 3 (Fri)",
+            subject: "You missed something big — here's the replay.",
+            audience: "Registered, didn't attend",
+            purpose:
+              "They signed up but didn't show. Give them the replay + founding member pitch. They already had intent.",
+            status: "todo",
+            body: null,
+            notes:
+              "Segment: webinar:registered AND did not attend. Different from cold contacts — these people had intent. Replay link is primary CTA. If non-buyer, add book P.S.",
+          },
+          // --- SEGMENT 3: Cold contacts (never bought, never registered) ---
+          {
+            num: 3,
+            type: "email",
+            day: "Apr 3 (Fri)",
+            subject: "Something happened this week you should know about",
+            audience: "Cold contacts (never acted)",
+            purpose:
+              "They never bought or registered. Tell them what happened — social proof from the live event. Replay link + book offer. Different tone: not 'you missed it' but 'here's what happened.'",
+            status: "todo",
+            body: null,
+            notes:
+              "Segment: book:non-buyer AND webinar:not-registered. These people have been getting Track A/B emails for weeks with no action. This is a fresh angle — event recap as social proof. Include replay link + $20 book offer.",
+          },
+          // --- EVERYONE: Final founding member close ---
+          {
+            num: 4,
+            type: "email",
+            day: "Apr 6 (Mon)",
+            subject: "Doors closing tonight.",
+            audience: "Everyone who hasn't bought $400",
+            purpose:
+              "Final founding member close. X/600 spots taken. This price won't come back.",
+            status: "todo",
+            body: null,
+            notes:
+              "Segment: everyone who has NOT purchased $400 founding membership. Real scarcity — include actual spots taken. For cold contacts who still haven't bought the book: this email also includes a 'book is now $40' note or a final $20 grace period.",
+          },
+          // --- COLD CONTACTS: Last-chance book offer ---
+          {
+            num: 5,
+            type: "email",
+            day: "Apr 9 (Thu)",
+            subject: "The book is still here — but the price is changing",
+            audience: "Cold contacts (still no book purchase)",
+            purpose:
+              "Last-chance book push for cold contacts. $20 grace period ending or already $40. This is the final nudge before evergreen.",
+            status: "todo",
+            body: null,
+            notes:
+              "Segment: book:non-buyer only. This is their last specific email before moving to evergreen nurture. Keep it personal — 'I get it, the timing may not have been right. The book is still available.'",
+          },
+          // --- COLD CONTACTS: Graceful transition to evergreen ---
+          {
+            num: 6,
+            type: "email",
+            day: "Apr 14 (Tue)",
+            subject: "One thing before I go quiet",
+            audience: "Cold contacts → Evergreen nurture",
+            purpose:
+              "Graceful close of the launch sequence. Transition to 1x/month value content. Keep the door open without being pushy.",
+            status: "todo",
+            body: null,
+            notes:
+              "Segment: book:non-buyer AND webinar:not-registered AND did not buy $400. This is the bridge to evergreen. Tone: 'I've been in your inbox a lot. I'm going to ease off. But I'll keep sharing ideas about luck, serendipity, and what we're building. If the timing is ever right — you know where to find us.' Sets up Phase 2 re-engagement.",
+          },
+        ],
+      };
+
+      // ============================================================
+      // DATA: TRACK H — Evergreen Nurture (Long-term)
+      // Voice: Salim | Cadence: 1-2x / month | Ongoing
+      // Entry: Anyone who completed Track G without converting.
+      // ============================================================
+      const TRACK_H = {
+        id: "h",
+        label: "Track H — Evergreen Nurture",
+        states: "Unconverted contacts from all tracks",
+        description:
+          "Slow, value-first drip for people who didn't convert during Phase 1. Keeps the relationship warm for Phase 2 public launch. Not a sales sequence — it's thought leadership. Luck framework ideas, community stories, Salim/John insights. 1-2x per month.",
+        voice: "Salim (primary)",
+        color: "#5a586a",
+        exitRule:
+          "Re-engage in Phase 2 public launch (higher price point). Any future purchase moves them to active tracks.",
+        items: [
+          {
+            num: 1,
+            type: "email",
+            day: "~Apr 14 (2 weeks after G#6)",
+            subject: "A luck experiment you can try this week",
+            audience: "All unconverted",
+            purpose:
+              "Pure value. Actionable framework from the book. No sell — just give them something useful. Rebuilds trust after the launch push.",
+            status: "todo",
+            body: null,
+            notes:
+              "This is the first 'breathing room' email. No CTA, no urgency. Just share a genuinely useful idea from the book. If they engage (open/click), they're still warm for Phase 2.",
+          },
+          {
+            num: 2,
+            type: "email",
+            day: "~Apr 28 (2 weeks later)",
+            subject: "What our founding members discovered in week 1",
+            audience: "All unconverted",
+            purpose:
+              "Social proof from the founding member cohort. Share a real story. Creates FOMO without being pushy. Plants seeds for Phase 2.",
+            status: "todo",
+            body: null,
+            notes:
+              "Share a genuine story from the founding member experience. This serves double duty: keeps cold contacts engaged AND validates the product for Phase 2 marketing. Subtle: 'We're planning to open this up more broadly soon.'",
+          },
+          {
+            num: 3,
+            type: "email",
+            day: "~Monthly ongoing",
+            subject: "[Rotating: insights, stories, framework pieces]",
+            audience: "All unconverted",
+            purpose:
+              "Ongoing value drip. Continue building the relationship. Prep for Phase 2 public launch at $500-600.",
+            status: "todo",
+            body: null,
+            notes:
+              "Content themes: luck framework concepts, community stories, Salim/John thought pieces, research findings. Occasionally mention the book ($40 price). When Phase 2 launches, these people get first notice. Track opens/clicks to identify re-engagement candidates.",
+          },
+        ],
+      };
+
+      // ============================================================
+      // DATA: DEV TRACK
+      // ============================================================
+      const DEV_TRACK = [
+        {
+          week: "Week 1–2",
+          dateRange: "Mar 5–14",
+          items: [
+            "Landing page live (book presale + webinar registration)",
+            "Payment processing set up ($20 book)",
+            "Webinar platform booked (Zoom or similar)",
+            "ESP setup: tags (source:salim/john, book:buyer/non-buyer, webinar:registered/not-registered)",
+            "ESP setup: Track A automation (Salim non-buyer sequence)",
+          ],
+        },
+        {
+          week: "Week 2–3",
+          dateRange: "Mar 10–21",
+          items: [
+            "App: Add 7 onboarding questions",
+            "App: New branding / UI refresh",
+            "App: Login system",
+            "App: Decouple from OpenEXO",
+            "Salim Avatar creation (video capture + AI training)",
+            "ESP setup: Track C/D automation (buyer sequences)",
+            "ESP setup: suppression rules (buy → move track, register → update CTA)",
+          ],
+        },
+        {
+          week: "Week 3–4",
+          dateRange: "Mar 17–28",
+          items: [
+            "Draft DM / InMail template for John's LinkedIn outreach",
+            "John reviews & personalizes DM message",
+            "John DMs first-degree connections (manual, not automated)",
+            "LinkedIn ad targeting John's followers (matched audience, $500-1K budget)",
+            "ESP setup: Track B automation (John non-buyer sequence)",
+            "ESP setup: Track F countdown automation (Mar 30 – Apr 1)",
+            "Webinar slide deck / script finalized",
+            "Demo environment ready for live walkthrough",
+            "Payment flow for $400 founding member offer",
+            "$400 checkout page with refund policy copy",
+          ],
+        },
+        {
+          week: "Post-webinar",
+          dateRange: "Apr 3+",
+          items: [
+            "ESP setup: Track G post-webinar automation",
+            "First luck session within 1 week of close",
+            "Onboard founding members into app",
+            "Schedule Meaning of Life sessions",
+            "Revenue assessment + Phase 2 planning",
+          ],
+        },
+      ];
+
+      // ============================================================
+      // STATE
+      // ============================================================
+      let currentMainTab = "overview";
+      let currentVoice = "salim";
+      let openCards = new Set();
+      let openSections = new Set(["e"]); // Track E open by default in shared tab
+
+      // ============================================================
+      // TAB SWITCHING
+      // ============================================================
+      function switchMainTab(tab) {
+        currentMainTab = tab;
+        openCards.clear();
+        document.querySelectorAll(".main-tab").forEach((btn) => {
+          btn.className = "main-tab";
+        });
+        const tabs = document.querySelectorAll(".main-tab");
+        const tabMap = {
+          overview: [0, "active"],
+          nonbuyer: [1, "active"],
+          buyer: [2, "active"],
+          shared: [3, "active-purple"],
+          dev: [4, "active-blue"],
+          budget: [5, "active-green"],
+          resources: [6, "active-purple"],
+        };
+        const [idx, cls] = tabMap[tab];
+        tabs[idx].classList.add(cls);
+        render();
+      }
+
+      function switchVoice(voice) {
+        currentVoice = voice;
+        openCards.clear();
+        render();
+      }
+
+      function toggleCard(id) {
+        if (openCards.has(id)) openCards.delete(id);
+        else openCards.add(id);
+        render();
+      }
+
+      function toggleSection(id) {
+        if (openSections.has(id)) openSections.delete(id);
+        else openSections.add(id);
+        render();
+      }
+
+      // ============================================================
+      // RENDER
+      // ============================================================
+      function render() {
+        const el = document.getElementById("tabContent");
+        if (currentMainTab === "overview") el.innerHTML = renderOverview();
+        else if (currentMainTab === "nonbuyer") el.innerHTML = renderNonBuyer();
+        else if (currentMainTab === "buyer") el.innerHTML = renderBuyer();
+        else if (currentMainTab === "shared") el.innerHTML = renderShared();
+        else if (currentMainTab === "dev") el.innerHTML = renderDev();
+        else if (currentMainTab === "budget") el.innerHTML = renderBudget();
+        else if (currentMainTab === "resources")
+          el.innerHTML = renderResources();
+      }
+
+      // ---- OVERVIEW ----
+      function renderOverview() {
+        let html = "";
+
+        // Flow Diagram
+        html += `<div class="overview-section">
+          <div class="overview-section-title">System Flow</div>
+          <pre class="flow-pre">                         ENTRY POINTS
+                    ┌──────────┴──────────┐
+              Salim's List          John's LinkedIn
+             (OpenEXO email)       (DMs → Landing Page)
+                    │                      │
+                    ▼                      ▼
+            ┌──────────────┐      ┌──────────────┐
+            │  Landing Page │      │  Landing Page │
+            │  Buy │ Register     │  Buy │ Register
+            └──┬───┴───┬───┘      └──┬───┴───┬───┘
+               │       │             │       │
+          ┌────┘   ┌───┘         ┌───┘   ┌───┘
+          ▼        ▼             ▼        ▼
+       BOUGHT   REGISTERED    BOUGHT   REGISTERED
+       (only)    (only)       (only)    (only)
+          │        │             │        │
+          ▼        ▼             ▼        ▼
+       Track C  Track A*      Track D  Track B*
+
+       ───── If they do BOTH ─────────────
+                      │
+                      ▼
+                   Track E
+                  (VIP State)
+                      │
+          ┌───────────┴───────────┐
+          ▼                       ▼
+    Track F: Countdown      Track G: Post-Webinar
+    (Everyone registered)   (Segmented, after Apr 2)
+                                    │
+                                    ▼
+                            Track H: Evergreen
+                            (Unconverted, ongoing)</pre>
+          <div style="font-size:11px;color:var(--text-dim);margin-top:8px;line-height:1.6;">
+            * Track A and B also serve people who did NEITHER (just on the list).<br>
+            Webinar registration status modifies the CTA within the same track.
+          </div>
+        </div>`;
+
+        // 6 User States
+        html += `<div class="overview-section">
+          <div class="overview-section-title">6 User States</div>
+          <div style="overflow-x:auto;">
+          <table class="state-table">
+            <tr>
+              <th>#</th>
+              <th>State</th>
+              <th>Source</th>
+              <th>Bought?</th>
+              <th>Registered?</th>
+              <th>Goal</th>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td style="color:var(--white);font-weight:600;">Salim Cold</td>
+              <td>Salim's list</td>
+              <td style="color:var(--red);">No</td>
+              <td style="color:var(--red);">No</td>
+              <td>Buy + Register</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td style="color:var(--white);font-weight:600;">Salim Warm</td>
+              <td>Salim's list</td>
+              <td style="color:var(--red);">No</td>
+              <td style="color:var(--green);">Yes</td>
+              <td>Buy the book</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td style="color:var(--white);font-weight:600;">Salim Buyer</td>
+              <td>Salim's list</td>
+              <td style="color:var(--green);">Yes</td>
+              <td style="color:var(--red);">No</td>
+              <td>Register for webinar</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td style="color:var(--white);font-weight:600;">John Cold</td>
+              <td>John's LinkedIn</td>
+              <td style="color:var(--red);">No</td>
+              <td style="color:var(--red);">No</td>
+              <td>Buy + Register</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td style="color:var(--white);font-weight:600;">John Warm</td>
+              <td>John's LinkedIn</td>
+              <td style="color:var(--red);">No</td>
+              <td style="color:var(--green);">Yes</td>
+              <td>Buy the book</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td style="color:var(--purple);font-weight:600;">VIP</td>
+              <td>Either</td>
+              <td style="color:var(--green);">Yes</td>
+              <td style="color:var(--green);">Yes</td>
+              <td>Show up, get excited</td>
+            </tr>
+          </table>
+          </div>
+        </div>`;
+
+        // 7 Tracks Quick Reference
+        html += `<div class="overview-section">
+          <div class="overview-section-title">8 Email Tracks</div>`;
+
+        const trackRefs = [
+          {
+            color: "#c4a44e",
+            label: "Track A — Salim Non-Buyer",
+            meta: "8 emails · Mar 5–24 · States 1 & 2",
+          },
+          {
+            color: "#4a8fd4",
+            label: "Track B — John Non-Buyer",
+            meta: "5 emails · Mar 17–24 · States 4 & 5",
+          },
+          {
+            color: "#c4a44e",
+            label: "Track C — Salim Buyer, Not Registered",
+            meta: "6 emails · On purchase → webinar · State 3",
+          },
+          {
+            color: "#4a8fd4",
+            label: "Track D — John Buyer, Not Registered",
+            meta: "4 emails · On purchase → webinar · State 3 mirror",
+          },
+          {
+            color: "#9b3ad4",
+            label: "Track E — VIP (Buyer + Registered)",
+            meta: "1–2 emails · Lightest touch · State 6",
+          },
+          {
+            color: "#d4603a",
+            label: "Track F — Webinar Countdown",
+            meta: "3 emails · Mar 30 – Apr 1 · Everyone registered",
+          },
+          {
+            color: "#3ad47a",
+            label: "Track G — Post-Webinar",
+            meta: "6 emails · Apr 3–Apr 14 · Segmented by engagement",
+          },
+          {
+            color: "#5a586a",
+            label: "Track H — Evergreen Nurture",
+            meta: "Ongoing · 1-2x/month · Unconverted contacts",
+          },
+        ];
+
+        trackRefs.forEach((t) => {
+          html += `<div class="track-card">
+            <div class="track-dot" style="background:${t.color};"></div>
+            <div>
+              <div class="track-card-title">${t.label}</div>
+              <div class="track-card-meta">${t.meta}</div>
+            </div>
+          </div>`;
+        });
+        html += `</div>`;
+
+        // Transition Rules
+        html += `<div class="overview-section">
+          <div class="overview-section-title">Transition Rules</div>
+          <div class="transition-block">
+            <div class="transition-title" style="color:var(--green);">On Book Purchase</div>
+            <div class="transition-rule">
+              1. Immediately suppress from current non-buyer track (A or B)<br>
+              2. If registered for webinar → move to State 6 (VIP / Track E)<br>
+              3. If NOT registered → move to Track C (Salim source) or Track D (John source)<br>
+              4. Send buyer confirmation email (Track C#1 or D#1) immediately
+            </div>
+          </div>
+          <div class="transition-block">
+            <div class="transition-title" style="color:var(--blue);">On Webinar Registration</div>
+            <div class="transition-rule">
+              1. Add <code style="color:var(--blue);font-family:var(--mono);font-size:11px;">webinar:registered</code> tag<br>
+              2. If already a buyer → move to State 6 (VIP / Track E)<br>
+              3. If not a buyer → stay on current track (A or B) but adapt CTAs — drop webinar CTA, add "You're registered! See you April 1st"<br>
+              4. Add to Track F countdown queue (activates Mar 30)
+            </div>
+          </div>
+          <div class="transition-block">
+            <div class="transition-title" style="color:var(--purple);">On Both Actions Simultaneously</div>
+            <div class="transition-rule">
+              1. Move directly to State 6 (VIP / Track E)<br>
+              2. Send buyer confirmation email<br>
+              3. Add to Track F countdown queue
+            </div>
+          </div>
+        </div>`;
+
+        // Key Rules
+        html += `<div class="overview-section">
+          <div class="overview-section-title">Key Rules</div>
+          <div style="padding:14px 18px;background:var(--card);border:1px solid var(--border);border-radius:8px;">
+            <div style="font-size:12px;color:var(--text-dim);line-height:1.8;">
+              → <strong style="color:var(--white);">No app mention</strong> until Email #5 (and even then, vague)<br>
+              → <strong style="color:var(--white);">$400 founding member price</strong> is ONLY revealed during the live webinar<br>
+              → <strong style="color:var(--white);">Book presale ($20)</strong> is the low-friction entry — closes after Track A #8<br>
+              → <strong style="color:var(--white);">John's activation starts Week 3</strong> — his list gets a compressed sequence<br>
+              → <strong style="color:var(--white);">Public cap at 600 founding members</strong> (real cap: 1,200 — 600 per channel)<br>
+              → <strong style="color:var(--white);">OpenEXO gets 20% rev share</strong> on sales from Salim's list only<br>
+              → <strong style="color:var(--white);">Book price goes to $40</strong> after presale closes
+            </div>
+          </div>
+        </div>`;
+
+        // ESP Tags
+        html += `<div class="overview-section">
+          <div class="overview-section-title">ESP Segments</div>
+          <pre class="flow-pre" style="font-size:12px;line-height:1.8;">Track A = source:salim AND book:non-buyer
+Track B = source:john AND book:non-buyer
+Track C = source:salim AND book:buyer AND webinar:not-registered
+Track D = source:john AND book:buyer AND webinar:not-registered
+Track E = book:buyer AND webinar:registered
+Track F = webinar:registered (all, stacks on top)
+Track G = everyone (post-webinar, segmented):
+  G-attendee  = attended:yes AND founding:no
+  G-noshow    = webinar:registered AND attended:no
+  G-cold      = book:non-buyer AND webinar:not-registered
+Track H = founding:no (unconverted, 1-2x/month ongoing)</pre>
+        </div>`;
+
+        return html;
+      }
+
+      // ---- NON-BUYER TRACKS (A + B) ----
+      function renderNonBuyer() {
+        const track = currentVoice === "salim" ? TRACK_A : TRACK_B;
+        return renderTrackView(track, "nonbuyer");
+      }
+
+      // ---- BUYER TRACKS (C + D) ----
+      function renderBuyer() {
+        const track = currentVoice === "salim" ? TRACK_C : TRACK_D;
+        return renderTrackView(track, "buyer");
+      }
+
+      // ---- SHARED RENDER FOR TRACK VIEWS WITH VOICE TOGGLE ----
+      function renderTrackView(track, prefix) {
+        const ctaLabels = {
+          book: ["BOOK", "cta-book"],
+          webinar: ["WEBINAR", "cta-webinar"],
+          urgency: ["URGENCY", "cta-urgency"],
+        };
+        const freqLabels = {
+          slow: ["1x / week", "badge-slow"],
+          medium: ["2x / week", "badge-medium"],
+          fast: ["3x / week", "badge-fast"],
+        };
+
+        let html = "";
+
+        // Track info box
+        html += `<div class="track-info" style="border-color:${track.color}44;">
+          <div class="track-info-label" style="color:${track.color};">${track.label}</div>
+          <div class="track-info-body">
+            <strong style="color:var(--white);">States:</strong> ${track.states}<br>
+            ${track.description}<br>
+            <strong style="color:var(--white);">Exit:</strong> ${track.exitRule}
+          </div>
+        </div>`;
+
+        // Voice toggle
+        html += `<div class="voice-toggle">`;
+        html += `<button class="voice-btn ${currentVoice === "salim" ? "active-salim" : ""}" onclick="switchVoice('salim')">`;
+        html += prefix === "nonbuyer" ? "Track A · Salim" : "Track C · Salim";
+        html += `</button>`;
+        html += `<button class="voice-btn ${currentVoice === "john" ? "active-john" : ""}" onclick="switchVoice('john')">`;
+        html += prefix === "nonbuyer" ? "Track B · John" : "Track D · John";
+        html += `</button>`;
+        html += `</div>`;
+
+        // Warm note
+        if (track.warmNote) {
+          html += `<div style="margin-bottom:20px;padding:10px 14px;background:#1a1a15;border:1px solid #2a2a20;border-radius:6px;font-size:11px;color:var(--text-dim);line-height:1.6;">
+            <strong style="color:var(--gold-dim);">CTA VARIANT:</strong> ${track.warmNote}
+          </div>`;
+        }
+
+        // Timeline
+        html += `<div class="timeline">`;
+        let emailIndex = 0;
+
+        track.weeks.forEach((week) => {
+          const fl = freqLabels[week.freq] || ["", ""];
+          html += `<div class="week-group">`;
+          html += `<div class="week-label">${week.label} · ${week.dateRange} ${fl[0] ? `<span class="badge ${fl[1]}">${fl[0]}</span>` : ""}</div>`;
+
+          week.items.forEach((item) => {
+            const id = `${prefix}-${track.id}-${emailIndex}`;
+            const isOpen = openCards.has(id);
+            const hasBody = !!item.body;
+            const isMilestone = item.type === "milestone";
+
+            // CTA tags
+            let ctaHtml = "";
+            const ctas = item.ctaCold || [];
+            if (ctas.length) {
+              ctaHtml = '<div style="margin-top:6px;">';
+              ctas.forEach((c) => {
+                const cl = ctaLabels[c];
+                if (cl)
+                  ctaHtml += `<span class="cta-tag ${cl[1]}">${cl[0]}</span>`;
+              });
+              ctaHtml += "</div>";
+            }
+
+            // Status badge
+            const statusLabel =
+              { draft: "DRAFT", todo: "TODO", done: "DONE" }[item.status] ||
+              "TODO";
+            const statusCls = "status-" + item.status;
+
+            html += `<div class="email-card type-${item.type}">`;
+            html += `<div class="email-header" onclick="toggleCard('${id}')">`;
+            html += `<div>`;
+            html += `<div class="email-meta">${item.day}${item.num ? " · #" + item.num : ""}${isMilestone ? " · MILESTONE" : ""}</div>`;
+            html += `<div class="email-subject">${item.title || item.subject || ""}</div>`;
+            if (item.subject && item.title)
+              html += `<div style="font-size:12px;color:#666;margin-top:2px;">"${item.subject}"</div>`;
+            html += `<div class="email-purpose">${item.purpose}</div>`;
+            html += ctaHtml;
+            html += `</div>`;
+            html += `<div style="display:flex;align-items:center;gap:8px;">`;
+            html += `<span class="status-badge ${statusCls}">${statusLabel}</span>`;
+            if (hasBody)
+              html += `<div class="email-chevron ${isOpen ? "open" : ""}">›</div>`;
+            html += `</div>`;
+            html += `</div>`;
+
+            // Body
+            if (hasBody) {
+              html += `<div class="email-body ${isOpen ? "visible" : ""}">`;
+              html += `<div class="email-body-content">${item.body.replace(/\[([^\]]+)\]/g, "<strong>[$1]</strong>").replace(/→/g, '<strong style="color:var(--gold);">→</strong>')}</div>`;
+              if (item.notes)
+                html += `<div class="email-notes">${item.notes}</div>`;
+              html += `</div>`;
+            }
+
+            html += `</div>`;
+            emailIndex++;
+          });
+
+          html += `</div>`;
+        });
+
+        html += `</div>`;
+
+        // Suppression note
+        html += `<div class="notes-panel">
+          <div class="notes-title" style="color:${track.color};">Suppression Rules</div>
+          <div class="notes-body">
+            → ${track.exitRule}<br>
+            → Never send book CTA to people who already bought<br>
+            → Webinar CTA adapts: registered contacts see "You're registered — see you April 1st ✓" instead<br>
+            → The app is NEVER mentioned by name — only hinted at starting email #5<br>
+            → $400 founding member price is NEVER mentioned — webinar-only reveal
+          </div>
+        </div>`;
+
+        return html;
+      }
+
+      // ---- SHARED TRACKS (E + F + G) ----
+      function renderShared() {
+        const ctaLabels = {
+          book: ["BOOK", "cta-book"],
+          webinar: ["WEBINAR", "cta-webinar"],
+          urgency: ["URGENCY", "cta-urgency"],
+        };
+
+        let html = "";
+
+        // Info
+        html += `<div style="margin-bottom:20px;padding:14px 18px;background:#12121e;border:1px solid var(--border);border-radius:8px;">
+          <div style="font-size:11px;font-weight:600;color:var(--purple);margin-bottom:6px;font-family:var(--mono);letter-spacing:1px;">VIP & EVENT TRACKS</div>
+          <div style="font-size:12px;color:var(--text-dim);line-height:1.7;">
+            These tracks handle fully-converted VIPs, webinar countdown (for ALL registered), post-webinar follow-up (segmented by engagement), and long-term evergreen nurture. Track F <strong style="color:var(--white);">stacks on top</strong> of other tracks — it's additional sends, not replacements.
+          </div>
+        </div>`;
+
+        // Render each track as an accordion section
+        const sharedTracks = [TRACK_E, TRACK_F, TRACK_G, TRACK_H];
+
+        sharedTracks.forEach((track) => {
+          const isOpen = openSections.has(track.id);
+          html += `<div class="section-block" style="border-color:${isOpen ? track.color + "44" : ""};">`;
+          html += `<div class="section-header" onclick="toggleSection('${track.id}')">`;
+          html += `<div style="display:flex;align-items:center;gap:12px;">`;
+          html += `<div class="track-dot" style="background:${track.color};"></div>`;
+          html += `<div>`;
+          html += `<div style="font-size:14px;font-weight:600;color:var(--white);">${track.label}</div>`;
+          html += `<div style="font-size:11px;color:var(--text-dim);margin-top:2px;">${track.states} · ${track.items.length} emails</div>`;
+          html += `</div></div>`;
+          html += `<div style="font-size:18px;color:#444;transform:rotate(${isOpen ? 90 : 0}deg);transition:transform 0.2s;">›</div>`;
+          html += `</div>`;
+
+          if (isOpen) {
+            html += `<div class="section-body">`;
+
+            // Track description
+            html += `<div style="margin-bottom:16px;padding:10px 14px;background:#0d0d15;border-radius:6px;font-size:12px;color:var(--text-dim);line-height:1.6;">
+              ${track.description}<br>
+              <strong style="color:var(--white);">Voice:</strong> ${track.voice}<br>
+              <strong style="color:var(--white);">Exit:</strong> ${track.exitRule}
+            </div>`;
+
+            // Emails
+            html += `<div class="timeline">`;
+            track.items.forEach((item, i) => {
+              const id = `shared-${track.id}-${i}`;
+              const isCardOpen = openCards.has(id);
+              const hasBody = !!item.body;
+
+              const statusLabel =
+                { draft: "DRAFT", todo: "TODO", done: "DONE" }[item.status] ||
+                "TODO";
+              const statusCls = "status-" + item.status;
+
+              html += `<div class="email-card type-${item.type || "email"}">`;
+              html += `<div class="email-header" onclick="toggleCard('${id}')">`;
+              html += `<div>`;
+              html += `<div class="email-meta">${item.day}${item.num ? " · #" + item.num : ""}${item.audience ? " · " + item.audience : ""}</div>`;
+              html += `<div class="email-subject">${item.subject}</div>`;
+              html += `<div class="email-purpose">${item.purpose}</div>`;
+              html += `</div>`;
+              html += `<div style="display:flex;align-items:center;gap:8px;">`;
+              html += `<span class="status-badge ${statusCls}">${statusLabel}</span>`;
+              if (hasBody)
+                html += `<div class="email-chevron ${isCardOpen ? "open" : ""}">›</div>`;
+              html += `</div>`;
+              html += `</div>`;
+
+              if (hasBody) {
+                html += `<div class="email-body ${isCardOpen ? "visible" : ""}">`;
+                html += `<div class="email-body-content">${item.body.replace(/\[([^\]]+)\]/g, "<strong>[$1]</strong>").replace(/→/g, '<strong style="color:var(--gold);">→</strong>')}</div>`;
+                if (item.notes)
+                  html += `<div class="email-notes">${item.notes}</div>`;
+                html += `</div>`;
+              }
+
+              html += `</div>`;
+            });
+            html += `</div>`;
+
+            html += `</div>`;
+          }
+
+          html += `</div>`;
+        });
+
+        return html;
+      }
+
+      // ---- DEV TRACK ----
+      function renderDev() {
+        let html = "";
+        DEV_TRACK.forEach((block) => {
+          html += `<div class="dev-block">`;
+          html += `<div style="display:flex;justify-content:space-between;margin-bottom:14px;">`;
+          html += `<div class="dev-week">${block.week}</div>`;
+          html += `<div class="dev-date">${block.dateRange}</div>`;
+          html += `</div>`;
+          block.items.forEach((item) => {
+            html += `<div class="dev-item"><div class="dev-dot"></div><div class="dev-item-text">${item}</div></div>`;
+          });
+          html += `</div>`;
+        });
+        return html;
+      }
+
+      // ---- BUDGET ----
+      function renderBudget() {
+        return `
+          <div class="budget-section">
+            <div class="budget-section-title">Phase 2 Budget Allocation</div>
+            <p style="font-size:13px;color:var(--text-dim);margin-bottom:20px;">How Phase 1 revenue feeds Phase 2 execution</p>
+          </div>
+
+          <div class="budget-section">
+            <div class="budget-section-title">Phase 1 Revenue Projections</div>
+            <p style="font-size:13px;color:var(--text-dim);margin-bottom:16px;">Founding member packages at $400 &nbsp;|&nbsp; Public cap: 600 &nbsp;|&nbsp; Real cap: 1,200 (600 Salim + 600 John) &nbsp;|&nbsp; Book presale at $20 &nbsp;|&nbsp; OpenEXO 20% on Salim's half only</p>
+            <div class="projection-grid">
+
+              <div class="projection-card conservative">
+                <div class="projection-tier">Conservative</div>
+                <div class="projection-gross">$92K</div>
+                <div class="projection-breakdown">200 packages + 600 books</div>
+                <div class="projection-row">
+                  <span class="projection-row-label">Packages</span>
+                  <span class="projection-row-value">200 &times; $400 = $80,000</span>
+                </div>
+                <div class="projection-row">
+                  <span class="projection-row-label">Books</span>
+                  <span class="projection-row-value">600 &times; $20 = $12,000</span>
+                </div>
+                <div class="projection-row" style="font-weight:600;">
+                  <span class="projection-row-label" style="color:var(--white);">Gross</span>
+                  <span class="projection-row-value" style="color:var(--white);">$92,000</span>
+                </div>
+                <hr class="projection-divider">
+                <div class="projection-row deduct">
+                  <span class="projection-row-label">OpenEXO (20% of ~$46K)</span>
+                  <span class="projection-row-value">&minus;$9,200</span>
+                </div>
+                <div class="projection-row deduct">
+                  <span class="projection-row-label">Fixed (Tay + Michael)</span>
+                  <span class="projection-row-value">&minus;$10,000</span>
+                </div>
+                <hr class="projection-divider">
+                <div class="projection-row highlight">
+                  <span class="projection-row-label" style="color:var(--white);">Net for Phase 2</span>
+                  <span class="projection-row-value">$72,800</span>
+                </div>
+                <div class="projection-row">
+                  <span class="projection-row-label">&rarr; Marketing (70%)</span>
+                  <span class="projection-row-value">$50,960</span>
+                </div>
+                <div class="projection-row">
+                  <span class="projection-row-label">&rarr; Dev (30%)</span>
+                  <span class="projection-row-value">$21,840</span>
+                </div>
+              </div>
+
+              <div class="projection-card target">
+                <div class="projection-tier">Target</div>
+                <div class="projection-gross">$264K</div>
+                <div class="projection-breakdown">600 packages + 1,200 books</div>
+                <div class="projection-row">
+                  <span class="projection-row-label">Packages</span>
+                  <span class="projection-row-value">600 &times; $400 = $240,000</span>
+                </div>
+                <div class="projection-row">
+                  <span class="projection-row-label">Books</span>
+                  <span class="projection-row-value">1,200 &times; $20 = $24,000</span>
+                </div>
+                <div class="projection-row" style="font-weight:600;">
+                  <span class="projection-row-label" style="color:var(--white);">Gross</span>
+                  <span class="projection-row-value" style="color:var(--white);">$264,000</span>
+                </div>
+                <hr class="projection-divider">
+                <div class="projection-row deduct">
+                  <span class="projection-row-label">OpenEXO (20% of ~$132K)</span>
+                  <span class="projection-row-value">&minus;$26,400</span>
+                </div>
+                <div class="projection-row deduct">
+                  <span class="projection-row-label">Fixed (Tay + Michael)</span>
+                  <span class="projection-row-value">&minus;$10,000</span>
+                </div>
+                <hr class="projection-divider">
+                <div class="projection-row highlight">
+                  <span class="projection-row-label" style="color:var(--white);">Net for Phase 2</span>
+                  <span class="projection-row-value">$227,600</span>
+                </div>
+                <div class="projection-row">
+                  <span class="projection-row-label">&rarr; Marketing (70%)</span>
+                  <span class="projection-row-value">$159,320</span>
+                </div>
+                <div class="projection-row">
+                  <span class="projection-row-label">&rarr; Dev (30%)</span>
+                  <span class="projection-row-value">$68,280</span>
+                </div>
+              </div>
+
+              <div class="projection-card stretch">
+                <div class="projection-tier">Stretch</div>
+                <div class="projection-gross">$440K</div>
+                <div class="projection-breakdown">1,000 packages + 2,000 books</div>
+                <div class="projection-row">
+                  <span class="projection-row-label">Packages</span>
+                  <span class="projection-row-value">1,000 &times; $400 = $400,000</span>
+                </div>
+                <div class="projection-row">
+                  <span class="projection-row-label">Books</span>
+                  <span class="projection-row-value">2,000 &times; $20 = $40,000</span>
+                </div>
+                <div class="projection-row" style="font-weight:600;">
+                  <span class="projection-row-label" style="color:var(--white);">Gross</span>
+                  <span class="projection-row-value" style="color:var(--white);">$440,000</span>
+                </div>
+                <hr class="projection-divider">
+                <div class="projection-row deduct">
+                  <span class="projection-row-label">OpenEXO (20% of ~$220K)</span>
+                  <span class="projection-row-value">&minus;$44,000</span>
+                </div>
+                <div class="projection-row deduct">
+                  <span class="projection-row-label">Fixed (Tay + Michael)</span>
+                  <span class="projection-row-value">&minus;$10,000</span>
+                </div>
+                <hr class="projection-divider">
+                <div class="projection-row highlight">
+                  <span class="projection-row-label" style="color:var(--white);">Net for Phase 2</span>
+                  <span class="projection-row-value">$386,000</span>
+                </div>
+                <div class="projection-row">
+                  <span class="projection-row-label">&rarr; Marketing (70%)</span>
+                  <span class="projection-row-value">$270,200</span>
+                </div>
+                <div class="projection-row">
+                  <span class="projection-row-label">&rarr; Dev (30%)</span>
+                  <span class="projection-row-value">$115,800</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="budget-section">
+            <div class="budget-section-title">Fixed Costs</div>
+            <table class="budget-table">
+              <tr>
+                <th>Line Item</th>
+                <th>Amount</th>
+                <th>Notes</th>
+              </tr>
+              <tr>
+                <td class="budget-label">Tay (3 months)</td>
+                <td class="budget-amount">$5,000</td>
+                <td class="budget-note">Continuity through Phase 2 public launch</td>
+              </tr>
+              <tr>
+                <td class="budget-label">Michael</td>
+                <td class="budget-amount">$5,000</td>
+                <td class="budget-note">&mdash;</td>
+              </tr>
+              <tr>
+                <td class="budget-label" style="color:var(--white);font-weight:700;">Total Fixed</td>
+                <td class="budget-amount" style="font-weight:700;">$10,000</td>
+                <td></td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="budget-section">
+            <div class="budget-section-title">Remaining Revenue Split</div>
+            <p style="font-size:13px;color:var(--text-dim);margin-bottom:14px;">After fixed costs, remaining Phase 1 revenue splits into two buckets:</p>
+            <table class="budget-table">
+              <tr>
+                <th>Bucket</th>
+                <th>Allocation</th>
+                <th>Covers</th>
+              </tr>
+              <tr>
+                <td class="budget-label">Marketing</td>
+                <td class="budget-pct">70%</td>
+                <td class="budget-note">Paid ads, content, LinkedIn campaigns, webinar promotion, retargeting</td>
+              </tr>
+              <tr>
+                <td class="budget-label">Dev</td>
+                <td class="budget-pct">30%</td>
+                <td class="budget-note">App development, Salim avatar, extra tools</td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="budget-section">
+            <div class="budget-section-title">Revenue Share</div>
+            <table class="budget-table">
+              <tr>
+                <th>Partner</th>
+                <th>Share</th>
+                <th>Scope</th>
+              </tr>
+              <tr>
+                <td class="budget-label">OpenEXO</td>
+                <td class="budget-pct">20%</td>
+                <td class="budget-note">Salim's list only &mdash; does not apply to John's LinkedIn or other channels</td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="budget-section">
+            <div class="budget-section-title">Flow Summary</div>
+            <div class="budget-flow"><span style="color:var(--white);font-weight:600;">Phase 1 Revenue</span>
+    │
+    ├── <span style="color:var(--green);">$5K</span> → Tay (3 months)
+    ├── <span style="color:var(--green);">$5K</span> → Michael
+    ├── <span style="color:var(--gold);">20%</span> of Salim's list revenue → OpenEXO
+    │
+    └── <span style="color:var(--text-dim);">Remaining</span>
+         ├── <span style="color:var(--gold);">70%</span> → Marketing
+         └── <span style="color:var(--gold);">30%</span> → Dev (app, Salim avatar, extra tools)</div>
+          </div>
+
+          <div class="budget-section">
+            <div class="budget-section-title">Notes</div>
+            <ul class="budget-note-list">
+              <li>Phase 1 (Private Launch, Mar 5–31) generates revenue through $20 book presales and $400 founding member conversions</li>
+              <li>Phase 2 (Public Launch, Apr 14+) is funded by Phase 1 proceeds using the split above</li>
+              <li>OpenEXO's 20% only applies to revenue originating from Salim's email list — John's LinkedIn channel and all other sources are excluded</li>
+            </ul>
+          </div>
+        `;
+      }
+
+      // ---- RESOURCES ----
+      function renderResources() {
+        const groups = [
+          {
+            title: "Interactive Pages",
+            items: [
+              {
+                file: "webinar-beats.html",
+                badge: "html",
+                title: "Webinar Beat Sheet",
+                desc: "Minute-by-minute webinar script with speaker tags, internal notes, and value stack markers",
+              },
+              {
+                file: "mindmap.html",
+                badge: "html",
+                title: "Alex Mind Map",
+                desc: "Interactive visualization of all 9 AI loops — Know Them, Connect Them, Grow Them",
+              },
+              {
+                file: "journey-map.html",
+                badge: "html",
+                title: "User Journey Map",
+                desc: "Visual flow of user states, email tracks, and conversion paths",
+              },
+              {
+                file: "non-buyer_drip_sequence.html",
+                badge: "html",
+                title: "Non-Buyer Drip Sequence",
+                desc: "Email sequence visualization for Tracks A & B (cold leads)",
+              },
+              {
+                file: "buyer_drip_sequence.html",
+                badge: "html",
+                title: "Buyer Drip Sequence",
+                desc: "Email sequence visualization for Tracks C & D (book buyers)",
+              },
+              {
+                file: "landing-page.html",
+                badge: "html",
+                title: "Landing Page",
+                desc: "Presale landing page for book + founding member conversion",
+              },
+            ],
+          },
+          {
+            title: "Alex — The Serendipity Engine",
+            items: [
+              {
+                file: "alex-capabilities.md",
+                badge: "md",
+                title: "Alex Capabilities",
+                desc: "What Alex can do — web crawler, LinkedIn outreach, 7 onboarding questions",
+              },
+              {
+                file: "alex-build-plan.md",
+                badge: "md",
+                title: "Alex Build Plan",
+                desc: "Phased roadmap from manual magic (Phase 0) to self-improving system (Phase 5)",
+              },
+              {
+                file: "alex-mind-map.md",
+                badge: "md",
+                title: "Alex Mind Map (source)",
+                desc: "9-node structure with one-liners — the presentable version",
+              },
+              {
+                file: "elevenlabs-avatar-onboarding.md",
+                badge: "md",
+                title: "ElevenLabs Avatar Onboarding",
+                desc: "How an AI avatar humanizes the 7-question onboarding flow",
+              },
+            ],
+          },
+          {
+            title: "Human Design & Meetings",
+            items: [
+              {
+                file: "onboarding-questions.md",
+                badge: "md",
+                title: "7 Onboarding Questions",
+                desc: "The questions, their psychology, enneagram mapping, and how they work together",
+              },
+              {
+                file: "networking-meetings.md",
+                badge: "md",
+                title: "Networking Meetings",
+                desc: "How onboarding data powers curated pairings, structured rounds, and follow-up",
+              },
+              {
+                file: "deep-human-design.md",
+                badge: "md",
+                title: "Deep Human Design",
+                desc: "The Five Wounds, attachment styles, core motivation triads, the unlived life",
+              },
+            ],
+          },
+          {
+            title: "Launch Strategy",
+            items: [
+              {
+                file: "webinar-beats.md",
+                badge: "md",
+                title: "Webinar Beats (source)",
+                desc: "Full webinar script — 4 acts, price-first playbook, voice notes",
+              },
+              {
+                file: "email-tracks.md",
+                badge: "md",
+                title: "Email Tracks",
+                desc: "All 8 email tracks with behavioral state machine and suppression logic",
+              },
+              {
+                file: "budget.md",
+                badge: "md",
+                title: "Budget",
+                desc: "Revenue projections, cost breakdown, OpenEXO split",
+              },
+              {
+                file: "phase-2-plan.md",
+                badge: "md",
+                title: "Phase 2 Plan",
+                desc: "Public launch — timeline, summit, marketing firm brief, $597 pricing",
+              },
+              {
+                file: "HERMOZI_launch-comparison.md",
+                badge: "md",
+                title: "Hormozi Launch Comparison",
+                desc: "Comparing our launch structure to proven frameworks",
+              },
+              {
+                file: "mystery-hook-exploration.md",
+                badge: "md",
+                title: "Mystery Hook Exploration",
+                desc: "Exploring mystery and curiosity hooks for the launch narrative",
+              },
+              {
+                file: "phase-1-plan.md",
+                badge: "md",
+                title: "Phase 1 Plan — A to Z",
+                desc: "Complete Phase 1 playbook: emails, webinar, SMS, abandoned cart, mystery hook, budget",
+              },
+            ],
+          },
+          {
+            title: "Other",
+            items: [
+              {
+                file: "Launch_cadence.jsx",
+                badge: "jsx",
+                title: "Launch Cadence Component",
+                desc: "React component for timeline visualization",
+              },
+            ],
+          },
+        ];
+
+        let html = "";
+        for (const group of groups) {
+          html += `<div class="res-group-title">${group.title}</div>`;
+          html += `<div class="res-grid">`;
+          for (const item of group.items) {
+            html += `
+              <a class="res-card" href="${item.file}" target="_blank">
+                <div class="res-card-row">
+                  <span class="res-badge ${item.badge}">${item.badge}</span>
+                  <span class="res-title">${item.title}</span>
+                </div>
+                <div class="res-desc">${item.desc}</div>
+              </a>`;
+          }
+          html += `</div>`;
+        }
+        return html;
+      }
+
+      // Initial render
+      render();
+    </script>
+  </body>
+</html>

@@ -7,7 +7,32 @@
       "Bash(git add:*)",
       "Bash(git commit -m \"$(cat <<''EOF''\nUpdate typography to modern minimalist font stack\n\n- Headings: Montserrat (geometric, contemporary)\n- Body: Inter (optimized for screen readability)\n- Accent: Playfair Display (available for quotes/emphasis)\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n)\")",
       "Bash(git push:*)",
-      "Bash(git commit -m \"$(cat <<''EOF''\nAdd interactive Shape Your Luck quadrant assessment tool\n\n- Implement draggable marker with proximity-based shape animations\n- Add CSS for interactive quadrant with glowing active states\n- Include touch support for mobile devices\n- Display dynamic result text based on marker position\n- Add logo-design-exploration.md with design concepts\n- Add Shaping_luck_logo.svg asset\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n)\")"
+      "Bash(git commit -m \"$(cat <<''EOF''\nAdd interactive Shape Your Luck quadrant assessment tool\n\n- Implement draggable marker with proximity-based shape animations\n- Add CSS for interactive quadrant with glowing active states\n- Include touch support for mobile devices\n- Display dynamic result text based on marker position\n- Add logo-design-exploration.md with design concepts\n- Add Shaping_luck_logo.svg asset\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(npx http-server:*)",
+      "WebFetch(domain:www.singularityweblog.com)",
+      "WebFetch(domain:www.startups.com)",
+      "WebFetch(domain:blog.growthinstitute.com)",
+      "WebFetch(domain:podscripts.co)",
+      "WebFetch(domain:denver-frederick.com)",
+      "WebFetch(domain:www.scottdclary.com)",
+      "WebFetch(domain:betakit.com)",
+      "WebFetch(domain:denverfrederick.wordpress.com)",
+      "WebFetch(domain:www.biv.com)",
+      "WebFetch(domain:www.financialprofessionals.org)",
+      "WebFetch(domain:innov8rs.co)",
+      "WebFetch(domain:twicopy.com)",
+      "WebFetch(domain:blog.hellostepchange.com)",
+      "WebFetch(domain:www.linkedin.com)",
+      "Bash(grep -i \"refund\\\\|full refund\\\\|60.*day\\\\|30.*day\" /l/Projects_claudecode/Shaping-Luck/Shaping-Luck-Presale/*.md /l/Projects_claudecode/Shaping-Luck/Shaping-Luck-Presale/*.html)",
+      "Bash(grep -o \"something special.*in the room\\\\|stack.*offer\\\\|$400.*price\\\\|refund.*policy\" /l/Projects_claudecode/Shaping-Luck/Shaping-Luck-Presale/*.html)",
+      "Bash(python -c \":*)",
+      "Bash(python3 -c \":*)",
+      "Bash(python3 -V)",
+      "Bash(python3 \"C:/Users/unrea/extract_hormozi.py\")",
+      "Bash(python3 C:/Users/unrea/extract_hormozi.py)",
+      "Bash(python3 C:/Users/unrea/extract2.py)",
+      "Bash(gh api repos/Mjons/Shaping_luck_plan/pages -X POST -f \"source[branch]=main\" -f \"source[path]=/\")",
+      "Bash(where gh)"
     ]
   }
 }

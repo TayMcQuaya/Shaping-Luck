@@ -1,0 +1,2136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Phase 1 Webinar — Beat Sheet</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --bg: #0a0a0f;
+        --surface: #12121a;
+        --surface-2: #181825;
+        --surface-hover: #1e1e30;
+        --border: #2a2a3a;
+        --border-light: #35354a;
+        --text: #e8e8f0;
+        --text-dim: #9898b0;
+        --text-muted: #606078;
+        --act1: #6366f1;
+        --act1-glow: rgba(99, 102, 241, 0.15);
+        --act1-border: rgba(99, 102, 241, 0.35);
+        --act2: #f59e0b;
+        --act2-glow: rgba(245, 158, 11, 0.15);
+        --act2-border: rgba(245, 158, 11, 0.35);
+        --act3: #10b981;
+        --act3-glow: rgba(16, 185, 129, 0.15);
+        --act3-border: rgba(16, 185, 129, 0.35);
+        --act4: #ec4899;
+        --act4-glow: rgba(236, 72, 153, 0.15);
+        --act4-border: rgba(236, 72, 153, 0.35);
+        --accent: #a855f7;
+        --accent-glow: rgba(168, 85, 247, 0.2);
+        --salim: #f59e0b;
+        --john: #6366f1;
+        --both: #a855f7;
+        --internal: #ef4444;
+      }
+
+      body {
+        font-family:
+          "Inter",
+          -apple-system,
+          sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        overflow-x: hidden;
+        min-height: 100vh;
+        line-height: 1.7;
+      }
+
+      /* === SCROLLBAR === */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 3px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--text-muted);
+      }
+
+      /* === HERO === */
+      .hero {
+        text-align: center;
+        padding: 80px 24px 60px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: -200px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(
+          circle,
+          var(--accent-glow) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+
+      .hero-label {
+        display: inline-block;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--accent);
+        background: var(--accent-glow);
+        padding: 6px 16px;
+        border-radius: 20px;
+        border: 1px solid rgba(168, 85, 247, 0.3);
+        margin-bottom: 24px;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.2rem, 5vw, 3.5rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1.15;
+        margin-bottom: 16px;
+      }
+
+      .hero h1 span {
+        background: linear-gradient(
+          135deg,
+          var(--accent),
+          #c084fc,
+          var(--act2)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero .sub {
+        font-size: 1.15rem;
+        color: var(--text-dim);
+        font-weight: 300;
+        max-width: 560px;
+        margin: 0 auto 32px;
+      }
+
+      .hero-meta {
+        display: flex;
+        gap: 32px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .hero-meta-item {
+        text-align: center;
+      }
+
+      .hero-meta-item .label {
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        color: var(--text-muted);
+        margin-bottom: 4px;
+      }
+
+      .hero-meta-item .value {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text);
+      }
+
+      /* === EMOTIONAL ARC BAR === */
+      .arc-section {
+        padding: 40px 24px;
+        max-width: 960px;
+        margin: 0 auto;
+      }
+
+      .arc-label {
+        text-align: center;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: var(--text-muted);
+        margin-bottom: 20px;
+      }
+
+      .arc-bar {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        background: var(--surface);
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        overflow: hidden;
+        position: relative;
+      }
+
+      .arc-step {
+        flex: 1;
+        text-align: center;
+        padding: 16px 8px;
+        position: relative;
+        cursor: default;
+        transition: background 0.3s;
+      }
+
+      .arc-step:hover {
+        background: var(--surface-hover);
+      }
+
+      .arc-step:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 20%;
+        height: 60%;
+        width: 1px;
+        background: var(--border);
+      }
+
+      .arc-step .arc-icon {
+        font-size: 1.5rem;
+        margin-bottom: 4px;
+      }
+
+      .arc-step .arc-name {
+        font-size: 0.65rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--text-dim);
+      }
+
+      .arc-step .arc-desc {
+        font-size: 0.6rem;
+        color: var(--text-muted);
+        margin-top: 2px;
+      }
+
+      /* === PRICE STRATEGY CALLOUT === */
+      .strategy-card {
+        max-width: 800px;
+        margin: 48px auto;
+        padding: 32px;
+        background: linear-gradient(
+          135deg,
+          rgba(168, 85, 247, 0.08),
+          rgba(245, 158, 11, 0.05)
+        );
+        border: 1px solid rgba(168, 85, 247, 0.2);
+        border-radius: 16px;
+        text-align: center;
+      }
+
+      .strategy-card h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--accent);
+        margin-bottom: 12px;
+        letter-spacing: -0.01em;
+      }
+
+      .strategy-card .flow {
+        font-size: 0.85rem;
+        font-family: "Inter", monospace;
+        color: var(--text);
+        letter-spacing: 0.03em;
+        margin-bottom: 16px;
+        padding: 12px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+
+      .strategy-card .flow .arrow {
+        color: var(--text-muted);
+      }
+      .strategy-card .flow .highlight {
+        color: var(--act2);
+        font-weight: 600;
+      }
+
+      .strategy-card p {
+        font-size: 0.85rem;
+        color: var(--text-dim);
+        line-height: 1.6;
+        max-width: 620px;
+        margin: 0 auto;
+      }
+
+      /* === TIMELINE RAIL === */
+      .timeline {
+        max-width: 840px;
+        margin: 0 auto;
+        padding: 0 24px 80px;
+        position: relative;
+      }
+
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 43px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(
+          to bottom,
+          var(--act1) 0%,
+          var(--act1) 22%,
+          var(--act2) 22%,
+          var(--act2) 35%,
+          var(--act3) 35%,
+          var(--act3) 78%,
+          var(--act4) 78%,
+          var(--act4) 100%
+        );
+        opacity: 0.3;
+      }
+
+      /* === ACT HEADERS === */
+      .act-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin: 48px 0 24px;
+        padding-left: 0;
+        position: relative;
+      }
+
+      .act-header .act-dot {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.6rem;
+        font-weight: 800;
+        flex-shrink: 0;
+        position: relative;
+        z-index: 1;
+        margin-left: 30px;
+      }
+
+      .act-header .act-info h2 {
+        font-size: 1.3rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+      }
+
+      .act-header .act-info .act-time {
+        font-size: 0.7rem;
+        color: var(--text-muted);
+        font-weight: 500;
+      }
+
+      .act-header.act1 .act-dot {
+        background: var(--act1);
+        color: #fff;
+      }
+      .act-header.act1 h2 {
+        color: var(--act1);
+      }
+      .act-header.act2 .act-dot {
+        background: var(--act2);
+        color: #000;
+      }
+      .act-header.act2 h2 {
+        color: var(--act2);
+      }
+      .act-header.act3 .act-dot {
+        background: var(--act3);
+        color: #fff;
+      }
+      .act-header.act3 h2 {
+        color: var(--act3);
+      }
+      .act-header.act4 .act-dot {
+        background: var(--act4);
+        color: #fff;
+      }
+      .act-header.act4 h2 {
+        color: var(--act4);
+      }
+
+      /* === BEAT CARDS === */
+      .beat {
+        margin-left: 68px;
+        margin-bottom: 20px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(16px);
+        transition:
+          opacity 0.5s ease,
+          transform 0.5s ease;
+      }
+
+      .beat.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .beat-header {
+        padding: 20px 24px;
+        cursor: pointer;
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+        transition: background 0.2s;
+        user-select: none;
+      }
+
+      .beat-header:hover {
+        background: var(--surface-hover);
+      }
+
+      .beat-time {
+        font-size: 0.65rem;
+        font-weight: 700;
+        font-family: "Inter", monospace;
+        color: var(--text-muted);
+        background: rgba(255, 255, 255, 0.04);
+        padding: 4px 10px;
+        border-radius: 6px;
+        white-space: nowrap;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+
+      .beat-title-block {
+        flex: 1;
+      }
+
+      .beat-title {
+        font-size: 1rem;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        margin-bottom: 4px;
+      }
+
+      .beat-subtitle {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        font-style: italic;
+      }
+
+      .beat-speakers {
+        display: flex;
+        gap: 6px;
+        flex-shrink: 0;
+        margin-top: 4px;
+      }
+
+      .speaker-tag {
+        font-size: 0.55rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        padding: 3px 8px;
+        border-radius: 4px;
+      }
+
+      .speaker-tag.salim {
+        background: rgba(245, 158, 11, 0.15);
+        color: var(--salim);
+        border: 1px solid rgba(245, 158, 11, 0.25);
+      }
+
+      .speaker-tag.john {
+        background: rgba(99, 102, 241, 0.15);
+        color: var(--john);
+        border: 1px solid rgba(99, 102, 241, 0.25);
+      }
+
+      .speaker-tag.both {
+        background: rgba(168, 85, 247, 0.15);
+        color: var(--both);
+        border: 1px solid rgba(168, 85, 247, 0.25);
+      }
+
+      .beat-chevron {
+        color: var(--text-muted);
+        transition: transform 0.3s;
+        flex-shrink: 0;
+        margin-top: 4px;
+        font-size: 0.8rem;
+      }
+
+      .beat.open .beat-chevron {
+        transform: rotate(90deg);
+      }
+
+      /* === BEAT BODY (expanded) === */
+      .beat-body {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease;
+      }
+
+      .beat.open .beat-body {
+        max-height: 2000px;
+      }
+
+      .beat-content {
+        padding: 0 24px 24px;
+        padding-left: 100px;
+      }
+
+      .beat-content p {
+        font-size: 0.85rem;
+        color: var(--text-dim);
+        margin-bottom: 12px;
+        line-height: 1.7;
+      }
+
+      .beat-content ul {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 16px;
+      }
+
+      .beat-content ul li {
+        font-size: 0.85rem;
+        color: var(--text-dim);
+        padding: 4px 0 4px 20px;
+        position: relative;
+        line-height: 1.6;
+      }
+
+      .beat-content ul li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 12px;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--text-muted);
+      }
+
+      .quote {
+        font-size: 0.9rem;
+        color: var(--text);
+        font-style: italic;
+        padding: 12px 16px;
+        border-left: 3px solid var(--accent);
+        background: rgba(168, 85, 247, 0.06);
+        border-radius: 0 8px 8px 0;
+        margin-bottom: 16px;
+      }
+
+      .quote .attribution {
+        font-size: 0.7rem;
+        color: var(--text-muted);
+        font-style: normal;
+        margin-top: 6px;
+        font-weight: 500;
+      }
+
+      .internal-note {
+        font-size: 0.75rem;
+        color: rgba(239, 68, 68, 0.7);
+        background: rgba(239, 68, 68, 0.06);
+        border: 1px solid rgba(239, 68, 68, 0.15);
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin-top: 12px;
+        line-height: 1.6;
+      }
+
+      .internal-note::before {
+        content: "INTERNAL NOTE";
+        display: block;
+        font-size: 0.55rem;
+        font-weight: 800;
+        letter-spacing: 0.15em;
+        color: rgba(239, 68, 68, 0.5);
+        margin-bottom: 4px;
+      }
+
+      .value-stack {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--act3);
+        background: var(--act3-glow);
+        border: 1px solid rgba(16, 185, 129, 0.25);
+        padding: 8px 14px;
+        border-radius: 8px;
+        margin-top: 8px;
+      }
+
+      .value-stack::before {
+        content: "✦";
+      }
+
+      /* === COMPARISON TABLE === */
+      .comparison {
+        max-width: 800px;
+        margin: 0 auto 64px;
+        padding: 0 24px;
+      }
+
+      .comparison h3 {
+        text-align: center;
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        color: var(--text);
+      }
+
+      .comparison table {
+        width: 100%;
+        border-collapse: collapse;
+        background: var(--surface);
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+      }
+
+      .comparison th {
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-weight: 700;
+        padding: 14px 20px;
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .comparison th:first-child {
+        color: rgba(239, 68, 68, 0.6);
+        background: rgba(239, 68, 68, 0.04);
+      }
+
+      .comparison th:last-child {
+        color: rgba(16, 185, 129, 0.8);
+        background: rgba(16, 185, 129, 0.04);
+      }
+
+      .comparison td {
+        font-size: 0.8rem;
+        padding: 12px 20px;
+        border-bottom: 1px solid var(--border);
+        color: var(--text-dim);
+        line-height: 1.5;
+      }
+
+      .comparison tr:last-child td {
+        border-bottom: none;
+      }
+
+      .comparison td:first-child {
+        color: var(--text-muted);
+      }
+
+      .comparison td:last-child {
+        color: var(--text-dim);
+      }
+
+      /* === TWO PATHS TABLE === */
+      .paths-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin: 16px 0;
+      }
+
+      .path-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 16px;
+        text-align: center;
+      }
+
+      .path-card .path-q {
+        font-size: 0.7rem;
+        color: var(--text-muted);
+        margin-bottom: 8px;
+      }
+
+      .path-card .path-price {
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: var(--act2);
+        margin-bottom: 4px;
+      }
+
+      .path-card .path-note {
+        font-size: 0.7rem;
+        color: var(--text-dim);
+      }
+
+      /* === POST-WEBINAR SECTION === */
+      .post-section {
+        max-width: 800px;
+        margin: 0 auto 64px;
+        padding: 0 24px;
+      }
+
+      .post-section h3 {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        color: var(--text);
+        text-align: center;
+      }
+
+      .post-grid {
+        display: grid;
+        gap: 10px;
+      }
+
+      .post-row {
+        display: grid;
+        grid-template-columns: 100px 1fr;
+        gap: 12px;
+        align-items: center;
+        padding: 12px 16px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+      }
+
+      .post-row .post-date {
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        font-family: "Inter", monospace;
+      }
+
+      .post-row .post-action {
+        font-size: 0.8rem;
+        color: var(--text-dim);
+      }
+
+      /* === VOICE NOTES === */
+      .voice-section {
+        max-width: 800px;
+        margin: 0 auto 64px;
+        padding: 0 24px;
+      }
+
+      .voice-section h3 {
+        text-align: center;
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+      }
+
+      .voice-cards {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .voice-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 24px;
+      }
+
+      .voice-card .voice-name {
+        font-size: 0.9rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+
+      .voice-card.salim-voice .voice-name {
+        color: var(--salim);
+      }
+      .voice-card.john-voice .voice-name {
+        color: var(--john);
+      }
+      .voice-card.handoffs-voice .voice-name {
+        color: var(--both);
+      }
+      .voice-card.energy-voice .voice-name {
+        color: var(--act3);
+      }
+
+      .voice-card p {
+        font-size: 0.8rem;
+        color: var(--text-dim);
+        line-height: 1.6;
+      }
+
+      /* === PRODUCTION CHECKLIST === */
+      .checklist-section {
+        max-width: 800px;
+        margin: 0 auto 64px;
+        padding: 0 24px;
+      }
+
+      .checklist-section h3 {
+        text-align: center;
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+      }
+
+      .checklist {
+        display: grid;
+        gap: 6px;
+      }
+
+      .check-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 10px 16px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        font-size: 0.8rem;
+        color: var(--text-dim);
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .check-item:hover {
+        background: var(--surface-hover);
+      }
+
+      .check-item .checkbox {
+        width: 18px;
+        height: 18px;
+        border: 2px solid var(--border-light);
+        border-radius: 4px;
+        flex-shrink: 0;
+        margin-top: 1px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+      }
+
+      .check-item.checked .checkbox {
+        background: var(--act3);
+        border-color: var(--act3);
+      }
+
+      .check-item.checked .checkbox::after {
+        content: "✓";
+        color: #fff;
+        font-size: 0.65rem;
+        font-weight: 800;
+      }
+
+      .check-item.checked {
+        opacity: 0.5;
+      }
+
+      .check-item.checked .check-text {
+        text-decoration: line-through;
+      }
+
+      /* === FOOTER === */
+      .footer {
+        text-align: center;
+        padding: 48px 24px 64px;
+        border-top: 1px solid var(--border);
+      }
+
+      .footer .rule {
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--text-dim);
+        max-width: 600px;
+        margin: 0 auto 8px;
+        line-height: 1.6;
+      }
+
+      .footer .rule strong {
+        color: var(--act2);
+        font-weight: 700;
+      }
+
+      .footer .prepared-for {
+        font-size: 0.65rem;
+        color: var(--text-muted);
+        margin-top: 24px;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+      }
+
+      /* === EXPAND ALL / COLLAPSE ALL === */
+      .controls {
+        max-width: 840px;
+        margin: 0 auto 16px;
+        padding: 0 24px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+      }
+
+      .controls button {
+        font-size: 0.65rem;
+        font-family: "Inter", sans-serif;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        background: var(--surface);
+        color: var(--text-muted);
+        border: 1px solid var(--border);
+        padding: 6px 14px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .controls button:hover {
+        color: var(--text);
+        border-color: var(--border-light);
+        background: var(--surface-hover);
+      }
+
+      /* === RESPONSIVE === */
+      @media (max-width: 768px) {
+        .timeline::before {
+          left: 23px;
+        }
+        .act-header .act-dot {
+          margin-left: 10px;
+        }
+        .beat {
+          margin-left: 48px;
+        }
+        .beat-content {
+          padding-left: 24px;
+        }
+        .beat-header {
+          flex-wrap: wrap;
+          gap: 8px;
+        }
+        .beat-speakers {
+          order: -1;
+          width: 100%;
+        }
+        .voice-cards {
+          grid-template-columns: 1fr;
+        }
+        .paths-grid {
+          grid-template-columns: 1fr;
+        }
+        .arc-bar {
+          flex-direction: column;
+        }
+        .arc-step:not(:last-child)::after {
+          width: 60%;
+          height: 1px;
+          right: 20%;
+          top: auto;
+          bottom: 0;
+        }
+        .hero-meta {
+          gap: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+      <div class="hero-label">Phase 1 Webinar</div>
+      <h1><span>Beat Sheet</span></h1>
+      <p class="sub">
+        Salim + John live together for the first time. 90 minutes. Price drops
+        early. Value stacks until $400 feels absurd.
+      </p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <div class="label">Date</div>
+          <div class="value">April 1–2, 2026</div>
+        </div>
+        <div class="hero-meta-item">
+          <div class="label">Format</div>
+          <div class="value">Zoom Webinar</div>
+        </div>
+        <div class="hero-meta-item">
+          <div class="label">Duration</div>
+          <div class="value">90 Minutes</div>
+        </div>
+        <div class="hero-meta-item">
+          <div class="label">Price Drop</div>
+          <div class="value">Minute 25</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== EMOTIONAL ARC ===== -->
+    <section class="arc-section">
+      <div class="arc-label">The Emotional Arc</div>
+      <div class="arc-bar">
+        <div class="arc-step">
+          <div class="arc-icon" style="color: var(--act1)">🤝</div>
+          <div class="arc-name">Trust</div>
+          <div class="arc-desc">They're real</div>
+        </div>
+        <div class="arc-step">
+          <div class="arc-icon" style="color: var(--act2)">✨</div>
+          <div class="arc-name">Reveal</div>
+          <div class="arc-desc">The app exists</div>
+        </div>
+        <div class="arc-step">
+          <div class="arc-icon" style="color: var(--act2)">💰</div>
+          <div class="arc-name">Anchor</div>
+          <div class="arc-desc">$400 drops early</div>
+        </div>
+        <div class="arc-step">
+          <div class="arc-icon" style="color: var(--act3)">📦</div>
+          <div class="arc-name">Stack</div>
+          <div class="arc-desc">Value piles up</div>
+        </div>
+        <div class="arc-step">
+          <div class="arc-icon" style="color: var(--act3)">🤯</div>
+          <div class="arc-name">Disbelief</div>
+          <div class="arc-desc">All this for $400?!</div>
+        </div>
+        <div class="arc-step">
+          <div class="arc-icon" style="color: var(--act4)">🚀</div>
+          <div class="arc-name">Action</div>
+          <div class="arc-desc">They buy</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== STRATEGY CARD ===== -->
+    <div class="strategy-card">
+      <h3>The Price-First Playbook</h3>
+      <div class="flow">
+        <span class="highlight">TRUST</span>
+        <span class="arrow"> → </span>
+        <span class="highlight">REVEAL</span>
+        <span class="arrow"> → </span>
+        <span class="highlight">PRICE ANCHOR</span>
+        <span class="arrow"> → </span>
+        STACK <span class="arrow"> → </span> STACK
+        <span class="arrow"> → </span> STACK
+        <span class="arrow"> → </span>
+        <span class="highlight">"ALL OF THIS FOR $400?!"</span>
+        <span class="arrow"> → </span>
+        ACTION
+      </div>
+      <p>
+        Old playbook: hide the price, build tension, reveal at the end. This
+        playbook:
+        <strong>drop the price early, then make it feel like a steal</strong> by
+        stacking value on top for 40 minutes straight.
+      </p>
+    </div>
+
+    <!-- ===== CONTROLS ===== -->
+    <div class="controls">
+      <button onclick="expandAll()">Expand All</button>
+      <button onclick="collapseAll()">Collapse All</button>
+    </div>
+
+    <!-- ===== TIMELINE ===== -->
+    <section class="timeline">
+      <!-- ==================== ACT 1 ==================== -->
+      <div class="act-header act1">
+        <div class="act-dot">1</div>
+        <div class="act-info">
+          <h2>CONNECTION</h2>
+          <div class="act-time">0:00 – 20:00</div>
+        </div>
+      </div>
+
+      <!-- Beat: The Open -->
+      <div class="beat">
+        <div class="beat-header" onclick="toggleBeat(this)">
+          <div class="beat-time">0:00–3:00</div>
+          <div class="beat-title-block">
+            <div class="beat-title">The Open</div>
+            <div class="beat-subtitle">Warmth + vulnerability</div>
+          </div>
+          <div class="beat-speakers">
+            <span class="speaker-tag salim">Salim</span>
+          </div>
+          <div class="beat-chevron">›</div>
+        </div>
+        <div class="beat-body">
+          <div class="beat-content">
+            <div class="quote">"Hey everyone. I'm a little nervous today."</div>
+            <ul>
+              <li>
+                Acknowledge the room — "You're here because you got in early.
+                That matters."
+              </li>
+              <li>
+                Frame the session: "John and I are going to share something
+                we've been building behind the scenes. First time anyone outside
+                our inner circle will see it."
+              </li>
+              <li>
+                Quick housekeeping: cameras on if you can, stay to the end —
+                "there's a lot to show you today"
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Beat: Why This Book Exists -->
+      <div class="beat">
+        <div class="beat-header" onclick="toggleBeat(this)">
+          <div class="beat-time">3:00–8:00</div>
+          <div class="beat-title-block">
+            <div class="beat-title">Why This Book Exists</div>
+            <div class="beat-subtitle">Origin story + personal stake</div>
+          </div>
+          <div class="beat-speakers">
+            <span class="speaker-tag salim">Salim</span>
+          </div>
+          <div class="beat-chevron">›</div>
+        </div>
+        <div class="beat-body">
+          <div class="beat-content">
+            <ul>
+              <li>The personal story behind Shaping Luck</li>
+              <li>
+                The observation that kept coming up: the "luckiest" people all
+                share invisible patterns
+              </li>
+              <li>
+                Transition: "But I couldn't prove it alone. That's where John
+                comes in."
+              </li>
+            </ul>
+            <div class="quote">
+              "I used to call it luck. Now I'd call it inevitable — because I'd
+              accidentally built the conditions that made it almost certain to
+              happen. I just didn't have the language for it."
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Beat: The Framework -->
+      <div class="beat">
+        <div class="beat-header" onclick="toggleBeat(this)">
+          <div class="beat-time">8:00–15:00</div>
+          <div class="beat-title-block">
+            <div class="beat-title">The Framework</div>
+            <div class="beat-subtitle">
+              Intellectual credibility + "aha" moment
+            </div>
+          </div>
+          <div class="beat-speakers">
+            <span class="speaker-tag john">John</span>
+          </div>
+          <div class="beat-chevron">›</div>
+        </div>
+        <div class="beat-body">
+          <div class="beat-content">
+            <ul>
+              <li>John takes over. Measured, precise, research-backed.</li>
+              <li>
+                Decades studying why certain people attract disproportionate
+                opportunity
+              </li>
+              <li>
+                The core thesis: luck isn't random. It's a pattern. Patterns can
+                be engineered.
+              </li>
+              <li>
+                Introduce the framework: the conditions that make serendipity
+                almost inevitable
+              </li>
+            </ul>
+            <div class="quote">
+              "It's not networking. It's not hustle. It's something more subtle
+              — a set of conditions that make unexpected, high-value connections
+              almost inevitable."
+            </div>
+            <p>
+              Quick audience gut-check: "Think of the luckiest thing that ever
+              happened to you. Now ask — what did YOU do that put you in the
+              path of that luck?"
+            </p>
+            <div class="internal-note">
+              This is onboarding question #7 — plants the seed for the app
+              reveal later. The audience is already doing the exercise without
+              knowing it.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Beat: The Experiment -->
+      <div class="beat">
+        <div class="beat-header" onclick="toggleBeat(this)">
+          <div class="beat-time">15:00–20:00</div>
+          <div class="beat-title-block">
+            <div class="beat-title">The Experiment</div>
+            <div class="beat-subtitle">Proof it already works</div>
+          </div>
+          <div class="beat-speakers">
+            <span class="speaker-tag john">John</span>
+            <span class="speaker-tag salim">Salim</span>
+          </div>
+          <div class="beat-chevron">›</div>
+        </div>
+        <div class="beat-body">
+          <div class="beat-content">
+            <ul>
+              <li>
+                John describes the experiment: "We didn't just write about this.
+                We tested it."
+              </li>
+              <li>
+                "We ran 10+ sessions with OpenEXO's Pro Elite members — senior
+                leaders, founders, people who've seen everything."
+              </li>
+              <li>
+                The result: "Conversations that lasted three minutes led to
+                collaborations."
+              </li>
+              <li>
+                Salim jumps in with a specific story — a real pairing from the
+                test runs, a real outcome, something emotional
+              </li>
+            </ul>
+            <div class="quote">
+              "That's not luck. That's architecture. And now we're ready to open
+              it up."
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== ACT 2 ==================== -->
+      <div class="act-header act2">
+        <div class="act-dot">2</div>
+        <div class="act-info">
+          <h2>THE REVEAL + PRICE DROP</h2>
+          <div class="act-time">20:00 – 30:00</div>
+        </div>
+      </div>
+
+      <!-- Beat: The Bridge -->
+      <div class="beat">
+        <div class="beat-header" onclick="toggleBeat(this)">
+          <div class="beat-time">20:00–23:00</div>
+          <div class="beat-title-block">
+            <div class="beat-title">The Bridge</div>
+            <div class="beat-subtitle">Transition from theory to product</div>
+          </div>
+          <div class="beat-speakers">
+            <span class="speaker-tag salim">Salim</span>
+          </div>
+          <div class="beat-chevron">›</div>
+        </div>
+        <div class="beat-body">
+          <div class="beat-content">
+            <ul>
+              <li>
+                "So the book lays all of this out. The framework, the science,
+                the stories."
+              </li>
+              <li>
+                "But John and I kept asking the same question: what if you could
+                actually DO this? Not just read about it?"
+              </li>
+              <li>
+                "Not another framework. Not another model. Something you can
+                actually use."
+              </li>
+              <li>Pause. Let it land.</li>
+            </ul>
+            <div class="quote">
+              "That's what we built. And you're about to see it for the first
+              time."
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Beat: The App Reveal + Price Drop -->
+      <div class="beat">
+        <div class="beat-header" onclick="toggleBeat(this)">
+          <div class="beat-time">23:00–28:00</div>
+          <div class="beat-title-block">
+            <div class="beat-title">The App Reveal + Price Drop</div>
+            <div class="beat-subtitle">
+              Reveal the app, then immediately anchor the price
+            </div>
+          </div>
+          <div class="beat-speakers">
+            <span class="speaker-tag salim">Salim</span>
+          </div>
+          <div class="beat-chevron">›</div>
+        </div>
+        <div class="beat-body">
+          <div class="beat-content">
+            <ul>
+              <li>
+                Screen share. Show Alex. Quick walkthrough — the interface, what
+                it does, how it feels.
+              </li>
+              <li>
+                "This is the Shaping Luck platform. It's real. It works. We've
+                validated it with 10+ rounds of sessions inside OpenEXO's Pro
+                Elite community."
+              </li>
+              <li>
+                "Now we're expanding it to a larger group. And I want to be
+                upfront about what this costs."
+              </li>
+            </ul>
+            <div class="quote">
+              "Lifetime access to this platform is <strong>$400</strong>. That's
+              the founding member price. One time. Not a subscription."
+              <div class="attribution">Let it land. Don't over-explain.</div>
+            </div>
+            <p>
+              "Now let me show you what that actually gets you — because we've
+              been building a lot more than an app."
+            </p>
+            <div class="internal-note">
+              This is the key structural move. The price is out. No more tension
+              about "what's it going to cost." From this point forward, every
+              new thing they see makes $400 feel like more of a steal. The
+              audience spends the next 40 minutes thinking "and I get THAT
+              too?!" instead of "when are they going to ask for money?"
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Beat: The Two Paths -->
+      <div class="beat">
+        <div class="beat-header" onclick="toggleBeat(this)">
+          <div class="beat-time">28:00–30:00</div>
+          <div class="beat-title-block">
+            <div class="beat-title">The Two Paths</div>
+            <div class="beat-subtitle">Remove friction immediately</div>
+          </div>
+          <div class="beat-speakers">
+            <span class="speaker-tag salim">Salim</span>
+          </div>
+          <div class="beat-chevron">›</div>
+        </div>
+        <div class="beat-body">
+          <div class="beat-content">
+            <ul>
+              <li>"A lot of you already bought the book. Thank you."</li>
+              <li>
+                "If you already have the book, you can upgrade for $380. Your
+                book purchase counts."
+              </li>
+              <li>
+                "If you haven't gotten the book yet — the founding member
+                package includes the book. $400, everything."
+              </li>
+              <li>
+                "I'll put both links in the chat right now. No rush — but
+                they're there when you're ready."
+              </li>
+            </ul>
+            <div class="paths-grid">
+              <div class="path-card">
+                <div class="path-q">Already have the book?</div>
+                <div class="path-price">$380</div>
+                <div class="path-note">Upgrade — book purchase counts</div>
+              </div>
+              <div class="path-card">
+                <div class="path-q">Don't have the book?</div>
+                <div class="path-price">$400</div>
+                <div class="path-note">Full package — book included</div>
+              </div>
+            </div>
+            <div class="internal-note">
+              Links are live from minute 30 onward. Some people will buy
+              immediately. Most will wait. The next 40 minutes is designed to
+              make them feel increasingly stupid for NOT buying.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== ACT 3 ==================== -->
+      <div class="act-header act3">
+        <div class="act-dot">3</div>
+        <div class="act-info">
+          <h2>THE STACK</h2>
+          <div class="act-time">30:00 – 72:00</div>
+        </div>
+      </div>
+
+      <!-- Beat: The Deep Demo -->
+      <div class="beat">
+        <div class="beat-header" onclick="toggleBeat(this)">
+          <div class="beat-time">30:00–42:00</div>
+          <div class="beat-title-block">
+            <div class="beat-title">The Deep Demo</div>
+            <div class="beat-subtitle">"I want MY profile"</div>
+          </div>
+          <div class="beat-speakers">
+            <span class="speaker-tag salim">Salim</span>
+            <span class="speaker-tag john">John</span>
+          </div>
+          <div class="beat-chevron">›</div>
+        </div>
+        <div class="beat-body">
+          <div class="beat-content">
+            <p>
+              Walk through the 7 onboarding questions live — don't just show
+              them, DO them. Salim goes through as a new user (or pulls a
+              volunteer).
+            </p>
+            <ul>
+              <li>
+                <strong>Q1:</strong> "The thing I keep almost starting..." —
+                surfaces dormant ambition
+              </li>
+              <li>
+                <strong>Q2:</strong> Room full of strangers — reveals energy
+                style
+              </li>
+              <li>
+                <strong>Q3:</strong> Weird fascination outside your job —
+                serendipity gold
+              </li>
+              <li>
+                <strong>Q4:</strong> Safe job vs. risky one — risk tolerance
+              </li>
+              <li><strong>Q5:</strong> Dinner for 5 — aspirational identity</li>
+              <li>
+                <strong>Q6:</strong> A contradiction you live with — growth edge
+              </li>
+              <li>
+                <strong>Q7:</strong> Your luckiest moment — existing serendipity
+                pattern
+              </li>
+            </ul>
+            <p>
+              Show the Luck DNA output. John adds: "Each of these maps to a
+              dimension of serendipity readiness. The system uses this to match
+              you with the people who will change your trajectory."
+            </p>
+            <div class="value-stack">
+              Luck DNA profile + full app access — still $400
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Beat: The Matching System -->
+      <div class="beat">
+        <div class="beat-header" onclick="toggleBeat(this)">
+          <div class="beat-time">42:00–50:00</div>
+          <div class="beat-title-block">
+            <div class="beat-title">The Matching System</div>
+            <div class="beat-subtitle">The magic + priority access</div>
+          </div>
+          <div class="beat-speakers">
+            <span class="speaker-tag john">John</span>
+          </div>
+          <div class="beat-chevron">›</div>
+        </div>
+        <div class="beat-body">
+          <div class="beat-content">
+            <ul>
+              <li>
+                <strong>Resonance:</strong> "You're paired on a hidden dimension
+                you share — the same weird interest, the same dinner table
+                topic"
+              </li>
+              <li>
+                <strong>Stretch:</strong> "Maximum useful difference. The
+                algorithm rejects pairs where it can't find the connecting
+                thread."
+              </li>
+              <li>
+                <strong>Catalyst:</strong> "Trios built around someone's
+                unfinished ambition. Two people whose skills could unlock it."
+              </li>
+            </ul>
+            <div class="quote">
+              "You'll be meeting Sarah. She runs a biotech startup but her
+              secret obsession is urban foraging. Here's one question to ask her
+              that she'll love..."
+              <div class="attribution">— Sample pre-meeting brief</div>
+            </div>
+            <p>
+              Salim: "The people who get in now — in this founding group — you
+              get priority matching. Smallest group, most curated pairs. That's
+              just how the math works."
+            </p>
+            <div class="value-stack">
+              Curated matching sessions + priority matching — still $400
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Beat: Real Stories -->
+      <div class="beat">
+        <div class="beat-header" onclick="toggleBeat(this)">
+          <div class="beat-time">50:00–55:00</div>
+          <div class="beat-title-block">
+            <div class="beat-title">Real Stories from the Test Runs</div>
+            <div class="beat-subtitle">Proof from real people</div>
+          </div>
+          <div class="beat-speakers">
+            <span class="speaker-tag salim">Salim</span>
+          </div>
+          <div class="beat-chevron">›</div>
+        </div>
+        <div class="beat-body">
+          <div class="beat-content">
+            <ul>
+              <li>
+                <strong>Story 1:</strong> A pairing that led to an unexpected
+                collaboration — "these two would never have met"
+              </li>
+              <li>
+                <strong>Story 2:</strong> Someone who discovered something about
+                themselves through the matching — "the system surfaced a pattern
+                they didn't see"
+              </li>
+              <li>
+                <strong>Story 3:</strong> The "luck moment" — a connection that
+                turned into something neither person could have predicted
+              </li>
+            </ul>
+            <p>
+              Keep these short, vivid, specific. Not testimonials — stories.
+            </p>
+            <div class="quote">
+              "These aren't outliers. This happened consistently across 10+
+              sessions. That's why we're confident enough to open this up."
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Beat: The Avatar -->
+      <div class="beat">
+        <div class="beat-header" onclick="toggleBeat(this)">
+          <div class="beat-time">55:00–60:00</div>
+          <div class="beat-title-block">
+            <div class="beat-title">The Avatar</div>
+            <div class="beat-subtitle">Surprise + delight</div>
+          </div>
+          <div class="beat-speakers">
+            <span class="speaker-tag salim">Salim</span>
+          </div>
+          <div class="beat-chevron">›</div>
+        </div>
+        <div class="beat-body">
+          <div class="beat-content">
+            <div class="quote">
+              "Okay — one more thing I want to show you. This one's a little...
+              different."
+            </div>
+            <ul>
+              <li>
+                Quick demo of the Salim avatar — show it responding
+                conversationally to a question. 60–90 seconds. Let it speak for
+                itself.
+              </li>
+              <li>
+                Salim (laughing): "It's weird seeing yourself. But the idea is —
+                I can't be in every conversation. I can't be available at 2am
+                when you're having a breakthrough. This version of me can."
+              </li>
+              <li>
+                "It knows what I know. It's trained on my frameworks, my
+                thinking, my experience."
+              </li>
+            </ul>
+            <div class="value-stack">Salim avatar access — still $400</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Beat: Meaning of Life + Roadmap -->
+      <div class="beat">
+        <div class="beat-header" onclick="toggleBeat(this)">
+          <div class="beat-time">60:00–65:00</div>
+          <div class="beat-title-block">
+            <div class="beat-title">Meaning of Life Sessions + The Roadmap</div>
+            <div class="beat-subtitle">
+              The most personal element + where this is going
+            </div>
+          </div>
+          <div class="beat-speakers">
+            <span class="speaker-tag salim">Salim</span>
+            <span class="speaker-tag john">John</span>
+          </div>
+          <div class="beat-chevron">›</div>
+        </div>
+        <div class="beat-body">
+          <div class="beat-content">
+            <p>Salim shifts tone. Gets quieter, more personal.</p>
+            <div class="quote">
+              "There's one more thing. This is the part that means the most to
+              me."
+            </div>
+            <ul>
+              <li>
+                Introduce the Meaning of Life sessions — small-group deep dives
+                with Salim directly
+              </li>
+              <li>
+                "These sessions are only for the founding group. When we open
+                this up publicly at $600+, I won't be able to do them at this
+                scale."
+              </li>
+            </ul>
+            <div class="value-stack">
+              Meaning of Life sessions — the most personal, scarce element.
+              Still $400.
+            </div>
+            <p style="margin-top: 16px">John takes over — the roadmap:</p>
+            <ul>
+              <li>
+                <strong>Now:</strong> Luck DNA + matching sessions (proven in
+                10+ rounds)
+              </li>
+              <li>
+                <strong>Soon:</strong> The Luck Feed — 3–5 personalized
+                opportunities per week
+              </li>
+              <li>
+                <strong>Next:</strong> The system learns from every interaction,
+                gets smarter at matching
+              </li>
+              <li>
+                "Founding members ride the entire evolution. No extra cost.
+                You're locked in."
+              </li>
+            </ul>
+            <div class="value-stack">
+              Full app evolution, lifetime — the $400 now covers everything
+              they'll ever build
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Beat: The Recap -->
+      <div class="beat">
+        <div class="beat-header" onclick="toggleBeat(this)">
+          <div class="beat-time">65:00–68:00</div>
+          <div class="beat-title-block">
+            <div class="beat-title">The Recap</div>
+            <div class="beat-subtitle">"All of this. $400."</div>
+          </div>
+          <div class="beat-speakers">
+            <span class="speaker-tag salim">Salim</span>
+          </div>
+          <div class="beat-chevron">›</div>
+        </div>
+        <div class="beat-body">
+          <div class="beat-content">
+            <div class="quote">
+              "So let me just... put this all together. For $400 — one time,
+              lifetime — you get:"
+            </div>
+            <ul>
+              <li>"The book"</li>
+              <li>
+                "Full app access — your Luck DNA, curated matching, the Luck
+                Feed as it evolves"
+              </li>
+              <li>
+                "Priority matching — smallest group, most intentional pairs"
+              </li>
+              <li>"The Salim avatar"</li>
+              <li>"Meaning of Life sessions — with me, live, small group"</li>
+              <li>"Everything we build from here — you're locked in"</li>
+              <li>"Founding member status — you shape what this becomes"</li>
+            </ul>
+            <p>
+              "That's the same $400 I told you about 40 minutes ago. Nothing
+              changed. We just kept showing you what it includes."
+            </p>
+            <p>Pause. Let the weight of it land.</p>
+            <div class="internal-note">
+              This is the emotional payoff of the "price first" structure.
+              They've been recalculating for 40 minutes. The recap just confirms
+              what they've been feeling: this is absurdly underpriced.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Beat: Risk Reversal + Scarcity -->
+      <div class="beat">
+        <div class="beat-header" onclick="toggleBeat(this)">
+          <div class="beat-time">68:00–72:00</div>
+          <div class="beat-title-block">
+            <div class="beat-title">Risk Reversal + Scarcity</div>
+            <div class="beat-subtitle">
+              Remove the last objection, then create urgency
+            </div>
+          </div>
+          <div class="beat-speakers">
+            <span class="speaker-tag salim">Salim</span>
+          </div>
+          <div class="beat-chevron">›</div>
+        </div>
+        <div class="beat-body">
+          <div class="beat-content">
+            <div class="quote">
+              "And if you join and it's not what you expected — full refund. No
+              questions. No hoops. We tested this with some of the most
+              discerning leaders in our network and they loved it. We're that
+              confident."
+            </div>
+            <ul>
+              <li>
+                "The first serendipity meetup is happening within a week of
+                close. You can get in, experience it for yourself — and if it's
+                not for you, you get your money back."
+              </li>
+              <li>
+                <strong>The cap:</strong> "We're limiting founding members to
+                600 people. That's not marketing — it's math. The matching
+                system works best with a curated group."
+              </li>
+              <li>
+                <strong>The deadline:</strong> "The founding member offer closes
+                when this session ends. If there are spots left after today,
+                we'll keep it open for a few days — but the price goes up."
+              </li>
+            </ul>
+            <div class="internal-note">
+              The refund guarantee is the final friction killer. Real cap is
+              1,200 (600 per channel). The 600 stated cap creates urgency. The
+              "few days" buffer allows Track G post-webinar emails to close
+              remaining spots.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Beat: Social Proof in Real Time -->
+      <div class="beat">
+        <div class="beat-header" onclick="toggleBeat(this)">
+          <div class="beat-time">72:00–75:00</div>
+          <div class="beat-title-block">
+            <div class="beat-title">Social Proof in Real Time</div>
+            <div class="beat-subtitle">Momentum</div>
+          </div>
+          <div class="beat-speakers">
+            <span class="speaker-tag salim">Salim</span>
+          </div>
+          <div class="beat-chevron">›</div>
+        </div>
+        <div class="beat-body">
+          <div class="beat-content">
+            <ul>
+              <li>
+                As people buy, acknowledge it: "I'm seeing people come in —
+                welcome, [name]."
+              </li>
+              <li>Don't oversell. Let the momentum speak.</li>
+              <li>
+                "If you're thinking about it — the links are in the chat."
+              </li>
+              <li>Transition to Q&A while checkout links stay live.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== ACT 4 ==================== -->
+      <div class="act-header act4">
+        <div class="act-dot">4</div>
+        <div class="act-info">
+          <h2>CLOSE</h2>
+          <div class="act-time">75:00 – 90:00</div>
+        </div>
+      </div>
+
+      <!-- Beat: Q&A -->
+      <div class="beat">
+        <div class="beat-header" onclick="toggleBeat(this)">
+          <div class="beat-time">75:00–87:00</div>
+          <div class="beat-title-block">
+            <div class="beat-title">Q&A</div>
+            <div class="beat-subtitle">Trust + final objection handling</div>
+          </div>
+          <div class="beat-speakers">
+            <span class="speaker-tag salim">Salim</span>
+            <span class="speaker-tag john">John</span>
+          </div>
+          <div class="beat-chevron">›</div>
+        </div>
+        <div class="beat-body">
+          <div class="beat-content">
+            <p>
+              Salim handles emotional / vision questions. John handles
+              intellectual / "does this actually work" questions.
+            </p>
+            <ul>
+              <li>
+                <strong>"What if I don't have time?"</strong> → "The matching
+                sessions are 45 minutes. The Luck Feed comes to you."
+              </li>
+              <li>
+                <strong>"Is this like other networking things?"</strong> → John:
+                "This is the opposite of networking. We tested it with people
+                who hate networking. They loved it."
+              </li>
+              <li>
+                <strong>"When do sessions start?"</strong> → "First luck session
+                within one week of close."
+              </li>
+              <li>
+                <strong>"I already bought the book"</strong> → "Upgrade link is
+                in the chat. $380. Your book purchase counts."
+              </li>
+              <li>
+                <strong>"Will the price go up?"</strong> → "Yes. When we open
+                publicly, it'll be $600+."
+              </li>
+            </ul>
+            <div class="internal-note">
+              Q&A is NOT filler. It's the second conversion window. Many people
+              buy during Q&A after hearing others' questions validate their own
+              interest. With price already out, questions tend to be "how do I
+              buy?" rather than "what does it cost?" — much better energy.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Beat: The Close -->
+      <div class="beat">
+        <div class="beat-header" onclick="toggleBeat(this)">
+          <div class="beat-time">87:00–90:00</div>
+          <div class="beat-title-block">
+            <div class="beat-title">The Close</div>
+            <div class="beat-subtitle">Gratitude + one final push</div>
+          </div>
+          <div class="beat-speakers">
+            <span class="speaker-tag both">Both</span>
+          </div>
+          <div class="beat-chevron">›</div>
+        </div>
+        <div class="beat-body">
+          <div class="beat-content">
+            <div class="quote">
+              "I want to thank everyone who showed up today. Whether you join as
+              a founding member or not — the fact that you're here means
+              something."
+            </div>
+            <p>
+              John: "This is the beginning of something we've been working
+              toward for years. We tested it, we proved it, and now we're ready
+              to grow it."
+            </p>
+            <div class="quote">
+              "If you're still thinking about it — the links are in the chat.
+              600 spots. Full refund guarantee. Lifetime access. And the chance
+              to shape what this becomes."
+              <div class="attribution">
+                Final line: "Go shape your luck. We'll see you inside."
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== COMPARISON TABLE ===== -->
+    <section class="comparison">
+      <h3>Why Price First Works Better</h3>
+      <table>
+        <tr>
+          <th>Price-Last (old approach)</th>
+          <th>Price-First (this approach)</th>
+        </tr>
+        <tr>
+          <td>Audience spends 60 min wondering "what's it going to cost?"</td>
+          <td>
+            Audience spends 40 min thinking "I can't believe all this is $400"
+          </td>
+        </tr>
+        <tr>
+          <td>Tension builds but so does skepticism</td>
+          <td>Value stacks but price stays anchored</td>
+        </tr>
+        <tr>
+          <td>Price drop is a single moment — hit or miss</td>
+          <td>Every new feature is a micro-conversion moment</td>
+        </tr>
+        <tr>
+          <td>Q&A is full of "what does it cost?" questions</td>
+          <td>Q&A is full of "how do I sign up?" questions</td>
+        </tr>
+        <tr>
+          <td>Feels like a pitch</td>
+          <td>Feels like generosity</td>
+        </tr>
+      </table>
+    </section>
+
+    <!-- ===== POST-WEBINAR MECHANICS ===== -->
+    <section class="post-section">
+      <h3>Post-Webinar Mechanics</h3>
+      <div class="post-grid">
+        <div class="post-row">
+          <div class="post-date">Immediately</div>
+          <div class="post-action">
+            Checkout page stays live for 72 hours (both upgrade + full package
+            links)
+          </div>
+        </div>
+        <div class="post-row">
+          <div class="post-date">Apr 3 (Fri)</div>
+          <div class="post-action">
+            Track G#1: Attendees who didn't buy — replay + offer reminder
+          </div>
+        </div>
+        <div class="post-row">
+          <div class="post-date">Apr 3 (Fri)</div>
+          <div class="post-action">
+            Track G#2: No-shows — replay link + founding member pitch
+          </div>
+        </div>
+        <div class="post-row">
+          <div class="post-date">Apr 3 (Fri)</div>
+          <div class="post-action">
+            Track G#3: Cold contacts — "something happened this week" social
+            proof
+          </div>
+        </div>
+        <div class="post-row">
+          <div class="post-date">Apr 6 (Mon)</div>
+          <div class="post-action">
+            Track G#4: "Doors closing tonight" — final founding member close
+          </div>
+        </div>
+        <div class="post-row">
+          <div class="post-date">Apr 9 (Thu)</div>
+          <div class="post-action">
+            Track G#5: Cold non-buyers — last book push at $20 grace / $40
+          </div>
+        </div>
+        <div class="post-row">
+          <div class="post-date">Apr 14 (Tue)</div>
+          <div class="post-action">
+            Track G#6: Graceful exit — evergreen nurture
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== VOICE NOTES ===== -->
+    <section class="voice-section">
+      <h3>Voice & Energy Notes</h3>
+      <div class="voice-cards">
+        <div class="voice-card salim-voice">
+          <div class="voice-name">Salim's Energy</div>
+          <p>
+            Warm, personal, slightly nervous (genuine, not performed). He's
+            showing something he cares about. Talks like he's telling a friend,
+            not pitching an audience. When he drops the price at minute 25, it
+            should feel casual and confident — "let me just be upfront with
+            you."
+          </p>
+        </div>
+        <div class="voice-card john-voice">
+          <div class="voice-name">John's Energy</div>
+          <p>
+            Measured, precise, intellectual. The anchor. When Salim gets
+            excited, John grounds it in research. He doesn't sell — he explains.
+            That IS his sell. John's validation of the test runs carries more
+            weight than any testimonial.
+          </p>
+        </div>
+        <div class="voice-card handoffs-voice">
+          <div class="voice-name">The Handoffs</div>
+          <p>
+            Salim → John should feel like a conversation, not a relay race. They
+            riff off each other. "John, tell them about..." / "Salim mentioned
+            something earlier that I want to build on..." The chemistry between
+            them IS the product proof.
+          </p>
+        </div>
+        <div class="voice-card energy-voice">
+          <div class="voice-name">After the Price Drop</div>
+          <p>
+            The energy should feel lighter, not heavier. The price is out. No
+            more elephant in the room. Now it's just "let me keep showing you
+            cool stuff" — and the audience is along for the ride knowing exactly
+            what it costs.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PRODUCTION CHECKLIST ===== -->
+    <section class="checklist-section">
+      <h3>Production Checklist</h3>
+      <div class="checklist">
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="checkbox"></div>
+          <div class="check-text">
+            Zoom webinar room booked + tested (capacity for 1,200+)
+          </div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="checkbox"></div>
+          <div class="check-text">
+            App demo environment ready — no live bugs, clean data
+          </div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="checkbox"></div>
+          <div class="check-text">
+            Sample Luck DNA profile prepared for live walkthrough
+          </div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="checkbox"></div>
+          <div class="check-text">
+            Salim avatar demo ready — 60–90 sec interaction, tested
+          </div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="checkbox"></div>
+          <div class="check-text">
+            2–3 real stories from OpenEXO Pro Elite test runs cleared
+            (names/permission)
+          </div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="checkbox"></div>
+          <div class="check-text">
+            Slide deck: minimal — mostly screen share + talking heads
+          </div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="checkbox"></div>
+          <div class="check-text">
+            Two checkout pages live: Upgrade ($380) + Full package ($400)
+          </div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="checkbox"></div>
+          <div class="check-text">
+            Refund policy copy on both checkout pages
+          </div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="checkbox"></div>
+          <div class="check-text">
+            Chat moderation plan (dropping both links at minute 28, keeping them
+            pinned)
+          </div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="checkbox"></div>
+          <div class="check-text">
+            Recording set up for replay (Track G needs this)
+          </div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="checkbox"></div>
+          <div class="check-text">
+            Backup plan if tech fails (phone number? Backup Zoom?)
+          </div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="checkbox"></div>
+          <div class="check-text">
+            Real-time sales counter or notification system
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <section class="footer">
+      <div class="rule">
+        The <strong>$400</strong> price is stated early and never apologized
+        for. Everything after that moment makes it feel like a bargain. By the
+        time Salim recaps at minute 65, the audience isn't wondering IF they
+        should buy — they're wondering why it's so cheap.
+      </div>
+      <div class="prepared-for">Prepared for Salim Ismail & John Hagel</div>
+    </section>
+
+    <script>
+      // Toggle individual beat cards
+      function toggleBeat(header) {
+        const beat = header.parentElement;
+        beat.classList.toggle("open");
+      }
+
+      // Expand all beats
+      function expandAll() {
+        document
+          .querySelectorAll(".beat")
+          .forEach((b) => b.classList.add("open"));
+      }
+
+      // Collapse all beats
+      function collapseAll() {
+        document
+          .querySelectorAll(".beat")
+          .forEach((b) => b.classList.remove("open"));
+      }
+
+      // Toggle checklist items
+      function toggleCheck(item) {
+        item.classList.toggle("checked");
+      }
+
+      // Scroll-triggered fade-in for beat cards
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
+      );
+
+      document
+        .querySelectorAll(".beat")
+        .forEach((beat) => observer.observe(beat));
+    </script>
+  </body>
+</html>

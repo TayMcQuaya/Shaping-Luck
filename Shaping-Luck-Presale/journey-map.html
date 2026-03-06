@@ -1,0 +1,1411 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shaping Luck — User Journey Map</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #08080e;
+        --card: #111118;
+        --card-hover: #15151f;
+        --border: #1e1e2a;
+        --gold: #c4a44e;
+        --gold-dim: #8a7535;
+        --blue: #4a8fd4;
+        --blue-dim: #2a5a8a;
+        --red: #d4603a;
+        --green: #3ad47a;
+        --purple: #9b3ad4;
+        --text: #b0aec0;
+        --text-dim: #5a586a;
+        --white: #eeedf2;
+        --sans: "DM Sans", system-ui, sans-serif;
+        --mono: "DM Mono", monospace;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
+        font-size: 14px;
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+
+      .page {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 48px 32px 80px;
+      }
+
+      /* ============ HEADER ============ */
+      .page-label {
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--gold-dim);
+        margin-bottom: 8px;
+      }
+
+      h1 {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--white);
+        letter-spacing: -0.5px;
+        margin-bottom: 6px;
+      }
+
+      .page-sub {
+        font-size: 13px;
+        color: var(--text-dim);
+        margin-bottom: 40px;
+      }
+
+      .section-label {
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--text-dim);
+        margin-bottom: 14px;
+        margin-top: 40px;
+        padding-bottom: 6px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      /* ============ STATS BAR ============ */
+      .stats-bar {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 32px;
+        flex-wrap: wrap;
+      }
+
+      .stat-card {
+        flex: 1;
+        min-width: 140px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 14px 18px;
+        text-align: center;
+      }
+
+      .stat-value {
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--white);
+        line-height: 1;
+        margin-bottom: 4px;
+      }
+
+      .stat-label {
+        font-family: var(--mono);
+        font-size: 9px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: var(--text-dim);
+      }
+
+      /* ============ ENTRY POINTS ============ */
+      .entry-row {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 12px;
+      }
+
+      .entry-card {
+        flex: 1;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 20px 24px;
+        text-align: center;
+      }
+
+      .entry-name {
+        font-size: 16px;
+        font-weight: 600;
+      }
+
+      .entry-detail {
+        font-size: 11px;
+        color: var(--text-dim);
+        margin-top: 4px;
+      }
+
+      .entry-card.salim {
+        border-top: 3px solid var(--gold);
+      }
+      .entry-card.john {
+        border-top: 3px solid var(--blue);
+      }
+
+      /* ============ CONNECTORS ============ */
+      .connector {
+        display: flex;
+        justify-content: center;
+        padding: 8px 0;
+        color: var(--text-dim);
+        font-size: 18px;
+        letter-spacing: 8px;
+      }
+
+      /* ============ LANDING PAGE ============ */
+      .landing-box {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 20px 28px;
+        text-align: center;
+        margin-bottom: 12px;
+      }
+
+      .landing-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--white);
+        margin-bottom: 6px;
+      }
+
+      .landing-actions {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 12px;
+        flex-wrap: wrap;
+      }
+
+      .action-pill {
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 600;
+        font-family: var(--mono);
+        letter-spacing: 0.5px;
+      }
+
+      .action-buy {
+        background: #1a2a1a;
+        color: var(--green);
+        border: 1px solid #2a3a2a;
+      }
+      .action-register {
+        background: #1a1a2a;
+        color: var(--blue);
+        border: 1px solid #2a2a3a;
+      }
+      .action-both {
+        background: #1a1a2a;
+        color: var(--purple);
+        border: 1px solid #2a1a3a;
+      }
+      .action-neither {
+        background: #1a1a1a;
+        color: var(--text-dim);
+        border: 1px solid var(--border);
+      }
+
+      /* ============ DECISION MATRIX ============ */
+      .decision-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+
+      .decision-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 14px 16px;
+        text-align: center;
+      }
+
+      .decision-action {
+        font-family: var(--mono);
+        font-size: 9px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+      }
+
+      .decision-arrow {
+        font-size: 16px;
+        color: var(--text-dim);
+        margin-bottom: 6px;
+      }
+      .decision-result {
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .decision-sub {
+        font-size: 10px;
+        color: var(--text-dim);
+        margin-top: 4px;
+      }
+
+      /* ============ SWIMLANE TIMELINE ============ */
+      .timeline-section {
+        margin-top: 40px;
+        margin-bottom: 40px;
+      }
+
+      .timeline-header {
+        display: grid;
+        grid-template-columns: 180px repeat(6, 1fr);
+        gap: 0;
+      }
+
+      .timeline-header-cell {
+        padding: 10px 12px;
+        text-align: center;
+        font-family: var(--mono);
+        font-size: 9px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: var(--text-dim);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .timeline-header-cell:first-child {
+        text-align: left;
+      }
+
+      .swimlane {
+        display: grid;
+        grid-template-columns: 180px repeat(6, 1fr);
+        gap: 0;
+        border-bottom: 1px solid #12121a;
+        min-height: 72px;
+        transition: background 0.2s;
+      }
+
+      .swimlane:hover {
+        background: var(--card-hover);
+      }
+
+      .lane-label {
+        padding: 14px 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border-right: 1px solid #12121a;
+      }
+
+      .lane-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+
+      .lane-info {
+        min-width: 0;
+      }
+      .lane-name {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--white);
+        white-space: nowrap;
+      }
+      .lane-meta {
+        font-size: 9px;
+        color: var(--text-dim);
+        font-family: var(--mono);
+        letter-spacing: 0.5px;
+      }
+
+      .lane-cell {
+        padding: 14px 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        flex-wrap: wrap;
+        position: relative;
+        border-right: 1px solid #0e0e14;
+      }
+
+      /* Email dots */
+      .email-dot {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--bg);
+        cursor: pointer;
+        position: relative;
+        transition:
+          transform 0.15s,
+          box-shadow 0.15s;
+        z-index: 2;
+      }
+
+      .email-dot:hover {
+        transform: scale(1.3);
+        box-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
+        z-index: 100;
+      }
+
+      .email-dot.draft {
+        opacity: 1;
+      }
+      .email-dot.todo {
+        opacity: 0.5;
+      }
+
+      /* Milestone diamond */
+      .milestone-dot {
+        width: 22px;
+        height: 22px;
+        transform: rotate(45deg);
+        border-radius: 3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 9px;
+        font-weight: 700;
+        color: var(--bg);
+        cursor: pointer;
+        transition:
+          transform 0.15s,
+          box-shadow 0.15s;
+        z-index: 2;
+      }
+
+      .milestone-dot:hover {
+        transform: rotate(45deg) scale(1.3);
+        box-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
+        z-index: 100;
+      }
+
+      /* Tooltip */
+      .tooltip {
+        display: none;
+        position: absolute;
+        bottom: calc(100% + 8px);
+        left: 50%;
+        transform: translateX(-50%);
+        background: #1a1a28;
+        border: 1px solid #2a2a3a;
+        border-radius: 8px;
+        padding: 10px 14px;
+        min-width: 240px;
+        max-width: 320px;
+        z-index: 1000;
+        pointer-events: none;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      }
+
+      .email-dot:hover .tooltip,
+      .milestone-dot:hover .tooltip {
+        display: block;
+      }
+
+      .tooltip-num {
+        font-family: var(--mono);
+        font-size: 9px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+      }
+
+      .tooltip-subject {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--white);
+        line-height: 1.3;
+        margin-bottom: 4px;
+      }
+
+      .tooltip-purpose {
+        font-size: 11px;
+        color: var(--text-dim);
+        line-height: 1.4;
+      }
+
+      .tooltip-ctas {
+        margin-top: 6px;
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+      }
+
+      .tooltip-cta {
+        padding: 1px 6px;
+        border-radius: 3px;
+        font-family: var(--mono);
+        font-size: 8px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+
+      .tooltip-cta.book {
+        background: #1a2a1a;
+        color: var(--green);
+      }
+      .tooltip-cta.webinar {
+        background: #1a1a2a;
+        color: var(--blue);
+      }
+      .tooltip-cta.urgency {
+        background: #2a1a1a;
+        color: var(--red);
+      }
+
+      /* ============ TRANSITIONS ============ */
+      .transition-strip {
+        margin: 32px 0;
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .trans-card {
+        flex: 1;
+        min-width: 220px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 14px 18px;
+      }
+
+      .trans-trigger {
+        font-family: var(--mono);
+        font-size: 9px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .trans-rule {
+        font-size: 11px;
+        color: var(--text-dim);
+        line-height: 1.6;
+      }
+      .trans-arrow {
+        color: var(--white);
+        font-weight: 600;
+      }
+
+      /* ============ CONVERGENCE ============ */
+      .converge-section {
+        margin-top: 40px;
+      }
+
+      .converge-flow {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .converge-node {
+        background: var(--card);
+        border: 2px solid var(--border);
+        border-radius: 12px;
+        padding: 16px 24px;
+        text-align: center;
+        min-width: 180px;
+      }
+
+      .converge-node-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--white);
+        margin-bottom: 4px;
+      }
+      .converge-node-meta {
+        font-size: 10px;
+        color: var(--text-dim);
+        font-family: var(--mono);
+      }
+      .converge-arrow {
+        font-size: 24px;
+        color: var(--text-dim);
+      }
+      .converge-label {
+        font-size: 10px;
+        color: var(--text-dim);
+        text-align: center;
+        margin-top: 6px;
+      }
+
+      /* ============ LEGEND ============ */
+      .legend {
+        margin-top: 40px;
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        padding: 16px 20px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 11px;
+        color: var(--text-dim);
+      }
+      .legend-dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .legend-diamond {
+        width: 12px;
+        height: 12px;
+        transform: rotate(45deg);
+        border-radius: 2px;
+        flex-shrink: 0;
+      }
+
+      /* ============ KEY RULES ============ */
+      .rules-bar {
+        margin-top: 32px;
+        padding: 16px 20px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        font-size: 11px;
+        color: var(--text-dim);
+        line-height: 1.8;
+        columns: 2;
+        column-gap: 32px;
+      }
+
+      .rules-bar strong {
+        color: var(--white);
+      }
+
+      /* ============ RESPONSIVE ============ */
+      @media (max-width: 900px) {
+        .entry-row {
+          flex-direction: column;
+        }
+        .decision-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .timeline-header,
+        .swimlane {
+          grid-template-columns: 140px repeat(6, 1fr);
+        }
+        .rules-bar {
+          columns: 1;
+        }
+        .stats-bar {
+          gap: 8px;
+        }
+        .stat-card {
+          min-width: 100px;
+          padding: 10px 12px;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .timeline-header,
+        .swimlane {
+          grid-template-columns: 120px repeat(6, 1fr);
+        }
+        .lane-name {
+          font-size: 10px;
+        }
+        .email-dot {
+          width: 22px;
+          height: 22px;
+          font-size: 9px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="page-label">Phase 1 &mdash; Private Launch</div>
+      <h1>User Journey Map</h1>
+      <p class="page-sub">
+        Every path from first touch to founding member &middot; March 5 &ndash;
+        April 14, 2026 &middot; Hover dots for email details
+      </p>
+
+      <!-- ============ STATS BAR ============ -->
+      <div class="stats-bar">
+        <div class="stat-card">
+          <div class="stat-value">24</div>
+          <div class="stat-label">Total Emails</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">8</div>
+          <div class="stat-label">Email Tracks</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" style="color: var(--gold)">6</div>
+          <div class="stat-label">Salim Drip (OpenEXO)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" style="color: var(--blue)">5</div>
+          <div class="stat-label">John Drip (LinkedIn)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">600</div>
+          <div class="stat-label">Founding Cap</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">Apr 1</div>
+          <div class="stat-label">Webinar Date</div>
+        </div>
+      </div>
+
+      <!-- ============ ENTRY POINTS ============ -->
+      <div class="section-label">Entry Points</div>
+      <div class="entry-row">
+        <div class="entry-card salim">
+          <div class="entry-name" style="color: var(--gold)">Salim's List</div>
+          <div class="entry-detail">
+            OpenEXO email blast &middot; Warm audience &middot; Week 1
+          </div>
+        </div>
+        <div class="entry-card john">
+          <div class="entry-name" style="color: var(--blue)">
+            John's LinkedIn
+          </div>
+          <div class="entry-detail">
+            DMs + InMail + Ads &middot; Professional network &middot; Week 3
+          </div>
+        </div>
+      </div>
+
+      <div class="connector">&#8595; &#8595;</div>
+
+      <!-- ============ LANDING PAGE ============ -->
+      <div class="landing-box">
+        <div class="landing-title">Landing Page</div>
+        <div style="font-size: 12px; color: var(--text-dim)">
+          Both audiences land on the same page with two CTAs
+        </div>
+        <div class="landing-actions">
+          <div class="action-pill action-buy">Buy Book ($20)</div>
+          <div class="action-pill action-register">
+            Register for Webinar (Free)
+          </div>
+          <div class="action-pill action-both">Both</div>
+          <div class="action-pill action-neither">Neither (browse)</div>
+        </div>
+      </div>
+
+      <div class="connector">&#8595;</div>
+
+      <!-- ============ DECISION MATRIX ============ -->
+      <div class="section-label">What Happens Next</div>
+      <div class="decision-grid">
+        <div class="decision-card">
+          <div class="decision-action" style="color: var(--text-dim)">
+            Neither action
+          </div>
+          <div class="decision-arrow">&#8595;</div>
+          <div class="decision-result" style="color: var(--gold)">
+            Track A <span style="color: var(--text-dim)">/</span>
+            <span style="color: var(--blue)">B</span>
+          </div>
+          <div class="decision-sub">Non-buyer drip (cold variant)</div>
+        </div>
+        <div class="decision-card">
+          <div class="decision-action" style="color: var(--blue)">
+            Register only
+          </div>
+          <div class="decision-arrow">&#8595;</div>
+          <div class="decision-result" style="color: var(--gold)">
+            Track A <span style="color: var(--text-dim)">/</span>
+            <span style="color: var(--blue)">B</span>
+          </div>
+          <div class="decision-sub">
+            Non-buyer drip (warm &mdash; no webinar CTA)
+          </div>
+        </div>
+        <div class="decision-card">
+          <div class="decision-action" style="color: var(--green)">
+            Buy only
+          </div>
+          <div class="decision-arrow">&#8595;</div>
+          <div class="decision-result" style="color: var(--gold)">
+            Track C <span style="color: var(--text-dim)">/</span>
+            <span style="color: var(--blue)">D</span>
+          </div>
+          <div class="decision-sub">Buyer drip (push webinar registration)</div>
+        </div>
+        <div class="decision-card">
+          <div class="decision-action" style="color: var(--purple)">
+            Buy + Register
+          </div>
+          <div class="decision-arrow">&#8595;</div>
+          <div class="decision-result" style="color: var(--purple)">
+            Track E
+          </div>
+          <div class="decision-sub">
+            VIP &mdash; lightest touch, just show up
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ SWIMLANE TIMELINE ============ -->
+      <div class="timeline-section">
+        <div class="section-label">Email Tracks &mdash; Timeline View</div>
+
+        <div class="timeline-header">
+          <div class="timeline-header-cell">Track</div>
+          <div class="timeline-header-cell">
+            Week 1<br /><span style="font-size: 8px; letter-spacing: 0"
+              >Mar 5-7</span
+            >
+          </div>
+          <div class="timeline-header-cell">
+            Week 2<br /><span style="font-size: 8px; letter-spacing: 0"
+              >Mar 10-14</span
+            >
+          </div>
+          <div class="timeline-header-cell">
+            Week 3<br /><span style="font-size: 8px; letter-spacing: 0"
+              >Mar 17-21</span
+            >
+          </div>
+          <div class="timeline-header-cell">
+            Week 4<br /><span style="font-size: 8px; letter-spacing: 0"
+              >Mar 24 &ndash; Apr 2</span
+            >
+          </div>
+          <div class="timeline-header-cell">
+            Post<br /><span style="font-size: 8px; letter-spacing: 0"
+              >Apr 3 &ndash; Apr 14</span
+            >
+          </div>
+          <div class="timeline-header-cell">
+            Ongoing<br /><span style="font-size: 8px; letter-spacing: 0"
+              >Apr 14+</span
+            >
+          </div>
+        </div>
+
+        <div id="swimlanes"></div>
+      </div>
+
+      <!-- ============ TRANSITIONS ============ -->
+      <div class="section-label">How People Move Between Tracks</div>
+      <div class="transition-strip">
+        <div class="trans-card">
+          <div class="trans-trigger" style="color: var(--green)">
+            On Book Purchase
+          </div>
+          <div class="trans-rule">
+            Track A/B <span class="trans-arrow">&rarr;</span> Track C/D
+            (buyer)<br />
+            If already registered <span class="trans-arrow">&rarr;</span> Track
+            E (VIP)
+          </div>
+        </div>
+        <div class="trans-card">
+          <div class="trans-trigger" style="color: var(--blue)">
+            On Webinar Registration
+          </div>
+          <div class="trans-rule">
+            Stay on Track A/B but switch to <strong>warm</strong> CTA variant<br />
+            If already a buyer <span class="trans-arrow">&rarr;</span> Track E
+            (VIP)<br />
+            Added to Track F queue
+          </div>
+        </div>
+        <div class="trans-card">
+          <div class="trans-trigger" style="color: var(--purple)">
+            On Both Actions
+          </div>
+          <div class="trans-rule">
+            Go directly to Track E (VIP)<br />
+            Added to Track F countdown queue<br />
+            Buyer confirmation sent immediately
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ CONVERGENCE ============ -->
+      <div class="converge-section">
+        <div class="section-label">Convergence &mdash; Everyone Meets Here</div>
+        <div class="converge-flow">
+          <div class="converge-node" style="border-color: var(--text-dim)">
+            <div
+              class="converge-node-title"
+              style="color: var(--text-dim); font-size: 11px"
+            >
+              All Tracks
+            </div>
+            <div class="converge-node-meta">
+              A &middot; B &middot; C &middot; D &middot; E
+            </div>
+          </div>
+          <div class="converge-arrow">&rarr;</div>
+          <div class="converge-node" style="border-color: var(--red)">
+            <div class="converge-node-title" style="color: var(--red)">
+              Track F: Countdown
+            </div>
+            <div class="converge-node-meta">
+              Mar 30 &ndash; Apr 1 &middot; 3 emails
+            </div>
+            <div class="converge-label">Everyone registered</div>
+          </div>
+          <div class="converge-arrow">&rarr;</div>
+          <div class="converge-node" style="border-color: var(--green)">
+            <div class="converge-node-title" style="color: var(--green)">
+              Track G: Post-Webinar
+            </div>
+            <div class="converge-node-meta">
+              Apr 3 &ndash; Apr 14 &middot; 2 emails
+            </div>
+            <div class="converge-label">Replay + final close</div>
+          </div>
+          <div class="converge-arrow">&rarr;</div>
+          <div class="converge-node" style="border-color: var(--purple)">
+            <div class="converge-node-title" style="color: var(--purple)">
+              Founding Members
+            </div>
+            <div class="converge-node-meta">$400 &middot; 600 cap</div>
+            <div class="converge-label">Goal</div>
+          </div>
+        </div>
+        <div class="converge-flow" style="margin-top: 16px">
+          <div
+            class="converge-node"
+            style="border-color: var(--text-dim); border-style: dashed"
+          >
+            <div
+              class="converge-node-title"
+              style="color: var(--text-dim); font-size: 11px"
+            >
+              Unconverted after G
+            </div>
+            <div class="converge-node-meta">
+              Cold contacts &middot; Non-buyers
+            </div>
+          </div>
+          <div class="converge-arrow">&rarr;</div>
+          <div class="converge-node" style="border-color: #5a586a">
+            <div class="converge-node-title" style="color: #8a88a0">
+              Track H: Evergreen
+            </div>
+            <div class="converge-node-meta">Apr 14+ &middot; 1-2x/month</div>
+            <div class="converge-label">
+              Value content &middot; Prep for Phase 2
+            </div>
+          </div>
+          <div class="converge-arrow">&rarr;</div>
+          <div
+            class="converge-node"
+            style="border-color: var(--gold); border-style: dashed"
+          >
+            <div class="converge-node-title" style="color: var(--gold)">
+              Phase 2: Public Launch
+            </div>
+            <div class="converge-node-meta">$597 &middot; Wider audience</div>
+            <div class="converge-label">May 2026</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ LEGEND ============ -->
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background: var(--gold)"></div>
+          Salim voice
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background: var(--blue)"></div>
+          John voice
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background: var(--purple)"></div>
+          VIP / Shared
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background: var(--red)"></div>
+          Countdown
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background: var(--green)"></div>
+          Post-webinar
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background: #5a586a"></div>
+          Evergreen
+        </div>
+        <div class="legend-item">
+          <div class="legend-diamond" style="background: var(--purple)"></div>
+          Milestone
+        </div>
+        <div class="legend-item">
+          <div
+            class="legend-dot"
+            style="background: var(--gold); opacity: 0.4"
+          ></div>
+          TODO (no copy yet)
+        </div>
+      </div>
+
+      <!-- ============ KEY RULES ============ -->
+      <div class="rules-bar">
+        <div>
+          &rarr; <strong>No app mention</strong> until Email #4 (even then,
+          vague)<br />
+          &rarr; <strong>$400 founding member price</strong> revealed ONLY
+          during live webinar<br />
+          &rarr; <strong>Book presale ($20)</strong> closes after Track A #6<br />
+          &rarr; <strong>Book goes to $40</strong> after presale
+        </div>
+        <div>
+          &rarr; <strong>John starts Week 3</strong> (compressed sequence)<br />
+          &rarr; <strong>600 founding member cap</strong> &mdash; real
+          scarcity<br />
+          &rarr; <strong>Track G</strong> &mdash; replay + final close (2
+          emails)<br />
+          &rarr; <strong>Cold contacts &rarr; Track H</strong> evergreen nurture
+          (1-2x/month, no pressure)
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ============================================================
+      // SWIMLANE DATA — REDUCED DRIP (OpenEXO tracks eased ~25%)
+      // Track A: 8 → 6 emails (cut #3 social proof + #7 testimonial)
+      // Track C: 6 → 5 emails (cut #2 redundant "why I wrote this")
+      // ============================================================
+      const lanes = [
+        {
+          name: "Track A",
+          meta: "Salim Non-Buyer · 6 emails",
+          color: "#c4a44e",
+          cells: [
+            // Week 1 (Mar 5-7)
+            [
+              {
+                num: 1,
+                subject: "I've been working on something big",
+                purpose:
+                  "Announce book presale. Tease webinar. No app mention.",
+                ctas: ["book", "webinar"],
+                status: "draft",
+              },
+              {
+                num: 2,
+                subject: "The real reason I wrote this book",
+                purpose:
+                  "Personal story. Deeper connection. Reinforce presale.",
+                ctas: ["book", "webinar"],
+                status: "draft",
+              },
+            ],
+            // Week 2 (Mar 10-14)
+            [
+              {
+                num: 3,
+                subject: "I want to introduce you to someone",
+                purpose:
+                  "Introduce John. Double credibility. Strongest webinar tease.",
+                ctas: ["webinar", "book"],
+                status: "draft",
+              },
+              {
+                num: "E",
+                subject: "Abundance Event Pre-Announce",
+                purpose: "Live ~200 person audience. Word-of-mouth activation.",
+                ctas: [],
+                status: "draft",
+                type: "milestone",
+              },
+            ],
+            // Week 3 (Mar 17-21)
+            [
+              {
+                num: 4,
+                subject: "We've been building something",
+                purpose: "First app hint. Still vague. Scarcity intro.",
+                ctas: ["webinar", "book", "urgency"],
+                status: "todo",
+              },
+              {
+                num: 5,
+                subject: "A stranger asked me four words...",
+                purpose:
+                  "Social proof + testimonial. Mystery hook payoff tease.",
+                ctas: ["webinar", "book"],
+                status: "draft",
+              },
+            ],
+            // Week 4 (Mar 24-28)
+            [
+              {
+                num: 6,
+                subject: "Last call: $20 book price ends Friday",
+                purpose: "Close presale. Price urgency. Final push.",
+                ctas: ["book", "urgency"],
+                status: "draft",
+              },
+            ],
+            [],
+            [],
+          ],
+        },
+        {
+          name: "Track B",
+          meta: "John Non-Buyer · 5 emails",
+          color: "#4a8fd4",
+          cells: [
+            [],
+            [],
+            // Week 3 (Mar 17-21)
+            [
+              {
+                num: 1,
+                subject: "Something I've been working on with Salim Ismail",
+                purpose: "First touch. Book + webinar + credibility.",
+                ctas: ["book", "webinar"],
+                status: "draft",
+              },
+              {
+                num: 2,
+                subject:
+                  "The pattern behind the 'luckiest' people I've studied",
+                purpose: "Core thesis. Intellectual hook.",
+                ctas: ["book"],
+                status: "draft",
+              },
+              {
+                num: 3,
+                subject: "We tested something remarkable",
+                purpose: "Experiment story. App tease.",
+                ctas: ["webinar"],
+                status: "draft",
+              },
+            ],
+            // Week 4 (Mar 23-24)
+            [
+              {
+                num: 4,
+                subject: "Why I'm limiting this to 600 people",
+                purpose: "Scarcity + webinar push.",
+                ctas: ["webinar", "book", "urgency"],
+                status: "draft",
+              },
+              {
+                num: 5,
+                subject: "Book pre-sale closes Friday",
+                purpose: "Final price urgency.",
+                ctas: ["book", "urgency"],
+                status: "draft",
+              },
+            ],
+            [],
+            [],
+          ],
+        },
+        {
+          name: "Track C",
+          meta: "Salim Buyer · 5 emails",
+          color: "#c4a44e",
+          dotStyle: "ring",
+          cells: [
+            // Week 1 — on purchase
+            [
+              {
+                num: 1,
+                subject: "You're in — here's what happens next",
+                purpose: "Confirm purchase. Plant webinar seed.",
+                ctas: ["webinar"],
+                status: "draft",
+              },
+            ],
+            // Week 2
+            [
+              {
+                num: 2,
+                subject: "The experiment that started all of this",
+                purpose: "Tease app. Create webinar intrigue.",
+                ctas: ["webinar"],
+                status: "draft",
+              },
+            ],
+            // Week 3
+            [
+              {
+                num: 3,
+                subject: "A quick note about April 1st",
+                purpose: "Drop webinar link. First real push.",
+                ctas: ["webinar"],
+                status: "draft",
+              },
+            ],
+            // Week 4
+            [
+              {
+                num: 4,
+                subject: "What to expect on April 1st",
+                purpose: "Webinar preview. Build anticipation.",
+                ctas: ["webinar"],
+                status: "draft",
+              },
+              {
+                num: 5,
+                subject: "Real people. Real luck. Real stories.",
+                purpose: "Social proof. Must-attend.",
+                ctas: ["webinar"],
+                status: "draft",
+              },
+            ],
+            [],
+            [],
+          ],
+        },
+        {
+          name: "Track D",
+          meta: "John Buyer · 4 emails",
+          color: "#4a8fd4",
+          dotStyle: "ring",
+          cells: [
+            [],
+            [],
+            // Week 3 — on purchase
+            [
+              {
+                num: 1,
+                subject: "Thank you — and mark your calendar",
+                purpose: "Confirm purchase. Plant webinar.",
+                ctas: ["webinar"],
+                status: "draft",
+              },
+              {
+                num: 2,
+                subject: "The question I keep coming back to",
+                purpose: "Deepen connection.",
+                ctas: ["webinar"],
+                status: "draft",
+              },
+              {
+                num: 3,
+                subject: "We tested something remarkable",
+                purpose: "Tease app. Webinar pull.",
+                ctas: ["webinar"],
+                status: "draft",
+              },
+            ],
+            // Week 4
+            [
+              {
+                num: 4,
+                subject: "April 1st — your link is ready",
+                purpose: "Drop link. Push registration.",
+                ctas: ["webinar"],
+                status: "draft",
+              },
+            ],
+            [],
+            [],
+          ],
+        },
+        {
+          name: "Track E",
+          meta: "VIP · 1 email",
+          color: "#9b3ad4",
+          cells: [
+            [],
+            [],
+            [
+              {
+                num: 1,
+                subject: "Something special for the people in the room",
+                purpose: "Build anticipation. Tease exclusive offer.",
+                ctas: [],
+                status: "todo",
+              },
+            ],
+            [],
+            [],
+            [],
+          ],
+        },
+        {
+          name: "Track F",
+          meta: "Countdown · 3 emails",
+          color: "#d4603a",
+          cells: [
+            [],
+            [],
+            [],
+            // Week 4 (Mar 30 – Apr 1)
+            [
+              {
+                num: 1,
+                subject: "What to expect on April 1st",
+                purpose: "Agenda tease. Handle objections.",
+                ctas: ["webinar"],
+                status: "draft",
+              },
+              {
+                num: 2,
+                subject: "Tomorrow. Seriously — don't miss this.",
+                purpose: "Short. Punchy. Pure nudge.",
+                ctas: ["webinar", "urgency"],
+                status: "draft",
+              },
+              {
+                num: 3,
+                subject: "We're live in a few hours",
+                purpose: "Day-of reminder.",
+                ctas: ["webinar"],
+                status: "draft",
+              },
+            ],
+            [],
+            [],
+          ],
+        },
+        {
+          name: "Track G",
+          meta: "Post-Webinar · 2 emails",
+          color: "#3ad47a",
+          cells: [
+            [],
+            [],
+            [],
+            [],
+            // Post (Apr 3 – Apr 14)
+            [
+              {
+                num: 1,
+                subject: "Here's the replay — and what happens next.",
+                purpose:
+                  "Everyone who didn't buy. Replay + founding offer recap.",
+                ctas: ["urgency"],
+                status: "todo",
+              },
+              {
+                num: 2,
+                subject: "Doors closing tonight.",
+                purpose: "Final close. Everyone not converted → Track H.",
+                ctas: ["urgency"],
+                status: "todo",
+              },
+            ],
+            [],
+          ],
+        },
+        {
+          name: "Track H",
+          meta: "Evergreen · 1 email",
+          color: "#5a586a",
+          cells: [
+            [],
+            [],
+            [],
+            [],
+            [],
+            // Ongoing (Apr 14+)
+            [
+              {
+                num: 1,
+                subject: "A luck experiment you can try this week",
+                purpose: "Pure value. No sell. Seeds Phase 2 re-engagement.",
+                ctas: [],
+                status: "todo",
+              },
+            ],
+          ],
+        },
+      ];
+
+      // ============================================================
+      // RENDER
+      // ============================================================
+      function renderSwimlanes() {
+        const container = document.getElementById("swimlanes");
+        let html = "";
+
+        lanes.forEach((lane) => {
+          html += `<div class="swimlane">`;
+
+          html += `<div class="lane-label">`;
+          html += `<div class="lane-dot" style="background:${lane.color};${lane.dotStyle === "ring" ? "background:transparent;border:2px solid " + lane.color + ";" : ""}"></div>`;
+          html += `<div class="lane-info">`;
+          html += `<div class="lane-name">${lane.name}</div>`;
+          html += `<div class="lane-meta">${lane.meta}</div>`;
+          html += `</div></div>`;
+
+          lane.cells.forEach((cell) => {
+            html += `<div class="lane-cell">`;
+
+            if (cell.length === 0) {
+              html += `<span style="color:#1a1a22;">&mdash;</span>`;
+            } else {
+              cell.forEach((email) => {
+                const isMilestone = email.type === "milestone";
+                const dotClass = isMilestone ? "milestone-dot" : "email-dot";
+                const statusClass = email.status || "draft";
+
+                let ctaHtml = "";
+                if (email.ctas && email.ctas.length) {
+                  ctaHtml = '<div class="tooltip-ctas">';
+                  email.ctas.forEach((c) => {
+                    ctaHtml += `<span class="tooltip-cta ${c}">${c}</span>`;
+                  });
+                  ctaHtml += "</div>";
+                }
+
+                html += `<div class="${dotClass} ${statusClass}" style="background:${lane.color};">`;
+                html += isMilestone
+                  ? `<span style="transform:rotate(-45deg);display:block;font-size:8px;">&#9670;</span>`
+                  : email.num;
+
+                html += `<div class="tooltip">`;
+                html += `<div class="tooltip-num" style="color:${lane.color};">${lane.name} #${email.num}${isMilestone ? " &middot; MILESTONE" : ""} &middot; ${email.status.toUpperCase()}</div>`;
+                html += `<div class="tooltip-subject">${email.subject}</div>`;
+                html += `<div class="tooltip-purpose">${email.purpose}</div>`;
+                html += ctaHtml;
+                html += `</div>`;
+
+                html += `</div>`;
+              });
+            }
+
+            html += `</div>`;
+          });
+
+          html += `</div>`;
+        });
+
+        container.innerHTML = html;
+      }
+
+      renderSwimlanes();
+    </script>
+  </body>
+</html>

@@ -1,1222 +1,1507 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shaping Luck | Engineering Serendipity</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
 
     <style>
-        /* --- 1. CORE VARIABLES & RESET --- */
-        :root {
-            /* Palette: Deep Void Navy to Alchemic Gold */
-            --bg-void: #05080f;
-            --bg-panel: #0f1521;
-            --accent-cyan: #00f2ea;
-            --accent-gold: #ffc857;
-            --text-main: #e2e8f0;
-            --text-muted: #94a3b8;
-            
-            /* Glassmorphism */
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-blur: 16px;
-            
-            /* Typography */
-            --font-heading: 'Montserrat', sans-serif;
-            --font-body: 'Inter', sans-serif;
-            --font-accent: 'Playfair Display', serif;
+      /* --- 1. CORE VARIABLES & RESET --- */
+      :root {
+        /* Palette: Deep Void Navy to Alchemic Gold */
+        --bg-void: #05080f;
+        --bg-panel: #0f1521;
+        --accent-cyan: #00f2ea;
+        --accent-gold: #ffc857;
+        --text-main: #e2e8f0;
+        --text-muted: #94a3b8;
 
-            /* Color scheme support */
-            color-scheme: dark light;
-        }
+        /* Glassmorphism */
+        --glass-bg: rgba(255, 255, 255, 0.03);
+        --glass-border: rgba(255, 255, 255, 0.08);
+        --glass-blur: 16px;
 
-        /* --- LIGHT MODE OVERRIDES --- */
-        [data-theme="light"] {
-            --bg-void: #faf8f5;
-            --bg-panel: #ffffff;
-            --accent-cyan: #0891b2;
-            --accent-gold: #d97706;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --glass-bg: rgba(0, 0, 0, 0.02);
-            --glass-border: rgba(0, 0, 0, 0.08);
-        }
+        /* Typography */
+        --font-heading: "Montserrat", sans-serif;
+        --font-body: "Inter", sans-serif;
+        --font-accent: "Playfair Display", serif;
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* Color scheme support */
+        color-scheme: dark light;
+      }
 
-        body {
-            background-color: var(--bg-void);
-            color: var(--text-main);
-            font-family: var(--font-body);
-            line-height: 1.6;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
+      /* --- LIGHT MODE OVERRIDES --- */
+      [data-theme="light"] {
+        --bg-void: #faf8f5;
+        --bg-panel: #ffffff;
+        --accent-cyan: #0891b2;
+        --accent-gold: #d97706;
+        --text-main: #1e293b;
+        --text-muted: #64748b;
+        --glass-bg: rgba(0, 0, 0, 0.02);
+        --glass-border: rgba(0, 0, 0, 0.08);
+      }
 
-        /* --- THEME TOGGLE BUTTON --- */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: var(--bg-void);
+        color: var(--text-main);
+        font-family: var(--font-body);
+        line-height: 1.6;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      /* --- THEME TOGGLE BUTTON --- */
+      .theme-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 1px solid var(--glass-border);
+        background: var(--glass-bg);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+      }
+
+      .theme-toggle:hover {
+        transform: scale(1.1);
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      [data-theme="light"] .theme-toggle:hover {
+        background: rgba(0, 0, 0, 0.05);
+      }
+
+      .theme-toggle svg {
+        width: 20px;
+        height: 20px;
+        transition:
+          opacity 0.3s,
+          transform 0.3s;
+        position: absolute;
+      }
+
+      .theme-toggle .sun-icon {
+        opacity: 0;
+        transform: rotate(-90deg) scale(0);
+        color: var(--accent-gold);
+      }
+
+      .theme-toggle .moon-icon {
+        opacity: 1;
+        transform: rotate(0) scale(1);
+        color: var(--accent-cyan);
+      }
+
+      [data-theme="light"] .theme-toggle .sun-icon {
+        opacity: 1;
+        transform: rotate(0) scale(1);
+      }
+
+      [data-theme="light"] .theme-toggle .moon-icon {
+        opacity: 0;
+        transform: rotate(90deg) scale(0);
+      }
+
+      /* --- LIGHT MODE COMPONENT OVERRIDES --- */
+
+      /* Glass cards */
+      [data-theme="light"] .glass-card {
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        box-shadow:
+          0 4px 6px -1px rgba(0, 0, 0, 0.05),
+          0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      }
+
+      [data-theme="light"] .glass-card:hover {
+        background: rgba(255, 255, 255, 0.9);
+        border-color: rgba(0, 0, 0, 0.1);
+        box-shadow:
+          0 10px 15px -3px rgba(0, 0, 0, 0.08),
+          0 4px 6px -4px rgba(0, 0, 0, 0.05);
+      }
+
+      /* Video wrapper */
+      [data-theme="light"] .video-wrapper {
+        background: linear-gradient(45deg, #f0f4f8, #e8ecf0);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+      }
+
+      /* Buttons */
+      [data-theme="light"] .btn-primary {
+        background: linear-gradient(90deg, #0891b2, #0e7490);
+        color: white;
+        box-shadow: 0 4px 14px rgba(8, 145, 178, 0.3);
+      }
+
+      [data-theme="light"] .btn-outline {
+        border-color: rgba(0, 0, 0, 0.2);
+        color: var(--text-main);
+      }
+
+      [data-theme="light"] .btn-outline:hover {
+        border-color: var(--text-main);
+        background: rgba(0, 0, 0, 0.03);
+      }
+
+      /* Quadrant section */
+      [data-theme="light"] .section-quadrant {
+        background: radial-gradient(
+          circle at 50% 50%,
+          #e8f4f8 0%,
+          var(--bg-void) 70%
+        );
+      }
+
+      [data-theme="light"] .q-card {
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+      }
+
+      [data-theme="light"] .q-card:hover {
+        border-color: var(--accent-cyan);
+        box-shadow: 0 0 30px rgba(8, 145, 178, 0.15);
+      }
+
+      [data-theme="light"] .q-card .shape-bg {
+        opacity: 0.08;
+      }
+
+      [data-theme="light"] .q-card:hover .shape-bg {
+        opacity: 0.15;
+      }
+
+      /* Interactive quadrant section */
+      [data-theme="light"] .interactive-quadrant-section {
+        background: radial-gradient(
+          circle at 50% 50%,
+          #e8f0f5 0%,
+          var(--bg-void) 70%
+        );
+      }
+
+      [data-theme="light"] .iq-shape-q1 {
+        background: rgba(8, 145, 178, 0.08);
+      }
+      [data-theme="light"] .iq-shape-q1.active {
+        background: rgba(8, 145, 178, 0.15);
+        box-shadow: 0 0 40px rgba(8, 145, 178, 0.2);
+      }
+
+      [data-theme="light"] .iq-shape-q2 {
+        background: rgba(217, 119, 6, 0.08);
+      }
+      [data-theme="light"] .iq-shape-q2.active {
+        background: rgba(217, 119, 6, 0.15);
+        box-shadow: 0 0 40px rgba(217, 119, 6, 0.2);
+      }
+
+      [data-theme="light"] .iq-shape-q3 {
+        background: rgba(100, 116, 139, 0.08);
+      }
+      [data-theme="light"] .iq-shape-q3.active {
+        background: rgba(100, 116, 139, 0.15);
+        box-shadow: 0 0 40px rgba(100, 116, 139, 0.15);
+      }
+
+      [data-theme="light"] .iq-shape-q4 {
+        background: rgba(217, 119, 6, 0.08);
+      }
+      [data-theme="light"] .iq-shape-q4.active {
+        background: rgba(217, 119, 6, 0.2);
+        box-shadow: 0 0 50px rgba(217, 119, 6, 0.25);
+      }
+
+      /* Luck marker in light mode */
+      [data-theme="light"] .luck-marker {
+        background: radial-gradient(circle, #0891b2, #d97706);
+        border: 3px solid white;
+        box-shadow:
+          0 0 0 2px rgba(0, 0, 0, 0.1),
+          0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      /* Form inputs */
+      [data-theme="light"] input {
+        background: white;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        color: var(--text-main);
+      }
+
+      [data-theme="light"] input:focus {
+        border-color: var(--accent-cyan);
+        box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
+      }
+
+      [data-theme="light"] input::placeholder {
+        color: var(--text-muted);
+      }
+
+      /* Paradox box */
+      [data-theme="light"] .paradox-box {
+        background: linear-gradient(
+          135deg,
+          rgba(8, 145, 178, 0.08),
+          rgba(255, 255, 255, 0)
+        );
+        border-color: rgba(8, 145, 178, 0.2);
+      }
+
+      /* Canvas and particles - reduce visibility */
+      [data-theme="light"] #luckCanvas {
+        filter: invert(1) hue-rotate(180deg);
+        opacity: 0.12;
+      }
+
+      /* Mouse spotlight - warm glow */
+      [data-theme="light"] .mouse-spotlight.active {
+        background: radial-gradient(
+          600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+          rgba(217, 119, 6, 0.06),
+          transparent 60%
+        );
+      }
+
+      /* Footer */
+      [data-theme="light"] footer {
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+        background: var(--bg-panel);
+      }
+
+      [data-theme="light"] footer img {
+        filter: none;
+        opacity: 0.6;
+      }
+
+      /* Corner accents */
+      [data-theme="light"] .corner-accent path {
+        stroke-width: 2.5;
+      }
+
+      /* Play button */
+      [data-theme="light"] .play-button {
+        background: rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+      }
+
+      [data-theme="light"] .play-button::after {
+        border-left-color: var(--text-main);
+      }
+
+      [data-theme="light"] .play-button:hover {
+        background: rgba(0, 0, 0, 0.1);
+      }
+
+      /* Intro text in light mode */
+      [data-theme="light"] .intro-text {
+        filter: drop-shadow(0 0 40px rgba(8, 145, 178, 0.3))
+          drop-shadow(0 0 80px rgba(8, 145, 178, 0.15));
+      }
+
+      /* Gold form card */
+      [data-theme="light"] .glass-card[style*="accent-gold"] {
+        background: rgba(217, 119, 6, 0.05);
+      }
+
+      /* Axis labels */
+      [data-theme="light"] .axis-title {
+        background: rgba(255, 255, 255, 0.9);
+      }
+
+      /* Reduced motion support */
+      @media (prefers-reduced-motion: reduce) {
         .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            border: 1px solid var(--glass-border);
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .theme-toggle:hover {
-            transform: scale(1.1);
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        [data-theme="light"] .theme-toggle:hover {
-            background: rgba(0, 0, 0, 0.05);
-        }
-
-        .theme-toggle svg {
-            width: 20px;
-            height: 20px;
-            transition: opacity 0.3s, transform 0.3s;
-            position: absolute;
-        }
-
-        .theme-toggle .sun-icon {
-            opacity: 0;
-            transform: rotate(-90deg) scale(0);
-            color: var(--accent-gold);
-        }
-
-        .theme-toggle .moon-icon {
-            opacity: 1;
-            transform: rotate(0) scale(1);
-            color: var(--accent-cyan);
-        }
-
-        [data-theme="light"] .theme-toggle .sun-icon {
-            opacity: 1;
-            transform: rotate(0) scale(1);
-        }
-
-        [data-theme="light"] .theme-toggle .moon-icon {
-            opacity: 0;
-            transform: rotate(90deg) scale(0);
-        }
-
-        /* --- LIGHT MODE COMPONENT OVERRIDES --- */
-
-        /* Glass cards */
-        [data-theme="light"] .glass-card {
-            background: rgba(255, 255, 255, 0.7);
-            border: 1px solid rgba(0, 0, 0, 0.06);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-        }
-
-        [data-theme="light"] .glass-card:hover {
-            background: rgba(255, 255, 255, 0.9);
-            border-color: rgba(0, 0, 0, 0.1);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
-        }
-
-        /* Video wrapper */
-        [data-theme="light"] .video-wrapper {
-            background: linear-gradient(45deg, #f0f4f8, #e8ecf0);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
-        }
-
-        /* Buttons */
-        [data-theme="light"] .btn-primary {
-            background: linear-gradient(90deg, #0891b2, #0e7490);
-            color: white;
-            box-shadow: 0 4px 14px rgba(8, 145, 178, 0.3);
-        }
-
-        [data-theme="light"] .btn-outline {
-            border-color: rgba(0, 0, 0, 0.2);
-            color: var(--text-main);
-        }
-
-        [data-theme="light"] .btn-outline:hover {
-            border-color: var(--text-main);
-            background: rgba(0, 0, 0, 0.03);
-        }
-
-        /* Quadrant section */
-        [data-theme="light"] .section-quadrant {
-            background: radial-gradient(circle at 50% 50%, #e8f4f8 0%, var(--bg-void) 70%);
-        }
-
-        [data-theme="light"] .q-card {
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid rgba(0, 0, 0, 0.08);
-        }
-
-        [data-theme="light"] .q-card:hover {
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 30px rgba(8, 145, 178, 0.15);
-        }
-
-        [data-theme="light"] .q-card .shape-bg {
-            opacity: 0.08;
-        }
-
-        [data-theme="light"] .q-card:hover .shape-bg {
-            opacity: 0.15;
-        }
-
-        /* Interactive quadrant section */
-        [data-theme="light"] .interactive-quadrant-section {
-            background: radial-gradient(circle at 50% 50%, #e8f0f5 0%, var(--bg-void) 70%);
-        }
-
-        [data-theme="light"] .iq-shape-q1 {
-            background: rgba(8, 145, 178, 0.08);
-        }
-        [data-theme="light"] .iq-shape-q1.active {
-            background: rgba(8, 145, 178, 0.15);
-            box-shadow: 0 0 40px rgba(8, 145, 178, 0.2);
-        }
-
-        [data-theme="light"] .iq-shape-q2 {
-            background: rgba(217, 119, 6, 0.08);
-        }
-        [data-theme="light"] .iq-shape-q2.active {
-            background: rgba(217, 119, 6, 0.15);
-            box-shadow: 0 0 40px rgba(217, 119, 6, 0.2);
-        }
-
-        [data-theme="light"] .iq-shape-q3 {
-            background: rgba(100, 116, 139, 0.08);
-        }
-        [data-theme="light"] .iq-shape-q3.active {
-            background: rgba(100, 116, 139, 0.15);
-            box-shadow: 0 0 40px rgba(100, 116, 139, 0.15);
-        }
-
-        [data-theme="light"] .iq-shape-q4 {
-            background: rgba(217, 119, 6, 0.08);
-        }
-        [data-theme="light"] .iq-shape-q4.active {
-            background: rgba(217, 119, 6, 0.2);
-            box-shadow: 0 0 50px rgba(217, 119, 6, 0.25);
-        }
-
-        /* Luck marker in light mode */
-        [data-theme="light"] .luck-marker {
-            background: radial-gradient(circle, #0891b2, #d97706);
-            border: 3px solid white;
-            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        /* Form inputs */
-        [data-theme="light"] input {
-            background: white;
-            border: 1px solid rgba(0, 0, 0, 0.15);
-            color: var(--text-main);
-        }
-
-        [data-theme="light"] input:focus {
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
-        }
-
-        [data-theme="light"] input::placeholder {
-            color: var(--text-muted);
-        }
-
-        /* Paradox box */
-        [data-theme="light"] .paradox-box {
-            background: linear-gradient(135deg, rgba(8, 145, 178, 0.08), rgba(255, 255, 255, 0));
-            border-color: rgba(8, 145, 178, 0.2);
-        }
-
-        /* Canvas and particles - reduce visibility */
-        [data-theme="light"] #luckCanvas {
-            filter: invert(1) hue-rotate(180deg);
-            opacity: 0.12;
-        }
-
-        /* Mouse spotlight - warm glow */
-        [data-theme="light"] .mouse-spotlight.active {
-            background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(217, 119, 6, 0.06), transparent 60%);
-        }
-
-        /* Footer */
-        [data-theme="light"] footer {
-            border-top: 1px solid rgba(0, 0, 0, 0.08);
-            background: var(--bg-panel);
-        }
-
-        [data-theme="light"] footer img {
-            filter: none;
-            opacity: 0.6;
-        }
-
-        /* Corner accents */
-        [data-theme="light"] .corner-accent path {
-            stroke-width: 2.5;
-        }
-
-        /* Play button */
-        [data-theme="light"] .play-button {
-            background: rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        [data-theme="light"] .play-button::after {
-            border-left-color: var(--text-main);
-        }
-
-        [data-theme="light"] .play-button:hover {
-            background: rgba(0, 0, 0, 0.1);
-        }
-
-        /* Intro text in light mode */
-        [data-theme="light"] .intro-text {
-            filter: drop-shadow(0 0 40px rgba(8, 145, 178, 0.3)) drop-shadow(0 0 80px rgba(8, 145, 178, 0.15));
-        }
-
-        /* Gold form card */
-        [data-theme="light"] .glass-card[style*="accent-gold"] {
-            background: rgba(217, 119, 6, 0.05);
-        }
-
-        /* Axis labels */
-        [data-theme="light"] .axis-title {
-            background: rgba(255, 255, 255, 0.9);
-        }
-
-        /* Reduced motion support */
-        @media (prefers-reduced-motion: reduce) {
-            .theme-toggle {
-                transition: none;
-            }
-            body {
-                transition: none;
-            }
-        }
-
-        /* --- 2. TYPOGRAPHY & UTILITIES --- */
-        h1, h2, h3, h4 {
-            font-family: var(--font-heading);
-            font-weight: 600;
-            line-height: 1.2;
-        }
-
-        .text-gradient {
-            background: linear-gradient(135deg, var(--text-main) 0%, var(--accent-cyan) 50%, var(--accent-gold) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px;
-            position: relative;
-            z-index: 2; /* Sit above canvas */
-        }
-
-        section {
-            padding: 100px 0;
-            position: relative;
-        }
-
-        /* --- 3. ANIMATION CLASSES --- */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            filter: blur(10px);
-            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-            filter: blur(0);
-        }
-
-        /* --- 4. HERO SECTION --- */
-        #canvas-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            z-index: 0;
-            opacity: 0.6;
-            pointer-events: none;
-        }
-
-        /* Canvas Intro Overlay */
-        .canvas-intro {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        .canvas-intro .scroll-indicator {
-            pointer-events: auto;
-        }
-
-        .intro-text {
-            font-family: var(--font-heading);
-            font-size: clamp(3rem, 10vw, 7rem);
-            font-weight: 400;
-            letter-spacing: 0.02em;
-            background: linear-gradient(135deg, var(--text-main) 0%, var(--accent-cyan) 50%, var(--accent-gold) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            opacity: 0;
-            animation: fadeInUp 1.5s ease forwards;
-            animation-delay: 0.5s;
-            filter: drop-shadow(0 0 40px rgba(0, 242, 234, 0.4)) drop-shadow(0 0 80px rgba(0, 242, 234, 0.2));
-            text-shadow: 0 0 60px rgba(0, 242, 234, 0.5);
-        }
-
-        .scroll-indicator {
-            position: absolute;
-            bottom: 60px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            opacity: 0;
-            animation: fadeInUp 1.5s ease forwards;
-            animation-delay: 1.2s;
-            transition: transform 0.3s ease;
-        }
-
-        .scroll-indicator:hover {
-            transform: translateY(5px);
-        }
-
-        .scroll-indicator span {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-muted);
-        }
-
-        .scroll-chevron {
-            width: 30px;
-            height: 30px;
-            border-right: 2px solid var(--accent-cyan);
-            border-bottom: 2px solid var(--accent-cyan);
-            transform: rotate(45deg);
-            animation: bounceChevron 2s ease-in-out infinite;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes bounceChevron {
-            0%, 100% {
-                transform: rotate(45deg) translate(0, 0);
-                opacity: 1;
-            }
-            50% {
-                transform: rotate(45deg) translate(5px, 5px);
-                opacity: 0.5;
-            }
-        }
-
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-        }
-
-        .hero-logo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 2rem;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .hero h1 {
-            font-size: clamp(3rem, 5vw, 5rem);
-            margin-bottom: 1.5rem;
-            letter-spacing: -0.02em;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto 3rem;
-        }
-
-        /* Video Container with Glow */
-        .video-wrapper {
-            width: 100%;
-            max-width: 800px;
-            aspect-ratio: 16/9;
-            background: linear-gradient(45deg, #1a2333, #0f1521);
-            border-radius: 20px;
-            margin: 0 auto 3rem;
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 0 60px -20px rgba(0, 242, 234, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .play-button {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-        
-        .play-button::after {
-            content: '';
-            border-left: 20px solid var(--text-main);
-            border-top: 12px solid transparent;
-            border-bottom: 12px solid transparent;
-            margin-left: 5px;
-        }
-        
-        .play-button:hover { transform: scale(1.1); background: rgba(255,255,255,0.2); }
-
-        .btn-group {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-        }
-
-        .btn {
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, var(--accent-cyan), #00b4d8);
-            color: var(--bg-void);
-            box-shadow: 0 4px 20px rgba(0, 242, 234, 0.4);
-        }
-
-        .btn-primary:hover {
-            box-shadow: 0 4px 30px rgba(0, 242, 234, 0.6);
-            transform: translateY(-2px);
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: var(--text-main);
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-
-        .btn-outline:hover {
-            border-color: var(--text-main);
-            background: rgba(255,255,255,0.05);
-        }
-
-        /* Mouse Spotlight Effect */
-        .mouse-spotlight {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .mouse-spotlight.active {
-            opacity: 1;
-        }
-
-        /* --- LOGO SHAPE APPLICATIONS --- */
-
-        /* Q2 Shape - Form Inputs (Potential/Growth) */
-        .shape-input-wrapper {
-            position: relative;
-            display: inline-block;
-            width: 100%;
-        }
-        .shape-input-wrapper .shape-input-accent {
-            position: absolute;
-            width: 24px;
-            height: 24px;
-            opacity: 0;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            pointer-events: none;
-        }
-        .shape-input-wrapper .shape-input-accent path {
-            fill: none;
-            stroke: var(--accent-gold);
-            stroke-width: 2;
-        }
-        .shape-input-wrapper .accent-tl {
-            top: -4px;
-            left: -4px;
-        }
-        .shape-input-wrapper .accent-br {
-            bottom: -4px;
-            right: -4px;
-            transform: rotate(180deg);
-        }
-        .shape-input-wrapper:focus-within .shape-input-accent {
-            opacity: 0.8;
-        }
-        .shape-input-wrapper:focus-within .accent-tl {
-            transform: translate(2px, 2px);
-        }
-        .shape-input-wrapper:focus-within .accent-br {
-            transform: rotate(180deg) translate(2px, 2px);
-        }
-
-        /* Q4 Shape - Success State (Completion/Transformation) */
-        .success-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 0.5rem 1rem;
-            background: rgba(0, 242, 234, 0.1);
-            border: 1px solid var(--accent-cyan);
-            border-radius: 8px;
-            color: var(--accent-cyan);
-            font-size: 0.9rem;
-        }
-        .success-badge .shape-icon {
-            width: 20px;
-            height: 20px;
-            animation: successPulse 2s ease-in-out infinite;
-        }
-        .success-badge .shape-icon path {
-            fill: var(--accent-cyan);
-        }
-        @keyframes successPulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.1); }
-        }
-
-        /* Shape-enhanced CTA button */
-        .btn-shape {
-            position: relative;
-            overflow: visible;
-        }
-        .btn-shape .btn-shape-accent {
-            position: absolute;
-            width: 16px;
-            height: 16px;
-            opacity: 0;
-            transition: all 0.3s ease;
-            pointer-events: none;
-        }
-        .btn-shape .btn-shape-accent path {
-            fill: var(--accent-cyan);
-        }
-        .btn-shape .btn-accent-tl {
-            top: -6px;
-            left: -6px;
-        }
-        .btn-shape .btn-accent-br {
-            bottom: -6px;
-            right: -6px;
-            transform: rotate(180deg);
-        }
-        .btn-shape:hover .btn-shape-accent {
-            opacity: 0.6;
-        }
-        .btn-shape:hover .btn-accent-tl {
-            transform: translate(-2px, -2px);
-        }
-        .btn-shape:hover .btn-accent-br {
-            transform: rotate(180deg) translate(-2px, -2px);
-        }
-
-        /* --- 5. THE OLD RULES (Cards) --- */
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(var(--glass-blur));
-            -webkit-backdrop-filter: blur(var(--glass-blur));
-            border: 1px solid var(--glass-border);
-            padding: 2.5rem;
-            border-radius: 24px;
-            transition: transform 0.4s ease, border-color 0.4s ease;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .glass-card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(255,255,255,0.2);
-            background: rgba(255,255,255,0.06);
-        }
-
-        /* Animated Corner Accents */
-        .corner-accent {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            opacity: 0;
-            transition: opacity 0.4s ease, transform 0.4s ease;
-            pointer-events: none;
-        }
-        .corner-accent path {
-            fill: none;
-            stroke: var(--accent-cyan);
-            stroke-width: 2;
-        }
-        .glass-card:hover .corner-accent {
-            opacity: 0.6;
-        }
-
-        /* Corner positions */
-        .corner-tl { top: 8px; left: 8px; }
-        .corner-tr { top: 8px; right: 8px; transform: rotate(90deg); }
-        .corner-bl { bottom: 8px; left: 8px; transform: rotate(-90deg); }
-        .corner-br { bottom: 8px; right: 8px; transform: rotate(180deg); }
-
-        /* Hover animations - corners slide in */
-        .glass-card:hover .corner-tl { transform: translate(0, 0); }
-        .glass-card:hover .corner-tr { transform: rotate(90deg) translate(0, 0); }
-        .glass-card:hover .corner-bl { transform: rotate(-90deg) translate(0, 0); }
-        .glass-card:hover .corner-br { transform: rotate(180deg) translate(0, 0); }
-
-        .corner-tl { transform: translate(-10px, -10px); }
-        .corner-tr { transform: rotate(90deg) translate(-10px, -10px); }
-        .corner-bl { transform: rotate(-90deg) translate(-10px, -10px); }
-        .corner-br { transform: rotate(180deg) translate(-10px, -10px); }
-
-        /* Gold variant for special cards */
-        .corner-accent-gold path {
-            stroke: var(--accent-gold);
-        }
-
-        .card-icon {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            color: var(--accent-gold);
-            text-align: center;
-        }
-
-        /* --- 6. THE QUADRANT (Centerpiece) --- */
-        .section-quadrant {
-            background: radial-gradient(circle at 50% 50%, #15202b 0%, var(--bg-void) 70%);
-            padding: 120px 0;
-        }
-
-        .quadrant-map {
-            position: relative;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr 1fr;
-            gap: 40px;
-            max-width: 900px;
-            margin: 4rem auto 0;
-            padding: 40px;
-        }
-
-        /* The Axis Lines */
-        .quadrant-map::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: -20px;
-            right: -20px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--text-muted), transparent);
-            z-index: 0;
-        }
-
-        .quadrant-map::after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: -20px;
-            bottom: -20px;
-            width: 1px;
-            background: linear-gradient(180deg, transparent, var(--text-muted), transparent);
-            z-index: 0;
-        }
-
-        .q-card {
-            position: relative;
-            z-index: 1;
-            background: rgba(15, 21, 33, 0.8);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 2rem;
-            transition: all 0.3s;
-        }
-
-        .q-card:hover {
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 30px rgba(0, 242, 234, 0.1);
-            transform: scale(1.02);
-        }
-
-        .q-card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--accent-cyan); }
-        .q-card p { font-size: 0.9rem; color: var(--text-muted); }
-
-        /* Quadrant Shape Backgrounds */
-        .q-card .shape-bg {
-            position: absolute;
-            width: 120px;
-            height: 120px;
-            opacity: 0.04;
-            transition: opacity 0.4s ease, transform 0.4s ease;
-            pointer-events: none;
-        }
-        .q-card:hover .shape-bg {
-            opacity: 0.08;
-            transform: scale(1.1);
-        }
-
-        /* Q1 - Gilded Cage (top-left of grid, passion + abundance) */
-        .q-card-q1 .shape-bg {
-            bottom: -10px;
-            right: -10px;
-        }
-        .q-card-q1:hover .shape-bg path { fill: var(--accent-cyan); }
-
-        /* Q2 - Launchpad (top-right of grid, passion + scarcity) */
-        .q-card-q2 .shape-bg {
-            bottom: -10px;
-            left: -10px;
-        }
-        .q-card-q2:hover .shape-bg path { fill: var(--accent-gold); }
-
-        /* Q3 - Bunker (bottom-left of grid, fear + abundance) */
-        .q-card-q3 .shape-bg {
-            top: -10px;
-            right: -10px;
-        }
-        .q-card-q3:hover .shape-bg path { fill: var(--text-muted); }
-
-        /* Q4 - Forge (bottom-right of grid, fear + scarcity) */
-        .q-card-q4 .shape-bg {
-            top: -10px;
-            left: -10px;
-        }
-        .q-card-q4:hover .shape-bg path { fill: var(--accent-gold); }
-
-        .axis-label {
-            position: absolute;
-            font-family: var(--font-body);
-            font-size: 0.75rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--accent-gold);
-            text-align: center;
-            line-height: 1.4;
-        }
-        .axis-label small {
-            display: block;
-            font-size: 0.6rem;
-            color: var(--text-muted);
-            text-transform: none;
-            letter-spacing: 0.5px;
-            margin-top: 2px;
-        }
-        .axis-top { top: -55px; left: 50%; transform: translateX(-50%); }
-        .axis-bottom { bottom: -45px; left: 50%; transform: translateX(-50%); }
-        .axis-left { left: -90px; top: 50%; transform: translateY(-50%) rotate(-90deg); white-space: nowrap; }
-        .axis-right { right: -90px; top: 50%; transform: translateY(-50%) rotate(90deg); white-space: nowrap; }
-
-        .axis-title {
-            position: absolute;
-            font-family: var(--font-body);
-            font-size: 0.6rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            opacity: 0.8;
-            background: rgba(15, 21, 33, 0.9);
-            padding: 4px 8px;
-            z-index: 1;
-        }
-        .axis-title-vertical {
-            left: 50%;
-            top: 20%;
-            transform: translateX(-50%) rotate(-90deg);
-            white-space: nowrap;
-        }
-        .axis-title-horizontal {
-            top: 50%;
-            right: 5%;
-            left: auto;
-            transform: translateY(-50%);
-            white-space: nowrap;
-        }
-
-        /* --- INTERACTIVE QUADRANT TOOL --- */
-        .interactive-quadrant-section {
-            background: radial-gradient(circle at 50% 50%, #15202b 0%, var(--bg-void) 70%);
-            padding: 100px 0;
-        }
-
+          transition: none;
+        }
+        body {
+          transition: none;
+        }
+      }
+
+      /* --- 2. TYPOGRAPHY & UTILITIES --- */
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-family: var(--font-heading);
+        font-weight: 600;
+        line-height: 1.2;
+      }
+
+      .text-gradient {
+        background: linear-gradient(
+          135deg,
+          var(--text-main) 0%,
+          var(--accent-cyan) 50%,
+          var(--accent-gold) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 20px;
+        position: relative;
+        z-index: 2; /* Sit above canvas */
+      }
+
+      section {
+        padding: 100px 0;
+        position: relative;
+      }
+
+      /* --- 3. ANIMATION CLASSES --- */
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        filter: blur(10px);
+        transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+      }
+
+      /* --- 4. HERO SECTION --- */
+      #canvas-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        z-index: 0;
+        opacity: 0.6;
+        pointer-events: none;
+      }
+
+      /* Canvas Intro Overlay */
+      .canvas-intro {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        z-index: 2;
+        pointer-events: none;
+      }
+
+      .canvas-intro .scroll-indicator {
+        pointer-events: auto;
+      }
+
+      .intro-text {
+        font-family: var(--font-heading);
+        font-size: clamp(3rem, 10vw, 7rem);
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        background: linear-gradient(
+          135deg,
+          var(--text-main) 0%,
+          var(--accent-cyan) 50%,
+          var(--accent-gold) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        opacity: 0;
+        animation: fadeInUp 1.5s ease forwards;
+        animation-delay: 0.5s;
+        filter: drop-shadow(0 0 40px rgba(0, 242, 234, 0.4))
+          drop-shadow(0 0 80px rgba(0, 242, 234, 0.2));
+        text-shadow: 0 0 60px rgba(0, 242, 234, 0.5);
+      }
+
+      .scroll-indicator {
+        position: absolute;
+        bottom: 60px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        opacity: 0;
+        animation: fadeInUp 1.5s ease forwards;
+        animation-delay: 1.2s;
+        transition: transform 0.3s ease;
+      }
+
+      .scroll-indicator:hover {
+        transform: translateY(5px);
+      }
+
+      .scroll-indicator span {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: var(--text-muted);
+      }
+
+      .scroll-chevron {
+        width: 30px;
+        height: 30px;
+        border-right: 2px solid var(--accent-cyan);
+        border-bottom: 2px solid var(--accent-cyan);
+        transform: rotate(45deg);
+        animation: bounceChevron 2s ease-in-out infinite;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes bounceChevron {
+        0%,
+        100% {
+          transform: rotate(45deg) translate(0, 0);
+          opacity: 1;
+        }
+        50% {
+          transform: rotate(45deg) translate(5px, 5px);
+          opacity: 0.5;
+        }
+      }
+
+      .hero {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+      }
+
+      .hero-logo {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 2rem;
+        animation: float 6s ease-in-out infinite;
+      }
+
+      .hero h1 {
+        font-size: clamp(3rem, 5vw, 5rem);
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.02em;
+      }
+
+      .hero p {
+        font-size: 1.25rem;
+        color: var(--text-muted);
+        max-width: 600px;
+        margin: 0 auto 3rem;
+      }
+
+      /* Video Container with Glow */
+      .video-wrapper {
+        width: 100%;
+        max-width: 800px;
+        aspect-ratio: 16/9;
+        background: linear-gradient(45deg, #1a2333, #0f1521);
+        border-radius: 20px;
+        margin: 0 auto 3rem;
+        border: 1px solid var(--glass-border);
+        box-shadow: 0 0 60px -20px rgba(0, 242, 234, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .play-button {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: transform 0.3s;
+      }
+
+      .play-button::after {
+        content: "";
+        border-left: 20px solid var(--text-main);
+        border-top: 12px solid transparent;
+        border-bottom: 12px solid transparent;
+        margin-left: 5px;
+      }
+
+      .play-button:hover {
+        transform: scale(1.1);
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      .btn-group {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+      }
+
+      .btn {
+        padding: 1rem 2.5rem;
+        border-radius: 50px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+      }
+
+      .btn-primary {
+        background: linear-gradient(90deg, var(--accent-cyan), #00b4d8);
+        color: var(--bg-void);
+        box-shadow: 0 4px 20px rgba(0, 242, 234, 0.4);
+      }
+
+      .btn-primary:hover {
+        box-shadow: 0 4px 30px rgba(0, 242, 234, 0.6);
+        transform: translateY(-2px);
+      }
+
+      .btn-outline {
+        background: transparent;
+        color: var(--text-main);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .btn-outline:hover {
+        border-color: var(--text-main);
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      /* Mouse Spotlight Effect */
+      .mouse-spotlight {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .mouse-spotlight.active {
+        opacity: 1;
+      }
+
+      /* --- LOGO SHAPE APPLICATIONS --- */
+
+      /* Q2 Shape - Form Inputs (Potential/Growth) */
+      .shape-input-wrapper {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+      }
+      .shape-input-wrapper .shape-input-accent {
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        opacity: 0;
+        transition:
+          opacity 0.3s ease,
+          transform 0.3s ease;
+        pointer-events: none;
+      }
+      .shape-input-wrapper .shape-input-accent path {
+        fill: none;
+        stroke: var(--accent-gold);
+        stroke-width: 2;
+      }
+      .shape-input-wrapper .accent-tl {
+        top: -4px;
+        left: -4px;
+      }
+      .shape-input-wrapper .accent-br {
+        bottom: -4px;
+        right: -4px;
+        transform: rotate(180deg);
+      }
+      .shape-input-wrapper:focus-within .shape-input-accent {
+        opacity: 0.8;
+      }
+      .shape-input-wrapper:focus-within .accent-tl {
+        transform: translate(2px, 2px);
+      }
+      .shape-input-wrapper:focus-within .accent-br {
+        transform: rotate(180deg) translate(2px, 2px);
+      }
+
+      /* Q4 Shape - Success State (Completion/Transformation) */
+      .success-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0.5rem 1rem;
+        background: rgba(0, 242, 234, 0.1);
+        border: 1px solid var(--accent-cyan);
+        border-radius: 8px;
+        color: var(--accent-cyan);
+        font-size: 0.9rem;
+      }
+      .success-badge .shape-icon {
+        width: 20px;
+        height: 20px;
+        animation: successPulse 2s ease-in-out infinite;
+      }
+      .success-badge .shape-icon path {
+        fill: var(--accent-cyan);
+      }
+      @keyframes successPulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.7;
+          transform: scale(1.1);
+        }
+      }
+
+      /* Shape-enhanced CTA button */
+      .btn-shape {
+        position: relative;
+        overflow: visible;
+      }
+      .btn-shape .btn-shape-accent {
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        opacity: 0;
+        transition: all 0.3s ease;
+        pointer-events: none;
+      }
+      .btn-shape .btn-shape-accent path {
+        fill: var(--accent-cyan);
+      }
+      .btn-shape .btn-accent-tl {
+        top: -6px;
+        left: -6px;
+      }
+      .btn-shape .btn-accent-br {
+        bottom: -6px;
+        right: -6px;
+        transform: rotate(180deg);
+      }
+      .btn-shape:hover .btn-shape-accent {
+        opacity: 0.6;
+      }
+      .btn-shape:hover .btn-accent-tl {
+        transform: translate(-2px, -2px);
+      }
+      .btn-shape:hover .btn-accent-br {
+        transform: rotate(180deg) translate(-2px, -2px);
+      }
+
+      /* --- 5. THE OLD RULES (Cards) --- */
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+      }
+
+      .glass-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(var(--glass-blur));
+        -webkit-backdrop-filter: blur(var(--glass-blur));
+        border: 1px solid var(--glass-border);
+        padding: 2.5rem;
+        border-radius: 24px;
+        transition:
+          transform 0.4s ease,
+          border-color 0.4s ease;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .glass-card:hover {
+        transform: translateY(-10px);
+        border-color: rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      /* Animated Corner Accents */
+      .corner-accent {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        opacity: 0;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+        pointer-events: none;
+      }
+      .corner-accent path {
+        fill: none;
+        stroke: var(--accent-cyan);
+        stroke-width: 2;
+      }
+      .glass-card:hover .corner-accent {
+        opacity: 0.6;
+      }
+
+      /* Corner positions */
+      .corner-tl {
+        top: 8px;
+        left: 8px;
+      }
+      .corner-tr {
+        top: 8px;
+        right: 8px;
+        transform: rotate(90deg);
+      }
+      .corner-bl {
+        bottom: 8px;
+        left: 8px;
+        transform: rotate(-90deg);
+      }
+      .corner-br {
+        bottom: 8px;
+        right: 8px;
+        transform: rotate(180deg);
+      }
+
+      /* Hover animations - corners slide in */
+      .glass-card:hover .corner-tl {
+        transform: translate(0, 0);
+      }
+      .glass-card:hover .corner-tr {
+        transform: rotate(90deg) translate(0, 0);
+      }
+      .glass-card:hover .corner-bl {
+        transform: rotate(-90deg) translate(0, 0);
+      }
+      .glass-card:hover .corner-br {
+        transform: rotate(180deg) translate(0, 0);
+      }
+
+      .corner-tl {
+        transform: translate(-10px, -10px);
+      }
+      .corner-tr {
+        transform: rotate(90deg) translate(-10px, -10px);
+      }
+      .corner-bl {
+        transform: rotate(-90deg) translate(-10px, -10px);
+      }
+      .corner-br {
+        transform: rotate(180deg) translate(-10px, -10px);
+      }
+
+      /* Gold variant for special cards */
+      .corner-accent-gold path {
+        stroke: var(--accent-gold);
+      }
+
+      .card-icon {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+        color: var(--accent-gold);
+        text-align: center;
+      }
+
+      /* --- 6. THE QUADRANT (Centerpiece) --- */
+      .section-quadrant {
+        background: radial-gradient(
+          circle at 50% 50%,
+          #15202b 0%,
+          var(--bg-void) 70%
+        );
+        padding: 120px 0;
+      }
+
+      .quadrant-map {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        gap: 40px;
+        max-width: 900px;
+        margin: 4rem auto 0;
+        padding: 40px;
+      }
+
+      /* The Axis Lines */
+      .quadrant-map::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: -20px;
+        right: -20px;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--text-muted),
+          transparent
+        );
+        z-index: 0;
+      }
+
+      .quadrant-map::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: -20px;
+        bottom: -20px;
+        width: 1px;
+        background: linear-gradient(
+          180deg,
+          transparent,
+          var(--text-muted),
+          transparent
+        );
+        z-index: 0;
+      }
+
+      .q-card {
+        position: relative;
+        z-index: 1;
+        background: rgba(15, 21, 33, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 2rem;
+        transition: all 0.3s;
+      }
+
+      .q-card:hover {
+        border-color: var(--accent-cyan);
+        box-shadow: 0 0 30px rgba(0, 242, 234, 0.1);
+        transform: scale(1.02);
+      }
+
+      .q-card h3 {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+        color: var(--accent-cyan);
+      }
+      .q-card p {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+      }
+
+      /* Quadrant Shape Backgrounds */
+      .q-card .shape-bg {
+        position: absolute;
+        width: 120px;
+        height: 120px;
+        opacity: 0.04;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+        pointer-events: none;
+      }
+      .q-card:hover .shape-bg {
+        opacity: 0.08;
+        transform: scale(1.1);
+      }
+
+      /* Q1 - Gilded Cage (top-left of grid, passion + abundance) */
+      .q-card-q1 .shape-bg {
+        bottom: -10px;
+        right: -10px;
+      }
+      .q-card-q1:hover .shape-bg path {
+        fill: var(--accent-cyan);
+      }
+
+      /* Q2 - Launchpad (top-right of grid, passion + scarcity) */
+      .q-card-q2 .shape-bg {
+        bottom: -10px;
+        left: -10px;
+      }
+      .q-card-q2:hover .shape-bg path {
+        fill: var(--accent-gold);
+      }
+
+      /* Q3 - Bunker (bottom-left of grid, fear + abundance) */
+      .q-card-q3 .shape-bg {
+        top: -10px;
+        right: -10px;
+      }
+      .q-card-q3:hover .shape-bg path {
+        fill: var(--text-muted);
+      }
+
+      /* Q4 - Forge (bottom-right of grid, fear + scarcity) */
+      .q-card-q4 .shape-bg {
+        top: -10px;
+        left: -10px;
+      }
+      .q-card-q4:hover .shape-bg path {
+        fill: var(--accent-gold);
+      }
+
+      .axis-label {
+        position: absolute;
+        font-family: var(--font-body);
+        font-size: 0.75rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--accent-gold);
+        text-align: center;
+        line-height: 1.4;
+      }
+      .axis-label small {
+        display: block;
+        font-size: 0.6rem;
+        color: var(--text-muted);
+        text-transform: none;
+        letter-spacing: 0.5px;
+        margin-top: 2px;
+      }
+      .axis-top {
+        top: -55px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .axis-bottom {
+        bottom: -45px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .axis-left {
+        left: -90px;
+        top: 50%;
+        transform: translateY(-50%) rotate(-90deg);
+        white-space: nowrap;
+      }
+      .axis-right {
+        right: -90px;
+        top: 50%;
+        transform: translateY(-50%) rotate(90deg);
+        white-space: nowrap;
+      }
+
+      .axis-title {
+        position: absolute;
+        font-family: var(--font-body);
+        font-size: 0.6rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        opacity: 0.8;
+        background: rgba(15, 21, 33, 0.9);
+        padding: 4px 8px;
+        z-index: 1;
+      }
+      .axis-title-vertical {
+        left: 50%;
+        top: 20%;
+        transform: translateX(-50%) rotate(-90deg);
+        white-space: nowrap;
+      }
+      .axis-title-horizontal {
+        top: 50%;
+        right: 5%;
+        left: auto;
+        transform: translateY(-50%);
+        white-space: nowrap;
+      }
+
+      /* --- INTERACTIVE QUADRANT TOOL --- */
+      .interactive-quadrant-section {
+        background: radial-gradient(
+          circle at 50% 50%,
+          #15202b 0%,
+          var(--bg-void) 70%
+        );
+        padding: 100px 0;
+      }
+
+      .interactive-quadrant-wrapper {
+        position: relative;
+        max-width: 500px;
+        margin: 3rem auto 0;
+        aspect-ratio: 1;
+      }
+
+      .interactive-quadrant {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        gap: 8px;
+        padding: 20px;
+      }
+
+      /* Axis lines for interactive quadrant */
+      .interactive-quadrant::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--text-muted),
+          transparent
+        );
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .interactive-quadrant::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(
+          180deg,
+          transparent,
+          var(--text-muted),
+          transparent
+        );
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .iq-shape {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 16px;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        cursor: pointer;
+        overflow: hidden;
+      }
+
+      .iq-shape svg {
+        width: 70%;
+        height: 70%;
+        opacity: 0.15;
+        transition: all 0.4s ease;
+      }
+
+      .iq-shape svg path {
+        fill: currentColor;
+        transition: fill 0.4s ease;
+      }
+
+      /* Quadrant base colors */
+      .iq-shape-q1 {
+        background: rgba(0, 242, 234, 0.05);
+        color: var(--accent-cyan);
+      }
+      .iq-shape-q2 {
+        background: rgba(255, 200, 87, 0.05);
+        color: var(--accent-gold);
+      }
+      .iq-shape-q3 {
+        background: rgba(148, 163, 184, 0.05);
+        color: var(--text-muted);
+      }
+      .iq-shape-q4 {
+        background: rgba(255, 200, 87, 0.05);
+        color: var(--accent-gold);
+      }
+
+      /* Active/proximity states */
+      .iq-shape.active {
+        transform: scale(1.02);
+      }
+      .iq-shape.active svg {
+        opacity: 0.6;
+        transform: scale(1.1);
+      }
+
+      .iq-shape-q1.active {
+        background: rgba(0, 242, 234, 0.15);
+        box-shadow:
+          0 0 40px rgba(0, 242, 234, 0.3),
+          inset 0 0 30px rgba(0, 242, 234, 0.1);
+      }
+      .iq-shape-q2.active {
+        background: rgba(255, 200, 87, 0.15);
+        box-shadow:
+          0 0 40px rgba(255, 200, 87, 0.3),
+          inset 0 0 30px rgba(255, 200, 87, 0.1);
+      }
+      .iq-shape-q3.active {
+        background: rgba(148, 163, 184, 0.15);
+        box-shadow:
+          0 0 40px rgba(148, 163, 184, 0.2),
+          inset 0 0 30px rgba(148, 163, 184, 0.1);
+      }
+      .iq-shape-q4.active {
+        background: rgba(255, 200, 87, 0.2);
+        box-shadow:
+          0 0 50px rgba(255, 200, 87, 0.4),
+          inset 0 0 40px rgba(255, 200, 87, 0.15);
+      }
+
+      /* Proximity glow effect (intensity levels) */
+      .iq-shape[data-proximity="high"] svg {
+        opacity: 0.5;
+        transform: scale(1.08);
+      }
+      .iq-shape[data-proximity="medium"] svg {
+        opacity: 0.35;
+        transform: scale(1.04);
+      }
+      .iq-shape[data-proximity="low"] svg {
+        opacity: 0.2;
+      }
+
+      /* Draggable marker */
+      .luck-marker {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          var(--accent-cyan),
+          var(--accent-gold)
+        );
+        border: 3px solid white;
+        box-shadow:
+          0 0 20px rgba(0, 242, 234, 0.5),
+          0 0 40px rgba(255, 200, 87, 0.3);
+        cursor: grab;
+        z-index: 10;
+        transform: translate(-50%, -50%);
+        transition: box-shadow 0.3s ease;
+        /* Start in center */
+        top: 50%;
+        left: 50%;
+      }
+
+      .luck-marker:active {
+        cursor: grabbing;
+        box-shadow:
+          0 0 30px rgba(0, 242, 234, 0.8),
+          0 0 60px rgba(255, 200, 87, 0.5);
+      }
+
+      .luck-marker::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 12px;
+        height: 12px;
+        background: white;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      /* Quadrant labels on interactive */
+      .iq-label {
+        position: absolute;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--text-muted);
+        opacity: 0.6;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+      .iq-label-q1 {
+        top: 8px;
+        right: 8px;
+      }
+      .iq-label-q2 {
+        top: 8px;
+        left: 8px;
+      }
+      .iq-label-q3 {
+        bottom: 8px;
+        right: 8px;
+      }
+      .iq-label-q4 {
+        bottom: 8px;
+        left: 8px;
+      }
+
+      .iq-shape.active .iq-label {
+        opacity: 1;
+        color: var(--text-main);
+      }
+
+      /* Interactive axis labels */
+      .iq-axis-label {
+        position: absolute;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: var(--accent-gold);
+        z-index: 5;
+      }
+      .iq-axis-top {
+        top: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .iq-axis-bottom {
+        bottom: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .iq-axis-left {
+        left: -60px;
+        top: 50%;
+        transform: translateY(-50%) rotate(-90deg);
+      }
+      .iq-axis-right {
+        right: -60px;
+        top: 50%;
+        transform: translateY(-50%) rotate(90deg);
+      }
+
+      /* Result display */
+      .quadrant-result {
+        text-align: center;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: 16px;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+        transition: all 0.4s ease;
+      }
+
+      .quadrant-result h4 {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        transition: color 0.3s ease;
+      }
+
+      .quadrant-result p {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        line-height: 1.6;
+      }
+
+      .quadrant-result.result-q1 {
+        border-color: var(--accent-cyan);
+      }
+      .quadrant-result.result-q1 h4 {
+        color: var(--accent-cyan);
+      }
+
+      .quadrant-result.result-q2 {
+        border-color: var(--accent-gold);
+      }
+      .quadrant-result.result-q2 h4 {
+        color: var(--accent-gold);
+      }
+
+      .quadrant-result.result-q3 {
+        border-color: var(--text-muted);
+      }
+      .quadrant-result.result-q3 h4 {
+        color: var(--text-muted);
+      }
+
+      .quadrant-result.result-q4 {
+        border-color: var(--accent-gold);
+      }
+      .quadrant-result.result-q4 h4 {
+        color: var(--accent-gold);
+      }
+
+      @media (max-width: 768px) {
         .interactive-quadrant-wrapper {
-            position: relative;
-            max-width: 500px;
-            margin: 3rem auto 0;
-            aspect-ratio: 1;
+          max-width: 350px;
         }
-
-        .interactive-quadrant {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr 1fr;
-            gap: 8px;
-            padding: 20px;
-        }
-
-        /* Axis lines for interactive quadrant */
-        .interactive-quadrant::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--text-muted), transparent);
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .interactive-quadrant::after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(180deg, transparent, var(--text-muted), transparent);
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .iq-shape {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 16px;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            cursor: pointer;
-            overflow: hidden;
-        }
-
-        .iq-shape svg {
-            width: 70%;
-            height: 70%;
-            opacity: 0.15;
-            transition: all 0.4s ease;
-        }
-
-        .iq-shape svg path {
-            fill: currentColor;
-            transition: fill 0.4s ease;
-        }
-
-        /* Quadrant base colors */
-        .iq-shape-q1 {
-            background: rgba(0, 242, 234, 0.05);
-            color: var(--accent-cyan);
-        }
-        .iq-shape-q2 {
-            background: rgba(255, 200, 87, 0.05);
-            color: var(--accent-gold);
-        }
-        .iq-shape-q3 {
-            background: rgba(148, 163, 184, 0.05);
-            color: var(--text-muted);
-        }
-        .iq-shape-q4 {
-            background: rgba(255, 200, 87, 0.05);
-            color: var(--accent-gold);
-        }
-
-        /* Active/proximity states */
-        .iq-shape.active {
-            transform: scale(1.02);
-        }
-        .iq-shape.active svg {
-            opacity: 0.6;
-            transform: scale(1.1);
-        }
-
-        .iq-shape-q1.active {
-            background: rgba(0, 242, 234, 0.15);
-            box-shadow: 0 0 40px rgba(0, 242, 234, 0.3), inset 0 0 30px rgba(0, 242, 234, 0.1);
-        }
-        .iq-shape-q2.active {
-            background: rgba(255, 200, 87, 0.15);
-            box-shadow: 0 0 40px rgba(255, 200, 87, 0.3), inset 0 0 30px rgba(255, 200, 87, 0.1);
-        }
-        .iq-shape-q3.active {
-            background: rgba(148, 163, 184, 0.15);
-            box-shadow: 0 0 40px rgba(148, 163, 184, 0.2), inset 0 0 30px rgba(148, 163, 184, 0.1);
-        }
-        .iq-shape-q4.active {
-            background: rgba(255, 200, 87, 0.2);
-            box-shadow: 0 0 50px rgba(255, 200, 87, 0.4), inset 0 0 40px rgba(255, 200, 87, 0.15);
-        }
-
-        /* Proximity glow effect (intensity levels) */
-        .iq-shape[data-proximity="high"] svg { opacity: 0.5; transform: scale(1.08); }
-        .iq-shape[data-proximity="medium"] svg { opacity: 0.35; transform: scale(1.04); }
-        .iq-shape[data-proximity="low"] svg { opacity: 0.2; }
-
-        /* Draggable marker */
-        .luck-marker {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: radial-gradient(circle, var(--accent-cyan), var(--accent-gold));
-            border: 3px solid white;
-            box-shadow: 0 0 20px rgba(0, 242, 234, 0.5), 0 0 40px rgba(255, 200, 87, 0.3);
-            cursor: grab;
-            z-index: 10;
-            transform: translate(-50%, -50%);
-            transition: box-shadow 0.3s ease;
-            /* Start in center */
-            top: 50%;
-            left: 50%;
-        }
-
-        .luck-marker:active {
-            cursor: grabbing;
-            box-shadow: 0 0 30px rgba(0, 242, 234, 0.8), 0 0 60px rgba(255, 200, 87, 0.5);
-        }
-
-        .luck-marker::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 12px;
-            height: 12px;
-            background: white;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        /* Quadrant labels on interactive */
-        .iq-label {
-            position: absolute;
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            opacity: 0.6;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-        .iq-label-q1 { top: 8px; right: 8px; }
-        .iq-label-q2 { top: 8px; left: 8px; }
-        .iq-label-q3 { bottom: 8px; right: 8px; }
-        .iq-label-q4 { bottom: 8px; left: 8px; }
-
-        .iq-shape.active .iq-label {
-            opacity: 1;
-            color: var(--text-main);
-        }
-
-        /* Interactive axis labels */
         .iq-axis-label {
-            position: absolute;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--accent-gold);
-            z-index: 5;
+          display: none;
         }
-        .iq-axis-top { top: -30px; left: 50%; transform: translateX(-50%); }
-        .iq-axis-bottom { bottom: -30px; left: 50%; transform: translateX(-50%); }
-        .iq-axis-left { left: -60px; top: 50%; transform: translateY(-50%) rotate(-90deg); }
-        .iq-axis-right { right: -60px; top: 50%; transform: translateY(-50%) rotate(90deg); }
-
-        /* Result display */
-        .quadrant-result {
-            text-align: center;
-            margin-top: 2rem;
-            padding: 1.5rem;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-            transition: all 0.4s ease;
+        .luck-marker {
+          width: 32px;
+          height: 32px;
         }
+      }
 
-        .quadrant-result h4 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-            transition: color 0.3s ease;
+      /* --- 7. PARADOX SECTION --- */
+      .paradox-box {
+        background: linear-gradient(
+          135deg,
+          rgba(0, 242, 234, 0.1),
+          rgba(0, 0, 0, 0)
+        );
+        border: 1px solid rgba(0, 242, 234, 0.3);
+        border-radius: 30px;
+        padding: 4rem;
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      /* --- 8. PRICING / LAB --- */
+      .pricing-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+      }
+
+      .price {
+        font-size: 2.5rem;
+        font-family: var(--font-heading);
+        margin: 1rem 0;
+      }
+
+      .feature-list {
+        list-style: none;
+        margin-bottom: 2rem;
+        text-align: left;
+      }
+      .feature-list li {
+        margin-bottom: 0.8rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .feature-list li::before {
+        content: "✦";
+        color: var(--accent-cyan);
+      }
+
+      /* --- 9. FOOTER --- */
+      footer {
+        border-top: 1px solid var(--glass-border);
+        padding: 60px 0;
+        text-align: center;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+      }
+
+      /* --- RESPONSIVE --- */
+      @media (max-width: 768px) {
+        .quadrant-map {
+          grid-template-columns: 1fr;
+          gap: 20px;
+          padding: 0;
         }
-
-        .quadrant-result p {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            line-height: 1.6;
+        .quadrant-map::before,
+        .quadrant-map::after {
+          display: none;
         }
-
-        .quadrant-result.result-q1 { border-color: var(--accent-cyan); }
-        .quadrant-result.result-q1 h4 { color: var(--accent-cyan); }
-
-        .quadrant-result.result-q2 { border-color: var(--accent-gold); }
-        .quadrant-result.result-q2 h4 { color: var(--accent-gold); }
-
-        .quadrant-result.result-q3 { border-color: var(--text-muted); }
-        .quadrant-result.result-q3 h4 { color: var(--text-muted); }
-
-        .quadrant-result.result-q4 { border-color: var(--accent-gold); }
-        .quadrant-result.result-q4 h4 { color: var(--accent-gold); }
-
-        @media (max-width: 768px) {
-            .interactive-quadrant-wrapper {
-                max-width: 350px;
-            }
-            .iq-axis-label { display: none; }
-            .luck-marker {
-                width: 32px;
-                height: 32px;
-            }
+        .axis-label {
+          display: none;
         }
-
-        /* --- 7. PARADOX SECTION --- */
-        .paradox-box {
-            background: linear-gradient(135deg, rgba(0,242,234,0.1), rgba(0,0,0,0));
-            border: 1px solid rgba(0,242,234,0.3);
-            border-radius: 30px;
-            padding: 4rem;
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
+        .hero h1 {
+          font-size: 2.5rem;
         }
-
-        /* --- 8. PRICING / LAB --- */
-        .pricing-card {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 100%;
-        }
-        
-        .price { font-size: 2.5rem; font-family: var(--font-heading); margin: 1rem 0; }
-        
-        .feature-list { list-style: none; margin-bottom: 2rem; text-align: left; }
-        .feature-list li { margin-bottom: 0.8rem; display: flex; align-items: center; gap: 10px; }
-        .feature-list li::before { content: '✦'; color: var(--accent-cyan); }
-
-        /* --- 9. FOOTER --- */
-        footer {
-            border-top: 1px solid var(--glass-border);
-            padding: 60px 0;
-            text-align: center;
-            font-size: 0.9rem;
-            color: var(--text-muted);
+        .btn-group {
+          flex-direction: column;
         }
 
-        /* --- RESPONSIVE --- */
-        @media (max-width: 768px) {
-            .quadrant-map { grid-template-columns: 1fr; gap: 20px; padding: 0; }
-            .quadrant-map::before, .quadrant-map::after { display: none; }
-            .axis-label { display: none; }
-            .hero h1 { font-size: 2.5rem; }
-            .btn-group { flex-direction: column; }
-
-            #waitlistForm > div { grid-template-columns: 1fr !important; }
-            .grid-3[style*="repeat(4"] { grid-template-columns: 1fr 1fr !important; }
+        #waitlistForm > div {
+          grid-template-columns: 1fr !important;
         }
-
-        @media (max-width: 480px) {
-            .grid-3[style*="repeat(4"] { grid-template-columns: 1fr !important; }
+        .grid-3[style*="repeat(4"] {
+          grid-template-columns: 1fr 1fr !important;
         }
+      }
 
-        @keyframes float {
-            0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(2deg); }
-            100% { transform: translateY(0px) rotate(0deg); }
+      @media (max-width: 480px) {
+        .grid-3[style*="repeat(4"] {
+          grid-template-columns: 1fr !important;
         }
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-10px) rotate(2deg);
+        }
+        100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <!-- Theme Toggle Button -->
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-        <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="5"/>
-            <line x1="12" y1="1" x2="12" y2="3"/>
-            <line x1="12" y1="21" x2="12" y2="23"/>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-            <line x1="1" y1="12" x2="3" y2="12"/>
-            <line x1="21" y1="12" x2="23" y2="12"/>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-        </svg>
-        <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-        </svg>
+      <svg
+        class="sun-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <circle cx="12" cy="12" r="5" />
+        <line x1="12" y1="1" x2="12" y2="3" />
+        <line x1="12" y1="21" x2="12" y2="23" />
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+        <line x1="1" y1="12" x2="3" y2="12" />
+        <line x1="21" y1="12" x2="23" y2="12" />
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+      </svg>
+      <svg
+        class="moon-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+      </svg>
     </button>
 
     <canvas id="luckCanvas"></canvas>
@@ -1224,597 +1509,1168 @@
 
     <!-- Canvas intro overlay (fixed, appears on top of canvas) -->
     <div class="canvas-intro">
-        <h2 class="intro-text">Shape Your Luck</h2>
-        <div class="scroll-indicator" onclick="window.scrollTo({top: document.getElementById('hero').offsetTop - 150, behavior: 'smooth'})">
-            <span>Begin</span>
-            <div class="scroll-chevron"></div>
-        </div>
+      <h2 class="intro-text">Shape Your Luck</h2>
+      <div
+        class="scroll-indicator"
+        onclick="
+          window.scrollTo({
+            top: document.getElementById('hero').offsetTop - 150,
+            behavior: 'smooth',
+          })
+        "
+      >
+        <span>Begin</span>
+        <div class="scroll-chevron"></div>
+      </div>
     </div>
 
     <!-- Spacer to give canvas area scroll room -->
-    <div style="height: 100vh;"></div>
+    <div style="height: 100vh"></div>
 
     <section class="hero" id="hero">
-        <div class="container">
-            <img class="hero-logo" src="logo4.png" alt="Shaping Luck Logo">
+      <div class="container">
+        <img class="hero-logo" src="logo4.png" alt="Shaping Luck Logo" />
 
-            <h1 class="text-gradient">The World Runs on Luck.</h1>
-            <p style="text-transform: uppercase; letter-spacing: 0.15em; font-size: 1.1rem; margin-bottom: 1.5rem; opacity: 0.9;">It's Time You Learned to Shape It.</p>
-            <p>We are taught a simple equation: Talent + Hard Work = Success. But this ignores the invisible variable that defines every life and enterprise: <strong style="color: var(--accent-cyan);">Luck.</strong></p>
-            <p style="margin-top: 1rem;">In an era of accelerating change, the ability to harness the unexpected is no longer a luxury—it is a core competency. We move beyond the vague hope for a "lucky break" to a prescriptive framework for engineering serendipity.</p>
+        <h1 class="text-gradient">The World Runs on Luck.</h1>
+        <p
+          style="
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+          "
+        >
+          It's Time You Learned to Shape It.
+        </p>
+        <p>
+          We are taught a simple equation: Talent + Hard Work = Success. But
+          this ignores the invisible variable that defines every life and
+          enterprise: <strong style="color: var(--accent-cyan)">Luck.</strong>
+        </p>
+        <p style="margin-top: 1rem">
+          In an era of accelerating change, the ability to harness the
+          unexpected is no longer a luxury—it is a core competency. We move
+          beyond the vague hope for a "lucky break" to a prescriptive framework
+          for engineering serendipity.
+        </p>
 
-            <div class="video-wrapper reveal">
-                <div class="play-button"></div>
-            </div>
-
-            <div class="btn-group reveal">
-                <a href="#quadrant" class="btn btn-primary btn-shape">
-                    <svg class="btn-shape-accent btn-accent-tl" viewBox="0 0 20 20"><path d="M0,0h13c3.9,0,7,3.1,7,7v13H7c-3.9,0-7-3.1-7-7V0Z"/></svg>
-                    <svg class="btn-shape-accent btn-accent-br" viewBox="0 0 20 20"><path d="M0,0h13c3.9,0,7,3.1,7,7v13H7c-3.9,0-7-3.1-7-7V0Z"/></svg>
-                    Explore the Quadrant
-                </a>
-                <a href="#shape-your-luck" class="btn btn-outline">Calculate Your LQ</a>
-            </div>
+        <div class="video-wrapper reveal">
+          <div class="play-button"></div>
         </div>
+
+        <div class="btn-group reveal">
+          <a href="#quadrant" class="btn btn-primary btn-shape">
+            <svg class="btn-shape-accent btn-accent-tl" viewBox="0 0 20 20">
+              <path d="M0,0h13c3.9,0,7,3.1,7,7v13H7c-3.9,0-7-3.1-7-7V0Z" />
+            </svg>
+            <svg class="btn-shape-accent btn-accent-br" viewBox="0 0 20 20">
+              <path d="M0,0h13c3.9,0,7,3.1,7,7v13H7c-3.9,0-7-3.1-7-7V0Z" />
+            </svg>
+            Explore the Quadrant
+          </a>
+          <a href="#shape-your-luck" class="btn btn-outline"
+            >Calculate Your LQ</a
+          >
+        </div>
+      </div>
     </section>
 
-    <section id="problem" style="padding-top: 135px;">
-        <div class="container">
-            <div style="text-align: center; margin-bottom: 3rem;">
-                <h2 class="reveal">The Big Shift</h2>
-                <p class="reveal" style="color: var(--text-muted); margin-top: 1rem; max-width: 800px; margin-left: auto; margin-right: auto;">We are living through a paradox. Global forces are creating mounting performance pressure and expanding opportunity at the same time. The old linear models of planning are failing.</p>
-            </div>
-
-            <div class="grid-3">
-                <div class="glass-card reveal">
-                    <svg class="corner-accent corner-tl" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
-                    <svg class="corner-accent corner-br" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
-                    <div class="card-icon">⚡</div>
-                    <h3>Performance is Deteriorating</h3>
-                    <p>Return on Assets (ROA) is in long-term decline. S&P 500 company lifespans are shrinking. The "scalable efficiency" models of the past are buckling under the weight of global competition and rapid disruption.</p>
-                </div>
-                <div class="glass-card reveal">
-                    <svg class="corner-accent corner-tl" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
-                    <svg class="corner-accent corner-br" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
-                    <div class="card-icon">🌪</div>
-                    <h3>Exponential Potential</h3>
-                    <p>Connectivity and digital infrastructure mean a small team can now create global impact. The "metabolism" of the world is increasing, creating more frequency for both good and bad luck.</p>
-                </div>
-                <div class="glass-card reveal">
-                    <svg class="corner-accent corner-tl" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
-                    <svg class="corner-accent corner-br" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
-                    <div class="card-icon">🛡</div>
-                    <h3>The Scarcity Trap</h3>
-                    <p>Under pressure, our natural human instinct is to retreat into fear—to shorten time horizons and view the world as zero-sum. This contraction creates a vicious cycle that blocks the very luck we need to survive.</p>
-                </div>
-            </div>
-
-            <p class="reveal" style="text-align: center; margin-top: 3rem; font-size: 1.2rem;">
-                Success now belongs to those who can pivot from <span style="color: var(--accent-red);">Fear</span> to <span style="color: var(--accent-gold);">Passion</span><br>
-                and from <span style="color: var(--text-muted);">Scarcity</span> to <span style="color: var(--accent-cyan);">Abundance.</span>
-            </p>
+    <section id="problem" style="padding-top: 135px">
+      <div class="container">
+        <div style="text-align: center; margin-bottom: 3rem">
+          <h2 class="reveal">The Big Shift</h2>
+          <p
+            class="reveal"
+            style="
+              color: var(--text-muted);
+              margin-top: 1rem;
+              max-width: 800px;
+              margin-left: auto;
+              margin-right: auto;
+            "
+          >
+            We are living through a paradox. Global forces are creating mounting
+            performance pressure and expanding opportunity at the same time. The
+            old linear models of planning are failing.
+          </p>
         </div>
+
+        <div class="grid-3">
+          <div class="glass-card reveal">
+            <svg class="corner-accent corner-tl" viewBox="0 0 40 40">
+              <path d="M0,40 L0,15 Q0,0 15,0 L40,0" />
+            </svg>
+            <svg class="corner-accent corner-br" viewBox="0 0 40 40">
+              <path d="M0,40 L0,15 Q0,0 15,0 L40,0" />
+            </svg>
+            <div class="card-icon">⚡</div>
+            <h3>Performance is Deteriorating</h3>
+            <p>
+              Return on Assets (ROA) is in long-term decline. S&P 500 company
+              lifespans are shrinking. The "scalable efficiency" models of the
+              past are buckling under the weight of global competition and rapid
+              disruption.
+            </p>
+          </div>
+          <div class="glass-card reveal">
+            <svg class="corner-accent corner-tl" viewBox="0 0 40 40">
+              <path d="M0,40 L0,15 Q0,0 15,0 L40,0" />
+            </svg>
+            <svg class="corner-accent corner-br" viewBox="0 0 40 40">
+              <path d="M0,40 L0,15 Q0,0 15,0 L40,0" />
+            </svg>
+            <div class="card-icon">🌪</div>
+            <h3>Exponential Potential</h3>
+            <p>
+              Connectivity and digital infrastructure mean a small team can now
+              create global impact. The "metabolism" of the world is increasing,
+              creating more frequency for both good and bad luck.
+            </p>
+          </div>
+          <div class="glass-card reveal">
+            <svg class="corner-accent corner-tl" viewBox="0 0 40 40">
+              <path d="M0,40 L0,15 Q0,0 15,0 L40,0" />
+            </svg>
+            <svg class="corner-accent corner-br" viewBox="0 0 40 40">
+              <path d="M0,40 L0,15 Q0,0 15,0 L40,0" />
+            </svg>
+            <div class="card-icon">🛡</div>
+            <h3>The Scarcity Trap</h3>
+            <p>
+              Under pressure, our natural human instinct is to retreat into
+              fear—to shorten time horizons and view the world as zero-sum. This
+              contraction creates a vicious cycle that blocks the very luck we
+              need to survive.
+            </p>
+          </div>
+        </div>
+
+        <p
+          class="reveal"
+          style="text-align: center; margin-top: 3rem; font-size: 1.2rem"
+        >
+          Success now belongs to those who can pivot from
+          <span style="color: var(--accent-red)">Fear</span> to
+          <span style="color: var(--accent-gold)">Passion</span><br />
+          and from <span style="color: var(--text-muted)">Scarcity</span> to
+          <span style="color: var(--accent-cyan)">Abundance.</span>
+        </p>
+      </div>
     </section>
 
     <section id="quadrant" class="section-quadrant">
-        <div class="container">
-            <div style="text-align: center;">
-                <h2 class="text-gradient reveal">The Luck Quadrant</h2>
-                <p class="reveal" style="color: var(--text-muted); max-width: 800px; margin: 1rem auto 0; line-height: 1.8;">
-                    Luck is not mystical. It is unexpected events and encounters that have meaningful impact. Your "Luck Quotient" (LQ) is determined by where you sit on two axes:<br>
-                    <strong style="color: var(--text-main);">Internal State:</strong> Are you operating from Fear (Contraction) or Passion (Expansion)?<br>
-                    <strong style="color: var(--text-main);">External Environment:</strong> Are you in a landscape of Scarcity or Abundance?
-                </p>
-            </div>
-
-            <div class="quadrant-map reveal">
-                <span class="axis-title axis-title-vertical">External Environment</span>
-                <span class="axis-title axis-title-horizontal">Internal State</span>
-                <span class="axis-label axis-top">Abundance<br><small>(Resources & Networks)</small></span>
-                <span class="axis-label axis-bottom">Scarcity<br><small>(Constraints)</small></span>
-                <span class="axis-label axis-left">Fear<br><small>(Contraction)</small></span>
-                <span class="axis-label axis-right">Passion<br><small>(Expansion)</small></span>
-
-                <div class="q-card q-card-q2" style="border-color: rgba(255,200,87,0.5); box-shadow: 0 0 20px rgba(255,200,87,0.1);">
-                    <svg class="shape-bg" viewBox="0 0 290 280" xmlns="http://www.w3.org/2000/svg">
-                        <path fill="currentColor" d="M268.33,20v169.75c0,37.81-30.76,68.58-68.58,68.58h-71.68c-54.07,0-98.07-43.99-98.07-98.07v-71.68c0-37.81,30.76-68.58,68.58-68.58h169.75M288.33,0h-189.75c-48.92,0-88.58,39.66-88.58,88.58v71.68c0,65.21,52.86,118.07,118.07,118.07h71.68c48.92,0,88.58-39.66,88.58-88.58V0h0Z"/>
-                    </svg>
-                    <h3 style="color: var(--accent-cyan);">THE GILDED CAGE</h3>
-                    <p><em style="color: var(--text-muted);">The Zone of Retrenchment.</em> You are surrounded by opportunity (the gold) but trapped by fear. Institutions here are obsessed with control and efficiency, viewing unexpected events as threats to be hedged rather than opportunities to seize.</p>
-                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.75rem;"><strong>Examples:</strong> Kodak, Risk-Averse Corporate Bureaucracies.</p>
-                </div>
-                <div class="q-card q-card-q1" style="border-color: var(--accent-gold); box-shadow: 0 0 20px rgba(255,200,87,0.2);">
-                    <svg class="shape-bg" viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
-                        <path fill="currentColor" d="M0,0h189.75C238.64,0,278.33,39.69,278.33,88.58v189.75H88.58C39.69,278.33,0,238.64,0,189.75V0H0Z"/>
-                    </svg>
-                    <h3 style="color: var(--accent-gold);">THE LAUNCHPAD</h3>
-                    <p><em style="color: var(--text-muted);">The Zone of Amplified Impact.</em> Here, the "Passion of the Explorer" meets an environment rich in resources and networks. You aren't just working hard; you are increasing your surface area for luck.</p>
-                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.75rem;"><strong>Examples:</strong> Silicon Valley, Pixar, Early Mozart.</p>
-                </div>
-                <div class="q-card q-card-q3">
-                    <svg class="shape-bg" viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
-                        <path fill="currentColor" d="M88.58,0h71.68c65.16,0,118.07,52.9,118.07,118.07v71.68c0,48.89-39.69,88.58-88.58,88.58H0V88.58C0,39.69,39.69,0,88.58,0Z"/>
-                    </svg>
-                    <h3>THE BUNKER</h3>
-                    <p><em style="color: var(--text-muted);">The Zone of Collapse.</em> Fear meets scarcity. The tragic quadrant. The instinct is to hunker down, isolate, and protect limited resources. This isolation clusters bad luck with no buffer to absorb it.</p>
-                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.75rem;"><strong>Examples:</strong> OceanGate, Survival Mode.</p>
-                </div>
-                <div class="q-card q-card-q4" style="border-color: var(--accent-gold); box-shadow: 0 0 15px rgba(255,200,87,0.1);">
-                    <svg class="shape-bg" viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
-                        <path fill="currentColor" d="M0,0h189.75c48.89,0,88.58,39.69,88.58,88.58v189.75H88.58C39.69,278.33,0,238.64,0,189.75V0h0Z" transform="translate(278.33 278.33) rotate(180)"/>
-                    </svg>
-                    <h3 style="color: var(--accent-gold);">THE FORGE</h3>
-                    <p><em style="color: var(--text-muted);">The Zone of Inflection Points.</em> Passion meets constraint. This is the domain of the scrappy innovator. You use ingenuity to turn limitations into advantages. This is where raw materials are shaped by heat and pressure.</p>
-                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.75rem;"><strong>Examples:</strong> DeepSeek, The "Garage" Phase, Startups in Emerging Markets.</p>
-                </div>
-            </div>
-
-            <div style="text-align: center; margin-top: 5rem;">
-                <a href="#shape-your-luck" class="btn btn-primary reveal">Map Your Position</a>
-            </div>
+      <div class="container">
+        <div style="text-align: center">
+          <h2 class="text-gradient reveal">The Luck Quadrant</h2>
+          <p
+            class="reveal"
+            style="
+              color: var(--text-muted);
+              max-width: 800px;
+              margin: 1rem auto 0;
+              line-height: 1.8;
+            "
+          >
+            Luck is not mystical. It is unexpected events and encounters that
+            have meaningful impact. Your "Luck Quotient" (LQ) is determined by
+            where you sit on two axes:<br />
+            <strong style="color: var(--text-main)">Internal State:</strong> Are
+            you operating from Fear (Contraction) or Passion (Expansion)?<br />
+            <strong style="color: var(--text-main)"
+              >External Environment:</strong
+            >
+            Are you in a landscape of Scarcity or Abundance?
+          </p>
         </div>
+
+        <div class="quadrant-map reveal">
+          <span class="axis-title axis-title-vertical"
+            >External Environment</span
+          >
+          <span class="axis-title axis-title-horizontal">Internal State</span>
+          <span class="axis-label axis-top"
+            >Abundance<br /><small>(Resources & Networks)</small></span
+          >
+          <span class="axis-label axis-bottom"
+            >Scarcity<br /><small>(Constraints)</small></span
+          >
+          <span class="axis-label axis-left"
+            >Fear<br /><small>(Contraction)</small></span
+          >
+          <span class="axis-label axis-right"
+            >Passion<br /><small>(Expansion)</small></span
+          >
+
+          <div
+            class="q-card q-card-q2"
+            style="
+              border-color: rgba(255, 200, 87, 0.5);
+              box-shadow: 0 0 20px rgba(255, 200, 87, 0.1);
+            "
+          >
+            <svg
+              class="shape-bg"
+              viewBox="0 0 290 280"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill="currentColor"
+                d="M268.33,20v169.75c0,37.81-30.76,68.58-68.58,68.58h-71.68c-54.07,0-98.07-43.99-98.07-98.07v-71.68c0-37.81,30.76-68.58,68.58-68.58h169.75M288.33,0h-189.75c-48.92,0-88.58,39.66-88.58,88.58v71.68c0,65.21,52.86,118.07,118.07,118.07h71.68c48.92,0,88.58-39.66,88.58-88.58V0h0Z"
+              />
+            </svg>
+            <h3 style="color: var(--accent-cyan)">THE GILDED CAGE</h3>
+            <p>
+              <em style="color: var(--text-muted)"
+                >The Zone of Retrenchment.</em
+              >
+              You are surrounded by opportunity (the gold) but trapped by fear.
+              Institutions here are obsessed with control and efficiency,
+              viewing unexpected events as threats to be hedged rather than
+              opportunities to seize.
+            </p>
+            <p
+              style="
+                font-size: 0.85rem;
+                color: var(--text-muted);
+                margin-top: 0.75rem;
+              "
+            >
+              <strong>Examples:</strong> Kodak, Risk-Averse Corporate
+              Bureaucracies.
+            </p>
+          </div>
+          <div
+            class="q-card q-card-q1"
+            style="
+              border-color: var(--accent-gold);
+              box-shadow: 0 0 20px rgba(255, 200, 87, 0.2);
+            "
+          >
+            <svg
+              class="shape-bg"
+              viewBox="0 0 280 280"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill="currentColor"
+                d="M0,0h189.75C238.64,0,278.33,39.69,278.33,88.58v189.75H88.58C39.69,278.33,0,238.64,0,189.75V0H0Z"
+              />
+            </svg>
+            <h3 style="color: var(--accent-gold)">THE LAUNCHPAD</h3>
+            <p>
+              <em style="color: var(--text-muted)"
+                >The Zone of Amplified Impact.</em
+              >
+              Here, the "Passion of the Explorer" meets an environment rich in
+              resources and networks. You aren't just working hard; you are
+              increasing your surface area for luck.
+            </p>
+            <p
+              style="
+                font-size: 0.85rem;
+                color: var(--text-muted);
+                margin-top: 0.75rem;
+              "
+            >
+              <strong>Examples:</strong> Silicon Valley, Pixar, Early Mozart.
+            </p>
+          </div>
+          <div class="q-card q-card-q3">
+            <svg
+              class="shape-bg"
+              viewBox="0 0 280 280"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill="currentColor"
+                d="M88.58,0h71.68c65.16,0,118.07,52.9,118.07,118.07v71.68c0,48.89-39.69,88.58-88.58,88.58H0V88.58C0,39.69,39.69,0,88.58,0Z"
+              />
+            </svg>
+            <h3>THE BUNKER</h3>
+            <p>
+              <em style="color: var(--text-muted)">The Zone of Collapse.</em>
+              Fear meets scarcity. The tragic quadrant. The instinct is to
+              hunker down, isolate, and protect limited resources. This
+              isolation clusters bad luck with no buffer to absorb it.
+            </p>
+            <p
+              style="
+                font-size: 0.85rem;
+                color: var(--text-muted);
+                margin-top: 0.75rem;
+              "
+            >
+              <strong>Examples:</strong> OceanGate, Survival Mode.
+            </p>
+          </div>
+          <div
+            class="q-card q-card-q4"
+            style="
+              border-color: var(--accent-gold);
+              box-shadow: 0 0 15px rgba(255, 200, 87, 0.1);
+            "
+          >
+            <svg
+              class="shape-bg"
+              viewBox="0 0 280 280"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill="currentColor"
+                d="M0,0h189.75c48.89,0,88.58,39.69,88.58,88.58v189.75H88.58C39.69,278.33,0,238.64,0,189.75V0h0Z"
+                transform="translate(278.33 278.33) rotate(180)"
+              />
+            </svg>
+            <h3 style="color: var(--accent-gold)">THE FORGE</h3>
+            <p>
+              <em style="color: var(--text-muted)"
+                >The Zone of Inflection Points.</em
+              >
+              Passion meets constraint. This is the domain of the scrappy
+              innovator. You use ingenuity to turn limitations into advantages.
+              This is where raw materials are shaped by heat and pressure.
+            </p>
+            <p
+              style="
+                font-size: 0.85rem;
+                color: var(--text-muted);
+                margin-top: 0.75rem;
+              "
+            >
+              <strong>Examples:</strong> DeepSeek, The "Garage" Phase, Startups
+              in Emerging Markets.
+            </p>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 5rem">
+          <a href="#shape-your-luck" class="btn btn-primary reveal"
+            >Map Your Position</a
+          >
+        </div>
+      </div>
     </section>
 
     <!-- Interactive "Shape Your Luck" Assessment Tool -->
     <section id="shape-your-luck" class="interactive-quadrant-section">
-        <div class="container">
-            <div style="text-align: center;">
-                <h2 class="text-gradient reveal">Where Do You Stand?</h2>
-                <p class="reveal" style="color: var(--text-muted); max-width: 600px; margin: 1rem auto 0;">
-                    Drag the marker to diagnose your current position. Are you contracting into the Bunker, or expanding toward the Launchpad?
-                </p>
-            </div>
-
-            <div class="interactive-quadrant-wrapper reveal">
-                <span class="iq-axis-label iq-axis-top">Abundance</span>
-                <span class="iq-axis-label iq-axis-bottom">Scarcity</span>
-                <span class="iq-axis-label iq-axis-left">Fear</span>
-                <span class="iq-axis-label iq-axis-right">Passion</span>
-
-                <div class="interactive-quadrant" id="interactiveQuadrant">
-                    <!-- Q1: Top-Right (Passion + Abundance) = Launchpad -->
-                    <div class="iq-shape iq-shape-q1" data-quadrant="q1">
-                        <span class="iq-label iq-label-q1">Launchpad</span>
-                        <svg viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0,0h189.75C238.64,0,278.33,39.69,278.33,88.58v189.75H88.58C39.69,278.33,0,238.64,0,189.75V0H0Z"/>
-                        </svg>
-                    </div>
-                    <!-- Q2: Top-Left (Fear + Abundance) = Gilded Cage -->
-                    <div class="iq-shape iq-shape-q2" data-quadrant="q2">
-                        <span class="iq-label iq-label-q2">Gilded Cage</span>
-                        <svg viewBox="0 0 290 280" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M268.33,20v169.75c0,37.81-30.76,68.58-68.58,68.58h-71.68c-54.07,0-98.07-43.99-98.07-98.07v-71.68c0-37.81,30.76-68.58,68.58-68.58h169.75M288.33,0h-189.75c-48.92,0-88.58,39.66-88.58,88.58v71.68c0,65.21,52.86,118.07,118.07,118.07h71.68c48.92,0,88.58-39.66,88.58-88.58V0h0Z"/>
-                        </svg>
-                    </div>
-                    <!-- Q3: Bottom-Left (Fear + Scarcity) = Bunker -->
-                    <div class="iq-shape iq-shape-q3" data-quadrant="q3">
-                        <span class="iq-label iq-label-q3">Bunker</span>
-                        <svg viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M88.58,0h71.68c65.16,0,118.07,52.9,118.07,118.07v71.68c0,48.89-39.69,88.58-88.58,88.58H0V88.58C0,39.69,39.69,0,88.58,0Z"/>
-                        </svg>
-                    </div>
-                    <!-- Q4: Bottom-Right (Passion + Scarcity) = Forge -->
-                    <div class="iq-shape iq-shape-q4" data-quadrant="q4">
-                        <span class="iq-label iq-label-q4">Forge</span>
-                        <svg viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0,0h189.75c48.89,0,88.58,39.69,88.58,88.58v189.75H88.58C39.69,278.33,0,238.64,0,189.75V0h0Z" transform="translate(278.33 278.33) rotate(180)"/>
-                        </svg>
-                    </div>
-
-                    <!-- Draggable Marker -->
-                    <div class="luck-marker" id="luckMarker"></div>
-                </div>
-            </div>
-
-            <!-- Result Display -->
-            <div class="quadrant-result reveal" id="quadrantResult">
-                <h4>Drag the marker to discover your quadrant</h4>
-                <p>Your position isn't static. It's a strategic choice. We help you move Up and to the Right.</p>
-            </div>
-
-            <div style="text-align: center; margin-top: 2rem;">
-                <a href="#lab" class="btn btn-outline reveal">Join the Lab to Shift Your Trajectory →</a>
-            </div>
+      <div class="container">
+        <div style="text-align: center">
+          <h2 class="text-gradient reveal">Where Do You Stand?</h2>
+          <p
+            class="reveal"
+            style="
+              color: var(--text-muted);
+              max-width: 600px;
+              margin: 1rem auto 0;
+            "
+          >
+            Drag the marker to diagnose your current position. Are you
+            contracting into the Bunker, or expanding toward the Launchpad?
+          </p>
         </div>
+
+        <div class="interactive-quadrant-wrapper reveal">
+          <span class="iq-axis-label iq-axis-top">Abundance</span>
+          <span class="iq-axis-label iq-axis-bottom">Scarcity</span>
+          <span class="iq-axis-label iq-axis-left">Fear</span>
+          <span class="iq-axis-label iq-axis-right">Passion</span>
+
+          <div class="interactive-quadrant" id="interactiveQuadrant">
+            <!-- Q1: Top-Right (Passion + Abundance) = Launchpad -->
+            <div class="iq-shape iq-shape-q1" data-quadrant="q1">
+              <span class="iq-label iq-label-q1">Launchpad</span>
+              <svg viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M0,0h189.75C238.64,0,278.33,39.69,278.33,88.58v189.75H88.58C39.69,278.33,0,238.64,0,189.75V0H0Z"
+                />
+              </svg>
+            </div>
+            <!-- Q2: Top-Left (Fear + Abundance) = Gilded Cage -->
+            <div class="iq-shape iq-shape-q2" data-quadrant="q2">
+              <span class="iq-label iq-label-q2">Gilded Cage</span>
+              <svg viewBox="0 0 290 280" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M268.33,20v169.75c0,37.81-30.76,68.58-68.58,68.58h-71.68c-54.07,0-98.07-43.99-98.07-98.07v-71.68c0-37.81,30.76-68.58,68.58-68.58h169.75M288.33,0h-189.75c-48.92,0-88.58,39.66-88.58,88.58v71.68c0,65.21,52.86,118.07,118.07,118.07h71.68c48.92,0,88.58-39.66,88.58-88.58V0h0Z"
+                />
+              </svg>
+            </div>
+            <!-- Q3: Bottom-Left (Fear + Scarcity) = Bunker -->
+            <div class="iq-shape iq-shape-q3" data-quadrant="q3">
+              <span class="iq-label iq-label-q3">Bunker</span>
+              <svg viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M88.58,0h71.68c65.16,0,118.07,52.9,118.07,118.07v71.68c0,48.89-39.69,88.58-88.58,88.58H0V88.58C0,39.69,39.69,0,88.58,0Z"
+                />
+              </svg>
+            </div>
+            <!-- Q4: Bottom-Right (Passion + Scarcity) = Forge -->
+            <div class="iq-shape iq-shape-q4" data-quadrant="q4">
+              <span class="iq-label iq-label-q4">Forge</span>
+              <svg viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M0,0h189.75c48.89,0,88.58,39.69,88.58,88.58v189.75H88.58C39.69,278.33,0,238.64,0,189.75V0h0Z"
+                  transform="translate(278.33 278.33) rotate(180)"
+                />
+              </svg>
+            </div>
+
+            <!-- Draggable Marker -->
+            <div class="luck-marker" id="luckMarker"></div>
+          </div>
+        </div>
+
+        <!-- Result Display -->
+        <div class="quadrant-result reveal" id="quadrantResult">
+          <h4>Drag the marker to discover your quadrant</h4>
+          <p>
+            Your position isn't static. It's a strategic choice. We help you
+            move Up and to the Right.
+          </p>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem">
+          <a href="#lab" class="btn btn-outline reveal"
+            >Join the Lab to Shift Your Trajectory →</a
+          >
+        </div>
+      </div>
     </section>
 
     <section id="article">
-        <div class="container">
-            <h2 style="text-align: center; margin-bottom: 1rem;" class="reveal">The Luck Mandate</h2>
-            <p class="reveal" style="text-align: center; color: var(--text-muted); margin-bottom: 3rem;">
-                Why serendipity is a design problem, not a divine blessing.
-            </p>
+      <div class="container">
+        <h2 style="text-align: center; margin-bottom: 1rem" class="reveal">
+          The Luck Mandate
+        </h2>
+        <p
+          class="reveal"
+          style="
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+          "
+        >
+          Why serendipity is a design problem, not a divine blessing.
+        </p>
 
-            <div class="glass-card reveal" style="max-width: 900px; margin: 0 auto; padding: 3rem; text-align: left; max-height: 500px; overflow-y: auto;">
-                <h3 style="color: var(--accent-gold); margin-bottom: 1.5rem;">The McConaughey Moment</h3>
+        <div
+          class="glass-card reveal"
+          style="
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem;
+            text-align: left;
+            max-height: 500px;
+            overflow-y: auto;
+          "
+        >
+          <h3 style="color: var(--accent-gold); margin-bottom: 1.5rem">
+            The McConaughey Moment
+          </h3>
 
-                <p style="margin-bottom: 1.5rem; line-height: 1.9;">On a winter afternoon in 1993, a struggling actor named Matthew McConaughey walked into a bar in Austin, Texas. He didn't stay home. He struck up a conversation with a stranger—a casting director. That chance meeting led to <em>Dazed and Confused</em> and the line "Alright, alright, alright."</p>
+          <p style="margin-bottom: 1.5rem; line-height: 1.9">
+            On a winter afternoon in 1993, a struggling actor named Matthew
+            McConaughey walked into a bar in Austin, Texas. He didn't stay home.
+            He struck up a conversation with a stranger—a casting director. That
+            chance meeting led to <em>Dazed and Confused</em> and the line
+            "Alright, alright, alright."
+          </p>
 
-                <p style="margin-bottom: 1.5rem; line-height: 1.9;">It's a story told as folklore. But the brute fact is simple: <strong style="color: var(--accent-cyan);">He increased his surface area for the unexpected.</strong> In a world of accelerating change, we cannot afford to treat these moments as "flukes."</p>
+          <p style="margin-bottom: 1.5rem; line-height: 1.9">
+            It's a story told as folklore. But the brute fact is simple:
+            <strong style="color: var(--accent-cyan)"
+              >He increased his surface area for the unexpected.</strong
+            >
+            In a world of accelerating change, we cannot afford to treat these
+            moments as "flukes."
+          </p>
 
-                <h3 style="color: var(--accent-cyan); margin: 2rem 0 1.5rem;">Redefining Luck</h3>
+          <h3 style="color: var(--accent-cyan); margin: 2rem 0 1.5rem">
+            Redefining Luck
+          </h3>
 
-                <p style="margin-bottom: 1.5rem; line-height: 1.9;">For centuries, we've defined luck as "preparation meets opportunity." But that is too passive. It implies waiting. We define luck as: <strong style="color: var(--accent-gold);">Unexpected events and encounters that have a meaningful impact.</strong></p>
+          <p style="margin-bottom: 1.5rem; line-height: 1.9">
+            For centuries, we've defined luck as "preparation meets
+            opportunity." But that is too passive. It implies waiting. We define
+            luck as:
+            <strong style="color: var(--accent-gold)"
+              >Unexpected events and encounters that have a meaningful
+              impact.</strong
+            >
+          </p>
 
-                <p style="margin-bottom: 1.5rem; line-height: 1.9;">This definition forces us to confront the "Big Shift." We are moving from a world of stocks (hoarding knowledge) to flows (sharing knowledge). In this new world, the most successful individuals and organizations don't just plan better—they position themselves to attract orthogonal events.</p>
+          <p style="margin-bottom: 1.5rem; line-height: 1.9">
+            This definition forces us to confront the "Big Shift." We are moving
+            from a world of stocks (hoarding knowledge) to flows (sharing
+            knowledge). In this new world, the most successful individuals and
+            organizations don't just plan better—they position themselves to
+            attract orthogonal events.
+          </p>
 
-                <h3 style="color: var(--accent-gold); margin: 2rem 0 1.5rem;">The Passion of the Explorer</h3>
+          <h3 style="color: var(--accent-gold); margin: 2rem 0 1.5rem">
+            The Passion of the Explorer
+          </h3>
 
-                <p style="margin-bottom: 1.5rem; line-height: 1.9;">To shape luck, you must cultivate the "Passion of the Explorer." This is an internal shift from fear to curiosity. It is the willingness to venture onto the edges, to express vulnerability, and to build rich, diverse networks.</p>
+          <p style="margin-bottom: 1.5rem; line-height: 1.9">
+            To shape luck, you must cultivate the "Passion of the Explorer."
+            This is an internal shift from fear to curiosity. It is the
+            willingness to venture onto the edges, to express vulnerability, and
+            to build rich, diverse networks.
+          </p>
 
-                <p style="margin-bottom: 1.5rem; line-height: 1.9;">When you combine this internal state with an environment of abundance (<span style="color: var(--accent-gold);">The Launchpad</span>), luck stops being an accident. It becomes a reliable output of your operating system.</p>
+          <p style="margin-bottom: 1.5rem; line-height: 1.9">
+            When you combine this internal state with an environment of
+            abundance (<span style="color: var(--accent-gold)"
+              >The Launchpad</span
+            >), luck stops being an accident. It becomes a reliable output of
+            your operating system.
+          </p>
 
-                <p style="text-align: center; margin: 2rem 0; font-size: 1.1rem; color: var(--accent-cyan);">
-                    [Continue reading the full article...]
-                </p>
-            </div>
-
-            <div style="text-align: center; margin-top: 2rem;">
-                <a href="#lab" class="btn btn-primary reveal">Download the Full "Shaping Luck" Article →</a>
-            </div>
+          <p
+            style="
+              text-align: center;
+              margin: 2rem 0;
+              font-size: 1.1rem;
+              color: var(--accent-cyan);
+            "
+          >
+            [Continue reading the full article...]
+          </p>
         </div>
+
+        <div style="text-align: center; margin-top: 2rem">
+          <a href="#lab" class="btn btn-primary reveal"
+            >Download the Full "Shaping Luck" Article →</a
+          >
+        </div>
+      </div>
     </section>
 
     <section>
-        <div class="container">
-            <div class="paradox-box reveal">
-                <h2>The Passion of the Explorer</h2>
-                <p style="margin-top: 1.5rem; font-size: 1.1rem; line-height: 1.8;">
-                    "Luck is not a lightning strike. It is a wind that is always blowing.
-                    Most people build walls to block it. We build windmills to catch it."
-                </p>
-                <p style="margin-top: 1rem; color: var(--accent-cyan);">— The Shaping Luck Manifesto</p>
-            </div>
+      <div class="container">
+        <div class="paradox-box reveal">
+          <h2>The Passion of the Explorer</h2>
+          <p style="margin-top: 1.5rem; font-size: 1.1rem; line-height: 1.8">
+            "Luck is not a lightning strike. It is a wind that is always
+            blowing. Most people build walls to block it. We build windmills to
+            catch it."
+          </p>
+          <p style="margin-top: 1rem; color: var(--accent-cyan)">
+            — The Shaping Luck Manifesto
+          </p>
         </div>
+      </div>
     </section>
 
     <section id="lab">
-        <div class="container">
-            <h2 style="text-align: center; margin-bottom: 1rem;" class="reveal">Join The Luck Lab</h2>
-            <p class="reveal" style="text-align: center; color: var(--text-muted); max-width: 600px; margin: 0 auto 2rem;">
-                A community for Fortune Designers moving from Scarcity to Abundance.
+      <div class="container">
+        <h2 style="text-align: center; margin-bottom: 1rem" class="reveal">
+          Join The Luck Lab
+        </h2>
+        <p
+          class="reveal"
+          style="
+            text-align: center;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+          "
+        >
+          A community for Fortune Designers moving from Scarcity to Abundance.
+        </p>
+
+        <div
+          class="grid-3"
+          style="
+            grid-template-columns: repeat(4, 1fr);
+            max-width: 900px;
+            margin: 0 auto 2rem;
+          "
+        >
+          <div
+            class="glass-card reveal"
+            style="padding: 1.5rem; text-align: center"
+          >
+            <h4 style="color: var(--accent-cyan); margin-bottom: 0.5rem">
+              Calculate Your LQ
+            </h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted)">
+              Measure your "Luck Quotient" using our proprietary diagnostic.
             </p>
-
-            <div class="grid-3" style="grid-template-columns: repeat(4, 1fr); max-width: 900px; margin: 0 auto 2rem;">
-                <div class="glass-card reveal" style="padding: 1.5rem; text-align: center;">
-                    <h4 style="color: var(--accent-cyan); margin-bottom: 0.5rem;">Calculate Your LQ</h4>
-                    <p style="font-size: 0.85rem; color: var(--text-muted);">Measure your "Luck Quotient" using our proprietary diagnostic.</p>
-                </div>
-                <div class="glass-card reveal" style="padding: 1.5rem; text-align: center;">
-                    <h4 style="color: var(--accent-cyan); margin-bottom: 0.5rem;">Case Studies</h4>
-                    <p style="font-size: 0.85rem; color: var(--text-muted);">Deep dives into The Forge and The Launchpad—from The Williams Sisters to Open Source Intelligence.</p>
-                </div>
-                <div class="glass-card reveal" style="padding: 1.5rem; text-align: center;">
-                    <h4 style="color: var(--accent-cyan); margin-bottom: 0.5rem;">Narrative Design</h4>
-                    <p style="font-size: 0.85rem; color: var(--text-muted);">Learn to replace threat-based narratives with opportunity-based narratives.</p>
-                </div>
-                <div class="glass-card reveal" style="padding: 1.5rem; text-align: center;">
-                    <h4 style="color: var(--accent-cyan); margin-bottom: 0.5rem;">Serendipity Architecture</h4>
-                    <p style="font-size: 0.85rem; color: var(--text-muted);">Strategies for individuals, leaders, and cities to engineer collisions.</p>
-                </div>
-            </div>
-
-            <div class="glass-card reveal" style="max-width: 700px; margin: 0 auto 3rem; padding: 2rem; text-align: center;">
-                <p style="font-size: 1.1rem; margin-bottom: 0.5rem;"><strong>Format:</strong> Monthly Labs + Asynchronous Community</p>
-                <p style="font-size: 1.1rem;"><strong>Next Session:</strong> Shaping Serendipity in a Linear World</p>
-            </div>
-
-            <div class="glass-card reveal" style="max-width: 600px; margin: 0 auto; padding: 3rem; text-align: center; border-color: var(--accent-gold); background: rgba(255, 200, 87, 0.03);">
-                <h3 style="color: var(--accent-gold); margin-bottom: 0.5rem;">Reserve Your Spot</h3>
-                <p style="color: var(--text-muted); margin-bottom: 2rem;">Next Lab Session: Launching Soon</p>
-
-                <form id="waitlistForm" style="display: flex; flex-direction: column; gap: 1rem;">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                        <div class="shape-input-wrapper">
-                            <svg class="shape-input-accent accent-tl" viewBox="0 0 24 24"><path d="M0,24 L0,8 Q0,0 8,0 L24,0"/></svg>
-                            <svg class="shape-input-accent accent-br" viewBox="0 0 24 24"><path d="M0,24 L0,8 Q0,0 8,0 L24,0"/></svg>
-                            <input type="text" id="companyName" name="companyName" placeholder="Company name" required
-                                style="padding: 1rem 1.5rem; border-radius: 50px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05); color: var(--text-main); font-size: 1rem; width: 100%;">
-                        </div>
-                        <div class="shape-input-wrapper">
-                            <svg class="shape-input-accent accent-tl" viewBox="0 0 24 24"><path d="M0,24 L0,8 Q0,0 8,0 L24,0"/></svg>
-                            <svg class="shape-input-accent accent-br" viewBox="0 0 24 24"><path d="M0,24 L0,8 Q0,0 8,0 L24,0"/></svg>
-                            <input type="email" id="email" name="email" placeholder="Email address" required
-                                style="padding: 1rem 1.5rem; border-radius: 50px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05); color: var(--text-main); font-size: 1rem; width: 100%;">
-                        </div>
-                    </div>
-                    <button type="submit" id="submitBtn" class="btn btn-primary btn-shape" style="background: var(--accent-gold); color: black; align-self: center;">
-                        <svg class="btn-shape-accent btn-accent-tl" viewBox="0 0 20 20"><path d="M0,0h13c3.9,0,7,3.1,7,7v13H7c-3.9,0-7-3.1-7-7V0Z"/></svg>
-                        <svg class="btn-shape-accent btn-accent-br" viewBox="0 0 20 20"><path d="M0,0h13c3.9,0,7,3.1,7,7v13H7c-3.9,0-7-3.1-7-7V0Z"/></svg>
-                        <span class="btn-text">Join the Waitlist →</span>
-                        <span class="btn-loading" style="display: none;">Joining...</span>
-                    </button>
-                </form>
-                <div id="formMessage" style="margin-top: 1rem; padding: 1rem; border-radius: 10px; display: none;">
-                    <span class="success-badge" style="display: none;">
-                        <svg class="shape-icon" viewBox="0 0 20 20"><path d="M0,0h13c3.9,0,7,3.1,7,7v13H7c-3.9,0-7-3.1-7-7V0Z" transform="translate(20 20) rotate(180)"/></svg>
-                        <span>You're on the list!</span>
-                    </span>
-                </div>
-                <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem;">Join our community of Fortune Designers.</p>
-            </div>
+          </div>
+          <div
+            class="glass-card reveal"
+            style="padding: 1.5rem; text-align: center"
+          >
+            <h4 style="color: var(--accent-cyan); margin-bottom: 0.5rem">
+              Case Studies
+            </h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted)">
+              Deep dives into The Forge and The Launchpad—from The Williams
+              Sisters to Open Source Intelligence.
+            </p>
+          </div>
+          <div
+            class="glass-card reveal"
+            style="padding: 1.5rem; text-align: center"
+          >
+            <h4 style="color: var(--accent-cyan); margin-bottom: 0.5rem">
+              Narrative Design
+            </h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted)">
+              Learn to replace threat-based narratives with opportunity-based
+              narratives.
+            </p>
+          </div>
+          <div
+            class="glass-card reveal"
+            style="padding: 1.5rem; text-align: center"
+          >
+            <h4 style="color: var(--accent-cyan); margin-bottom: 0.5rem">
+              Serendipity Architecture
+            </h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted)">
+              Strategies for individuals, leaders, and cities to engineer
+              collisions.
+            </p>
+          </div>
         </div>
+
+        <div
+          class="glass-card reveal"
+          style="
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            padding: 2rem;
+            text-align: center;
+          "
+        >
+          <p style="font-size: 1.1rem; margin-bottom: 0.5rem">
+            <strong>Format:</strong> Monthly Labs + Asynchronous Community
+          </p>
+          <p style="font-size: 1.1rem">
+            <strong>Next Session:</strong> Shaping Serendipity in a Linear World
+          </p>
+        </div>
+
+        <div
+          class="glass-card reveal"
+          style="
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 3rem;
+            text-align: center;
+            border-color: var(--accent-gold);
+            background: rgba(255, 200, 87, 0.03);
+          "
+        >
+          <h3 style="color: var(--accent-gold); margin-bottom: 0.5rem">
+            Reserve Your Spot
+          </h3>
+          <p style="color: var(--text-muted); margin-bottom: 2rem">
+            Next Lab Session: Launching Soon
+          </p>
+
+          <form
+            id="waitlistForm"
+            style="display: flex; flex-direction: column; gap: 1rem"
+          >
+            <div
+              style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem"
+            >
+              <div class="shape-input-wrapper">
+                <svg class="shape-input-accent accent-tl" viewBox="0 0 24 24">
+                  <path d="M0,24 L0,8 Q0,0 8,0 L24,0" />
+                </svg>
+                <svg class="shape-input-accent accent-br" viewBox="0 0 24 24">
+                  <path d="M0,24 L0,8 Q0,0 8,0 L24,0" />
+                </svg>
+                <input
+                  type="text"
+                  id="companyName"
+                  name="companyName"
+                  placeholder="Company name"
+                  required
+                  style="
+                    padding: 1rem 1.5rem;
+                    border-radius: 50px;
+                    border: 1px solid var(--glass-border);
+                    background: rgba(255, 255, 255, 0.05);
+                    color: var(--text-main);
+                    font-size: 1rem;
+                    width: 100%;
+                  "
+                />
+              </div>
+              <div class="shape-input-wrapper">
+                <svg class="shape-input-accent accent-tl" viewBox="0 0 24 24">
+                  <path d="M0,24 L0,8 Q0,0 8,0 L24,0" />
+                </svg>
+                <svg class="shape-input-accent accent-br" viewBox="0 0 24 24">
+                  <path d="M0,24 L0,8 Q0,0 8,0 L24,0" />
+                </svg>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Email address"
+                  required
+                  style="
+                    padding: 1rem 1.5rem;
+                    border-radius: 50px;
+                    border: 1px solid var(--glass-border);
+                    background: rgba(255, 255, 255, 0.05);
+                    color: var(--text-main);
+                    font-size: 1rem;
+                    width: 100%;
+                  "
+                />
+              </div>
+            </div>
+            <button
+              type="submit"
+              id="submitBtn"
+              class="btn btn-primary btn-shape"
+              style="
+                background: var(--accent-gold);
+                color: black;
+                align-self: center;
+              "
+            >
+              <svg class="btn-shape-accent btn-accent-tl" viewBox="0 0 20 20">
+                <path d="M0,0h13c3.9,0,7,3.1,7,7v13H7c-3.9,0-7-3.1-7-7V0Z" />
+              </svg>
+              <svg class="btn-shape-accent btn-accent-br" viewBox="0 0 20 20">
+                <path d="M0,0h13c3.9,0,7,3.1,7,7v13H7c-3.9,0-7-3.1-7-7V0Z" />
+              </svg>
+              <span class="btn-text">Join the Waitlist →</span>
+              <span class="btn-loading" style="display: none">Joining...</span>
+            </button>
+          </form>
+          <div
+            id="formMessage"
+            style="
+              margin-top: 1rem;
+              padding: 1rem;
+              border-radius: 10px;
+              display: none;
+            "
+          >
+            <span class="success-badge" style="display: none">
+              <svg class="shape-icon" viewBox="0 0 20 20">
+                <path
+                  d="M0,0h13c3.9,0,7,3.1,7,7v13H7c-3.9,0-7-3.1-7-7V0Z"
+                  transform="translate(20 20) rotate(180)"
+                />
+              </svg>
+              <span>You're on the list!</span>
+            </span>
+          </div>
+          <p
+            style="
+              color: var(--text-muted);
+              font-size: 0.85rem;
+              margin-top: 1rem;
+            "
+          >
+            Join our community of Fortune Designers.
+          </p>
+        </div>
+      </div>
     </section>
 
     <section>
-        <div class="container">
-            <h2 style="text-align: center; margin-bottom: 3rem;" class="reveal">This Is For You If...</h2>
+      <div class="container">
+        <h2 style="text-align: center; margin-bottom: 3rem" class="reveal">
+          This Is For You If...
+        </h2>
 
-            <div class="grid-3">
-                <div class="glass-card reveal">
-                    <svg class="corner-accent corner-accent-gold corner-tl" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
-                    <svg class="corner-accent corner-accent-gold corner-br" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
-                    <h3 style="color: var(--accent-cyan);">Individuals</h3>
-                    <p style="margin-top: 1rem; color: var(--text-muted);">You are talented and hardworking, but feel stuck in linear progression. You want to cultivate the "Passion of the Explorer" and learn to harness orthogonal events to change your career trajectory.</p>
-                </div>
-                <div class="glass-card reveal">
-                    <svg class="corner-accent corner-accent-gold corner-tl" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
-                    <svg class="corner-accent corner-accent-gold corner-br" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
-                    <h3 style="color: var(--accent-cyan);">Leaders</h3>
-                    <p style="margin-top: 1rem; color: var(--text-muted);">You run an organization trapped in the "Gilded Cage." You see your teams retreating into fear and scalable efficiency. You want to break the immune system of the status quo and design an organization that welcomes the unexpected.</p>
-                </div>
-                <div class="glass-card reveal">
-                    <svg class="corner-accent corner-accent-gold corner-tl" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
-                    <svg class="corner-accent corner-accent-gold corner-br" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
-                    <h3 style="color: var(--accent-cyan);">Cities & Ecosystems</h3>
-                    <p style="margin-top: 1rem; color: var(--text-muted);">You are building a hub for innovation. You want to understand why Silicon Valley works—not just the economics, but the density of interaction. You want to move your geography from Scarcity to Abundance.</p>
-                </div>
-            </div>
+        <div class="grid-3">
+          <div class="glass-card reveal">
+            <svg
+              class="corner-accent corner-accent-gold corner-tl"
+              viewBox="0 0 40 40"
+            >
+              <path d="M0,40 L0,15 Q0,0 15,0 L40,0" />
+            </svg>
+            <svg
+              class="corner-accent corner-accent-gold corner-br"
+              viewBox="0 0 40 40"
+            >
+              <path d="M0,40 L0,15 Q0,0 15,0 L40,0" />
+            </svg>
+            <h3 style="color: var(--accent-cyan)">Individuals</h3>
+            <p style="margin-top: 1rem; color: var(--text-muted)">
+              You are talented and hardworking, but feel stuck in linear
+              progression. You want to cultivate the "Passion of the Explorer"
+              and learn to harness orthogonal events to change your career
+              trajectory.
+            </p>
+          </div>
+          <div class="glass-card reveal">
+            <svg
+              class="corner-accent corner-accent-gold corner-tl"
+              viewBox="0 0 40 40"
+            >
+              <path d="M0,40 L0,15 Q0,0 15,0 L40,0" />
+            </svg>
+            <svg
+              class="corner-accent corner-accent-gold corner-br"
+              viewBox="0 0 40 40"
+            >
+              <path d="M0,40 L0,15 Q0,0 15,0 L40,0" />
+            </svg>
+            <h3 style="color: var(--accent-cyan)">Leaders</h3>
+            <p style="margin-top: 1rem; color: var(--text-muted)">
+              You run an organization trapped in the "Gilded Cage." You see your
+              teams retreating into fear and scalable efficiency. You want to
+              break the immune system of the status quo and design an
+              organization that welcomes the unexpected.
+            </p>
+          </div>
+          <div class="glass-card reveal">
+            <svg
+              class="corner-accent corner-accent-gold corner-tl"
+              viewBox="0 0 40 40"
+            >
+              <path d="M0,40 L0,15 Q0,0 15,0 L40,0" />
+            </svg>
+            <svg
+              class="corner-accent corner-accent-gold corner-br"
+              viewBox="0 0 40 40"
+            >
+              <path d="M0,40 L0,15 Q0,0 15,0 L40,0" />
+            </svg>
+            <h3 style="color: var(--accent-cyan)">Cities & Ecosystems</h3>
+            <p style="margin-top: 1rem; color: var(--text-muted)">
+              You are building a hub for innovation. You want to understand why
+              Silicon Valley works—not just the economics, but the density of
+              interaction. You want to move your geography from Scarcity to
+              Abundance.
+            </p>
+          </div>
         </div>
+      </div>
     </section>
 
     <section>
-        <div class="container">
-            <h2 style="text-align: center; margin-bottom: 3rem;" class="reveal">About John Hagel</h2>
-            <div class="glass-card reveal" style="max-width: 900px; margin: 0 auto 4rem; padding: 3rem;">
-                <svg class="corner-accent corner-tl" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
-                <svg class="corner-accent corner-tr" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
-                <svg class="corner-accent corner-bl" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
-                <svg class="corner-accent corner-br" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
-                <p style="margin-bottom: 1.5rem; line-height: 1.9;">John Hagel is a futurist and the founder of the Center for the Edge. For over 40 years, he has studied the "Big Shift"—the long-term forces reshaping the global economy. He is the author of <em>The Power of Pull</em> and a leading voice on how to move from the politics of fear to the politics of hope.</p>
-                <p style="line-height: 1.9;">His work focuses on how we can harness mounting pressure to achieve exponential opportunity.</p>
-            </div>
-
-            <h2 style="text-align: center; margin-bottom: 3rem;" class="reveal">About Salim Ismail</h2>
-            <div class="glass-card reveal" style="max-width: 900px; margin: 0 auto; padding: 3rem;">
-                <svg class="corner-accent corner-tl" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
-                <svg class="corner-accent corner-tr" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
-                <svg class="corner-accent corner-bl" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
-                <svg class="corner-accent corner-br" viewBox="0 0 40 40"><path d="M0,40 L0,15 Q0,0 15,0 L40,0"/></svg>
-                <p style="margin-bottom: 1.5rem; line-height: 1.9;">Salim Ismail is the Founding Executive Director of Singularity University and the best-selling author of <em>Exponential Organizations</em> (ExO). He studies how to organize for a world of accelerating change.</p>
-                <p style="line-height: 1.9;">His work on the "Launchpad" quadrant helps organizations leverage abundance to achieve 10x performance improvements.</p>
-            </div>
+      <div class="container">
+        <h2 style="text-align: center; margin-bottom: 3rem" class="reveal">
+          About John Hagel
+        </h2>
+        <div
+          class="glass-card reveal"
+          style="max-width: 900px; margin: 0 auto 4rem; padding: 3rem"
+        >
+          <svg class="corner-accent corner-tl" viewBox="0 0 40 40">
+            <path d="M0,40 L0,15 Q0,0 15,0 L40,0" />
+          </svg>
+          <svg class="corner-accent corner-tr" viewBox="0 0 40 40">
+            <path d="M0,40 L0,15 Q0,0 15,0 L40,0" />
+          </svg>
+          <svg class="corner-accent corner-bl" viewBox="0 0 40 40">
+            <path d="M0,40 L0,15 Q0,0 15,0 L40,0" />
+          </svg>
+          <svg class="corner-accent corner-br" viewBox="0 0 40 40">
+            <path d="M0,40 L0,15 Q0,0 15,0 L40,0" />
+          </svg>
+          <p style="margin-bottom: 1.5rem; line-height: 1.9">
+            John Hagel is a futurist and the founder of the Center for the Edge.
+            For over 40 years, he has studied the "Big Shift"—the long-term
+            forces reshaping the global economy. He is the author of
+            <em>The Power of Pull</em> and a leading voice on how to move from
+            the politics of fear to the politics of hope.
+          </p>
+          <p style="line-height: 1.9">
+            His work focuses on how we can harness mounting pressure to achieve
+            exponential opportunity.
+          </p>
         </div>
+
+        <h2 style="text-align: center; margin-bottom: 3rem" class="reveal">
+          About Salim Ismail
+        </h2>
+        <div
+          class="glass-card reveal"
+          style="max-width: 900px; margin: 0 auto; padding: 3rem"
+        >
+          <svg class="corner-accent corner-tl" viewBox="0 0 40 40">
+            <path d="M0,40 L0,15 Q0,0 15,0 L40,0" />
+          </svg>
+          <svg class="corner-accent corner-tr" viewBox="0 0 40 40">
+            <path d="M0,40 L0,15 Q0,0 15,0 L40,0" />
+          </svg>
+          <svg class="corner-accent corner-bl" viewBox="0 0 40 40">
+            <path d="M0,40 L0,15 Q0,0 15,0 L40,0" />
+          </svg>
+          <svg class="corner-accent corner-br" viewBox="0 0 40 40">
+            <path d="M0,40 L0,15 Q0,0 15,0 L40,0" />
+          </svg>
+          <p style="margin-bottom: 1.5rem; line-height: 1.9">
+            Salim Ismail is the Founding Executive Director of Singularity
+            University and the best-selling author of
+            <em>Exponential Organizations</em> (ExO). He studies how to organize
+            for a world of accelerating change.
+          </p>
+          <p style="line-height: 1.9">
+            His work on the "Launchpad" quadrant helps organizations leverage
+            abundance to achieve 10x performance improvements.
+          </p>
+        </div>
+      </div>
     </section>
 
     <footer>
-        <div class="container">
-            <div style="margin-bottom: 2rem; opacity: 0.4;">
-                <img src="logo4.png" alt="Shaping Luck Logo" width="50" height="50" style="filter: brightness(0) invert(1);">
-            </div>
-            <p>&copy; 2025 Shaping Luck. All Interconnected Rights Reserved.</p>
-            <p style="margin-top: 10px;"><a href="#" style="color: var(--text-muted); margin: 0 10px;">Manifesto</a> <a href="#" style="color: var(--text-muted); margin: 0 10px;">Privacy</a></p>
+      <div class="container">
+        <div style="margin-bottom: 2rem; opacity: 0.4">
+          <img
+            src="logo4.png"
+            alt="Shaping Luck Logo"
+            width="50"
+            height="50"
+            style="filter: brightness(0) invert(1)"
+          />
         </div>
+        <p>&copy; 2025 Shaping Luck. All Interconnected Rights Reserved.</p>
+        <p style="margin-top: 10px">
+          <a href="#" style="color: var(--text-muted); margin: 0 10px"
+            >Manifesto</a
+          >
+          <a href="#" style="color: var(--text-muted); margin: 0 10px"
+            >Privacy</a
+          >
+        </p>
+      </div>
     </footer>
 
     <script>
-        /* --- 0. THEME TOGGLE FUNCTIONALITY --- */
-        (function() {
-            const html = document.documentElement;
-            const toggle = document.getElementById('themeToggle');
+      /* --- 0. THEME TOGGLE FUNCTIONALITY --- */
+      (function () {
+        const html = document.documentElement;
+        const toggle = document.getElementById("themeToggle");
 
-            // Check for saved preference or system preference
-            const savedTheme = localStorage.getItem('theme');
-            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        // Check for saved preference or system preference
+        const savedTheme = localStorage.getItem("theme");
+        const systemPrefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
 
-            // Set initial theme (dark is default, light needs data-theme attribute)
-            if (savedTheme === 'light' || (!savedTheme && !systemPrefersDark)) {
-                html.dataset.theme = 'light';
-            }
-            // If dark or system prefers dark, no attribute needed (default is dark)
-
-            // Toggle handler
-            if (toggle) {
-                toggle.addEventListener('click', () => {
-                    const currentTheme = html.dataset.theme;
-                    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-
-                    if (newTheme === 'dark') {
-                        delete html.dataset.theme;
-                    } else {
-                        html.dataset.theme = 'light';
-                    }
-
-                    localStorage.setItem('theme', newTheme);
-
-                    // Dispatch event for other components (like canvas)
-                    window.dispatchEvent(new CustomEvent('themechange', { detail: newTheme }));
-                });
-            }
-
-            // Listen for system preference changes
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-                if (!localStorage.getItem('theme')) {
-                    if (e.matches) {
-                        delete html.dataset.theme;
-                    } else {
-                        html.dataset.theme = 'light';
-                    }
-                    window.dispatchEvent(new CustomEvent('themechange', { detail: e.matches ? 'dark' : 'light' }));
-                }
-            });
-        })();
-
-        /* --- 1. SCROLL REVEAL ANIMATION --- */
-        document.addEventListener("DOMContentLoaded", function() {
-            const reveals = document.querySelectorAll(".reveal");
-
-            const revealOnScroll = () => {
-                const windowHeight = window.innerHeight;
-                const elementVisible = 100;
-
-                reveals.forEach((reveal) => {
-                    const elementTop = reveal.getBoundingClientRect().top;
-                    if (elementTop < windowHeight - elementVisible) {
-                        reveal.classList.add("active");
-                    }
-                });
-            };
-
-            window.addEventListener("scroll", revealOnScroll);
-            revealOnScroll(); // Trigger once on load
-        });
-
-        /* --- 2. GENERATIVE PARTICLE SYSTEM (THE "LUCK" MESH) --- */
-        const canvas = document.getElementById("luckCanvas");
-        const ctx = canvas.getContext("2d");
-        
-        let width, height;
-        let particles = [];
-        
-        // Configuration
-        const particleCount = 60; // Keep it performant
-        const connectionDistance = 150;
-        const mouseDistance = 200;
-
-        // Resize handling
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
+        // Set initial theme (dark is default, light needs data-theme attribute)
+        if (savedTheme === "light" || (!savedTheme && !systemPrefersDark)) {
+          html.dataset.theme = "light";
         }
-        window.addEventListener('resize', resize);
-        resize();
+        // If dark or system prefers dark, no attribute needed (default is dark)
 
-        // Mouse tracking
-        const mouse = { x: null, y: null };
-        window.addEventListener('mousemove', (e) => {
-            mouse.x = e.x;
-            mouse.y = e.y;
-        });
-        window.addEventListener('mouseout', () => {
-            mouse.x = null;
-            mouse.y = null;
-        });
+        // Toggle handler
+        if (toggle) {
+          toggle.addEventListener("click", () => {
+            const currentTheme = html.dataset.theme;
+            const newTheme = currentTheme === "light" ? "dark" : "light";
 
-        // Helper to get particle colors based on theme
-        function getParticleColors() {
-            const isLightMode = document.documentElement.dataset.theme === 'light';
-            if (isLightMode) {
-                // Light mode: darker colors for visibility
-                return {
-                    accent: 'rgba(8, 145, 178, ',     // Darker cyan
-                    base: 'rgba(30, 41, 59, '         // Slate 800
-                };
+            if (newTheme === "dark") {
+              delete html.dataset.theme;
             } else {
-                // Dark mode: original colors
-                return {
-                    accent: 'rgba(0, 242, 234, ',     // Bright cyan
-                    base: 'rgba(255, 255, 255, '      // White
-                };
+              html.dataset.theme = "light";
             }
+
+            localStorage.setItem("theme", newTheme);
+
+            // Dispatch event for other components (like canvas)
+            window.dispatchEvent(
+              new CustomEvent("themechange", { detail: newTheme }),
+            );
+          });
         }
 
-        // Particle Class
-        class Particle {
-            constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 0.5; // Slow drift
-                this.vy = (Math.random() - 0.5) * 0.5;
-                this.size = Math.random() * 2 + 1;
-                this.isAccent = Math.random() > 0.8;
-                this.updateColor();
+        // Listen for system preference changes
+        window
+          .matchMedia("(prefers-color-scheme: dark)")
+          .addEventListener("change", (e) => {
+            if (!localStorage.getItem("theme")) {
+              if (e.matches) {
+                delete html.dataset.theme;
+              } else {
+                html.dataset.theme = "light";
+              }
+              window.dispatchEvent(
+                new CustomEvent("themechange", {
+                  detail: e.matches ? "dark" : "light",
+                }),
+              );
             }
+          });
+      })();
 
-            updateColor() {
-                const colors = getParticleColors();
-                this.color = this.isAccent ? colors.accent : colors.base;
+      /* --- 1. SCROLL REVEAL ANIMATION --- */
+      document.addEventListener("DOMContentLoaded", function () {
+        const reveals = document.querySelectorAll(".reveal");
+
+        const revealOnScroll = () => {
+          const windowHeight = window.innerHeight;
+          const elementVisible = 100;
+
+          reveals.forEach((reveal) => {
+            const elementTop = reveal.getBoundingClientRect().top;
+            if (elementTop < windowHeight - elementVisible) {
+              reveal.classList.add("active");
             }
+          });
+        };
 
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
+        window.addEventListener("scroll", revealOnScroll);
+        revealOnScroll(); // Trigger once on load
+      });
 
-                // Bounce off edges
-                if (this.x < 0 || this.x > width) this.vx *= -1;
-                if (this.y < 0 || this.y > height) this.vy *= -1;
+      /* --- 2. GENERATIVE PARTICLE SYSTEM (THE "LUCK" MESH) --- */
+      const canvas = document.getElementById("luckCanvas");
+      const ctx = canvas.getContext("2d");
 
-                // Mouse Interaction (The "Shaping" Effect)
-                if (mouse.x != null) {
-                    let dx = mouse.x - this.x;
-                    let dy = mouse.y - this.y;
-                    let distance = Math.sqrt(dx*dx + dy*dy);
-                    
-                    if (distance < mouseDistance) {
-                        const forceDirectionX = dx / distance;
-                        const forceDirectionY = dy / distance;
-                        const force = (mouseDistance - distance) / mouseDistance;
-                        // Gentle repulsion
-                        const directionX = forceDirectionX * force * 0.5;
-                        const directionY = forceDirectionY * force * 0.5;
-                        this.x -= directionX;
-                        this.y -= directionY;
-                    }
-                }
-            }
+      let width, height;
+      let particles = [];
 
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = this.color + '0.4)';
-                ctx.fill();
-            }
+      // Configuration
+      const particleCount = 60; // Keep it performant
+      const connectionDistance = 150;
+      const mouseDistance = 200;
+
+      // Resize handling
+      function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      }
+      window.addEventListener("resize", resize);
+      resize();
+
+      // Mouse tracking
+      const mouse = { x: null, y: null };
+      window.addEventListener("mousemove", (e) => {
+        mouse.x = e.x;
+        mouse.y = e.y;
+      });
+      window.addEventListener("mouseout", () => {
+        mouse.x = null;
+        mouse.y = null;
+      });
+
+      // Helper to get particle colors based on theme
+      function getParticleColors() {
+        const isLightMode = document.documentElement.dataset.theme === "light";
+        if (isLightMode) {
+          // Light mode: darker colors for visibility
+          return {
+            accent: "rgba(8, 145, 178, ", // Darker cyan
+            base: "rgba(30, 41, 59, ", // Slate 800
+          };
+        } else {
+          // Dark mode: original colors
+          return {
+            accent: "rgba(0, 242, 234, ", // Bright cyan
+            base: "rgba(255, 255, 255, ", // White
+          };
+        }
+      }
+
+      // Particle Class
+      class Particle {
+        constructor() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.vx = (Math.random() - 0.5) * 0.5; // Slow drift
+          this.vy = (Math.random() - 0.5) * 0.5;
+          this.size = Math.random() * 2 + 1;
+          this.isAccent = Math.random() > 0.8;
+          this.updateColor();
         }
 
-        // Initialize
-        for (let i = 0; i < particleCount; i++) {
-            particles.push(new Particle());
+        updateColor() {
+          const colors = getParticleColors();
+          this.color = this.isAccent ? colors.accent : colors.base;
         }
 
-        // Get connection line color based on theme
-        function getConnectionColor(distance) {
-            const isLightMode = document.documentElement.dataset.theme === 'light';
-            const opacity = 0.1 - distance/connectionDistance/10;
-            if (isLightMode) {
-                return `rgba(30, 41, 59, ${opacity})`; // Slate for light mode
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+
+          // Bounce off edges
+          if (this.x < 0 || this.x > width) this.vx *= -1;
+          if (this.y < 0 || this.y > height) this.vy *= -1;
+
+          // Mouse Interaction (The "Shaping" Effect)
+          if (mouse.x != null) {
+            let dx = mouse.x - this.x;
+            let dy = mouse.y - this.y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < mouseDistance) {
+              const forceDirectionX = dx / distance;
+              const forceDirectionY = dy / distance;
+              const force = (mouseDistance - distance) / mouseDistance;
+              // Gentle repulsion
+              const directionX = forceDirectionX * force * 0.5;
+              const directionY = forceDirectionY * force * 0.5;
+              this.x -= directionX;
+              this.y -= directionY;
             }
-            return `rgba(255, 255, 255, ${opacity})`; // White for dark mode
+          }
         }
 
-        // Animation Loop
-        function animate() {
-            ctx.clearRect(0, 0, width, height);
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = this.color + "0.4)";
+          ctx.fill();
+        }
+      }
 
-            for (let i = 0; i < particles.length; i++) {
-                let p = particles[i];
-                p.update();
-                p.draw();
+      // Initialize
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+      }
 
-                // Draw Connections
-                for (let j = i; j < particles.length; j++) {
-                    let p2 = particles[j];
-                    let dx = p.x - p2.x;
-                    let dy = p.y - p2.y;
-                    let distance = Math.sqrt(dx*dx + dy*dy);
+      // Get connection line color based on theme
+      function getConnectionColor(distance) {
+        const isLightMode = document.documentElement.dataset.theme === "light";
+        const opacity = 0.1 - distance / connectionDistance / 10;
+        if (isLightMode) {
+          return `rgba(30, 41, 59, ${opacity})`; // Slate for light mode
+        }
+        return `rgba(255, 255, 255, ${opacity})`; // White for dark mode
+      }
 
-                    if (distance < connectionDistance) {
-                        ctx.beginPath();
-                        ctx.strokeStyle = getConnectionColor(distance);
-                        ctx.lineWidth = 1;
-                        ctx.moveTo(p.x, p.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.stroke();
-                    }
-                }
+      // Animation Loop
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+
+        for (let i = 0; i < particles.length; i++) {
+          let p = particles[i];
+          p.update();
+          p.draw();
+
+          // Draw Connections
+          for (let j = i; j < particles.length; j++) {
+            let p2 = particles[j];
+            let dx = p.x - p2.x;
+            let dy = p.y - p2.y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < connectionDistance) {
+              ctx.beginPath();
+              ctx.strokeStyle = getConnectionColor(distance);
+              ctx.lineWidth = 1;
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.stroke();
             }
-            requestAnimationFrame(animate);
+          }
         }
-        animate();
+        requestAnimationFrame(animate);
+      }
+      animate();
 
-        // Listen for theme changes and update particle colors
-        window.addEventListener('themechange', () => {
-            particles.forEach(p => p.updateColor());
-        });
+      // Listen for theme changes and update particle colors
+      window.addEventListener("themechange", () => {
+        particles.forEach((p) => p.updateColor());
+      });
     </script>
 
     <!-- Supabase SDK -->
@@ -1823,292 +2679,307 @@
     <script src="js/supabase-waitlist.js"></script>
 
     <script>
-        // Waitlist form handler
-        async function handleWaitlistSubmit(event) {
-            event.preventDefault();
+      // Waitlist form handler
+      async function handleWaitlistSubmit(event) {
+        event.preventDefault();
 
-            const form = event.target;
-            const submitBtn = form.querySelector('#submitBtn');
-            const btnText = submitBtn.querySelector('.btn-text');
-            const btnLoading = submitBtn.querySelector('.btn-loading');
-            const messageEl = document.getElementById('formMessage');
-            const emailInput = form.querySelector('#email');
-            const nameInput = form.querySelector('#companyName');
+        const form = event.target;
+        const submitBtn = form.querySelector("#submitBtn");
+        const btnText = submitBtn.querySelector(".btn-text");
+        const btnLoading = submitBtn.querySelector(".btn-loading");
+        const messageEl = document.getElementById("formMessage");
+        const emailInput = form.querySelector("#email");
+        const nameInput = form.querySelector("#companyName");
 
-            // Loading state
-            submitBtn.disabled = true;
-            btnText.style.display = 'none';
-            btnLoading.style.display = 'inline';
+        // Loading state
+        submitBtn.disabled = true;
+        btnText.style.display = "none";
+        btnLoading.style.display = "inline";
 
-            try {
-                const result = await WaitlistModule.submit(
-                    emailInput.value,
-                    nameInput.value,
-                    'website'
-                );
+        try {
+          const result = await WaitlistModule.submit(
+            emailInput.value,
+            nameInput.value,
+            "website",
+          );
 
-                messageEl.textContent = result.message;
-                messageEl.style.display = 'block';
-                messageEl.style.background = result.success ? 'rgba(0, 242, 234, 0.1)' : 'rgba(255, 100, 100, 0.1)';
-                messageEl.style.color = result.success ? 'var(--accent-cyan)' : '#ff6b6b';
+          messageEl.textContent = result.message;
+          messageEl.style.display = "block";
+          messageEl.style.background = result.success
+            ? "rgba(0, 242, 234, 0.1)"
+            : "rgba(255, 100, 100, 0.1)";
+          messageEl.style.color = result.success
+            ? "var(--accent-cyan)"
+            : "#ff6b6b";
 
-                if (result.success) {
-                    form.reset();
-                }
-
-            } catch (err) {
-                messageEl.textContent = 'Something went wrong. Please try again.';
-                messageEl.style.display = 'block';
-                messageEl.style.background = 'rgba(255, 100, 100, 0.1)';
-                messageEl.style.color = '#ff6b6b';
-            } finally {
-                submitBtn.disabled = false;
-                btnText.style.display = 'inline';
-                btnLoading.style.display = 'none';
-            }
+          if (result.success) {
+            form.reset();
+          }
+        } catch (err) {
+          messageEl.textContent = "Something went wrong. Please try again.";
+          messageEl.style.display = "block";
+          messageEl.style.background = "rgba(255, 100, 100, 0.1)";
+          messageEl.style.color = "#ff6b6b";
+        } finally {
+          submitBtn.disabled = false;
+          btnText.style.display = "inline";
+          btnLoading.style.display = "none";
         }
+      }
 
-        // Initialize waitlist form
-        document.addEventListener('DOMContentLoaded', function() {
-            WaitlistModule.init();
+      // Initialize waitlist form
+      document.addEventListener("DOMContentLoaded", function () {
+        WaitlistModule.init();
 
-            const waitlistForm = document.getElementById('waitlistForm');
-            if (waitlistForm) {
-                waitlistForm.addEventListener('submit', handleWaitlistSubmit);
-            }
+        const waitlistForm = document.getElementById("waitlistForm");
+        if (waitlistForm) {
+          waitlistForm.addEventListener("submit", handleWaitlistSubmit);
+        }
+      });
+
+      // Mouse Spotlight Effect
+      (function () {
+        const spotlight = document.getElementById("mouseSpotlight");
+        let mouseX = 0,
+          mouseY = 0;
+        let isActive = false;
+
+        document.addEventListener("mousemove", function (e) {
+          mouseX = e.clientX;
+          mouseY = e.clientY;
+
+          if (!isActive) {
+            spotlight.classList.add("active");
+            isActive = true;
+          }
+
+          spotlight.style.background = `radial-gradient(600px circle at ${mouseX}px ${mouseY}px, rgba(0, 242, 234, 0.12), transparent 60%)`;
         });
 
-        // Mouse Spotlight Effect
-        (function() {
-            const spotlight = document.getElementById('mouseSpotlight');
-            let mouseX = 0, mouseY = 0;
-            let isActive = false;
+        document.addEventListener("mouseleave", function () {
+          spotlight.classList.remove("active");
+          isActive = false;
+        });
+      })();
 
-            document.addEventListener('mousemove', function(e) {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
+      // Canvas Intro Fade on Scroll
+      (function () {
+        const intro = document.querySelector(".canvas-intro");
 
-                if (!isActive) {
-                    spotlight.classList.add('active');
-                    isActive = true;
-                }
+        window.addEventListener("scroll", function () {
+          const scrollY = window.scrollY;
+          const fadeStart = 0;
+          const fadeEnd = window.innerHeight * 0.5;
 
-                spotlight.style.background = `radial-gradient(600px circle at ${mouseX}px ${mouseY}px, rgba(0, 242, 234, 0.12), transparent 60%)`;
-            });
+          if (scrollY <= fadeStart) {
+            intro.style.opacity = 1;
+          } else if (scrollY >= fadeEnd) {
+            intro.style.opacity = 0;
+          } else {
+            intro.style.opacity =
+              1 - (scrollY - fadeStart) / (fadeEnd - fadeStart);
+          }
+        });
+      })();
 
-            document.addEventListener('mouseleave', function() {
-                spotlight.classList.remove('active');
-                isActive = false;
-            });
-        })();
+      // Interactive "Shape Your Luck" Quadrant Tool
+      (function () {
+        const quadrant = document.getElementById("interactiveQuadrant");
+        const marker = document.getElementById("luckMarker");
+        const resultBox = document.getElementById("quadrantResult");
+        const shapes = document.querySelectorAll(".iq-shape");
 
-        // Canvas Intro Fade on Scroll
-        (function() {
-            const intro = document.querySelector('.canvas-intro');
+        if (!quadrant || !marker) return;
 
-            window.addEventListener('scroll', function() {
-                const scrollY = window.scrollY;
-                const fadeStart = 0;
-                const fadeEnd = window.innerHeight * 0.5;
+        let isDragging = false;
+        let currentQuadrant = null;
 
-                if (scrollY <= fadeStart) {
-                    intro.style.opacity = 1;
-                } else if (scrollY >= fadeEnd) {
-                    intro.style.opacity = 0;
-                } else {
-                    intro.style.opacity = 1 - (scrollY - fadeStart) / (fadeEnd - fadeStart);
-                }
-            });
-        })();
+        // Quadrant data
+        const quadrantData = {
+          q1: {
+            name: "The Launchpad",
+            description:
+              "The Zone of Amplified Impact. The \"Passion of the Explorer\" meets abundance. You aren't just working hard—you're increasing your surface area for luck.",
+            color: "var(--accent-gold)",
+          },
+          q2: {
+            name: "The Gilded Cage",
+            description:
+              "The Zone of Retrenchment. Surrounded by opportunity but trapped by fear. Break free by taking small, reversible risks.",
+            color: "var(--accent-cyan)",
+          },
+          q3: {
+            name: "The Bunker",
+            description:
+              "The Zone of Collapse. Fear meets scarcity. The instinct is to isolate—but that clusters bad luck. One small connection can shift the trajectory.",
+            color: "var(--text-muted)",
+          },
+          q4: {
+            name: "The Forge",
+            description:
+              "The Zone of Inflection Points. Passion meets constraint. Use ingenuity to turn limitations into advantages. This is where raw materials are shaped by heat and pressure.",
+            color: "var(--accent-gold)",
+          },
+        };
 
-        // Interactive "Shape Your Luck" Quadrant Tool
-        (function() {
-            const quadrant = document.getElementById('interactiveQuadrant');
-            const marker = document.getElementById('luckMarker');
-            const resultBox = document.getElementById('quadrantResult');
-            const shapes = document.querySelectorAll('.iq-shape');
+        // Get marker position as percentage
+        function getMarkerPosition(e) {
+          const rect = quadrant.getBoundingClientRect();
+          let clientX, clientY;
 
-            if (!quadrant || !marker) return;
+          if (e.touches) {
+            clientX = e.touches[0].clientX;
+            clientY = e.touches[0].clientY;
+          } else {
+            clientX = e.clientX;
+            clientY = e.clientY;
+          }
 
-            let isDragging = false;
-            let currentQuadrant = null;
+          let x = ((clientX - rect.left) / rect.width) * 100;
+          let y = ((clientY - rect.top) / rect.height) * 100;
 
-            // Quadrant data
-            const quadrantData = {
-                q1: {
-                    name: 'The Launchpad',
-                    description: 'The Zone of Amplified Impact. The "Passion of the Explorer" meets abundance. You aren\'t just working hard—you\'re increasing your surface area for luck.',
-                    color: 'var(--accent-gold)'
-                },
-                q2: {
-                    name: 'The Gilded Cage',
-                    description: 'The Zone of Retrenchment. Surrounded by opportunity but trapped by fear. Break free by taking small, reversible risks.',
-                    color: 'var(--accent-cyan)'
-                },
-                q3: {
-                    name: 'The Bunker',
-                    description: 'The Zone of Collapse. Fear meets scarcity. The instinct is to isolate—but that clusters bad luck. One small connection can shift the trajectory.',
-                    color: 'var(--text-muted)'
-                },
-                q4: {
-                    name: 'The Forge',
-                    description: 'The Zone of Inflection Points. Passion meets constraint. Use ingenuity to turn limitations into advantages. This is where raw materials are shaped by heat and pressure.',
-                    color: 'var(--accent-gold)'
-                }
-            };
+          // Clamp to bounds
+          x = Math.max(5, Math.min(95, x));
+          y = Math.max(5, Math.min(95, y));
 
-            // Get marker position as percentage
-            function getMarkerPosition(e) {
-                const rect = quadrant.getBoundingClientRect();
-                let clientX, clientY;
+          return { x, y };
+        }
 
-                if (e.touches) {
-                    clientX = e.touches[0].clientX;
-                    clientY = e.touches[0].clientY;
-                } else {
-                    clientX = e.clientX;
-                    clientY = e.clientY;
-                }
+        // Determine which quadrant the marker is in
+        function getActiveQuadrant(x, y) {
+          // Grid layout: q1 (top-left), q2 (top-right), q3 (bottom-left), q4 (bottom-right)
+          if (x < 50 && y < 50) return "q1";
+          if (x >= 50 && y < 50) return "q2";
+          if (x < 50 && y >= 50) return "q3";
+          return "q4";
+        }
 
-                let x = ((clientX - rect.left) / rect.width) * 100;
-                let y = ((clientY - rect.top) / rect.height) * 100;
+        // Calculate proximity to each quadrant center
+        function getProximities(x, y) {
+          const centers = {
+            q1: { x: 25, y: 25 },
+            q2: { x: 75, y: 25 },
+            q3: { x: 25, y: 75 },
+            q4: { x: 75, y: 75 },
+          };
 
-                // Clamp to bounds
-                x = Math.max(5, Math.min(95, x));
-                y = Math.max(5, Math.min(95, y));
+          const proximities = {};
+          for (const [q, center] of Object.entries(centers)) {
+            const dist = Math.sqrt(
+              Math.pow(x - center.x, 2) + Math.pow(y - center.y, 2),
+            );
+            const maxDist = 70; // Max possible distance
+            proximities[q] = Math.max(0, 1 - dist / maxDist);
+          }
+          return proximities;
+        }
 
-                return { x, y };
+        // Update shape states based on marker position
+        function updateShapes(x, y) {
+          const active = getActiveQuadrant(x, y);
+          const proximities = getProximities(x, y);
+
+          shapes.forEach((shape) => {
+            const q = shape.dataset.quadrant;
+            const prox = proximities[q];
+
+            // Set active state
+            if (q === active) {
+              shape.classList.add("active");
+            } else {
+              shape.classList.remove("active");
             }
 
-            // Determine which quadrant the marker is in
-            function getActiveQuadrant(x, y) {
-                // Grid layout: q1 (top-left), q2 (top-right), q3 (bottom-left), q4 (bottom-right)
-                if (x < 50 && y < 50) return 'q1';
-                if (x >= 50 && y < 50) return 'q2';
-                if (x < 50 && y >= 50) return 'q3';
-                return 'q4';
+            // Set proximity level
+            if (prox > 0.6) {
+              shape.dataset.proximity = "high";
+            } else if (prox > 0.3) {
+              shape.dataset.proximity = "medium";
+            } else {
+              shape.dataset.proximity = "low";
             }
+          });
 
-            // Calculate proximity to each quadrant center
-            function getProximities(x, y) {
-                const centers = {
-                    q1: { x: 25, y: 25 },
-                    q2: { x: 75, y: 25 },
-                    q3: { x: 25, y: 75 },
-                    q4: { x: 75, y: 75 }
-                };
+          // Update result display
+          if (active !== currentQuadrant) {
+            currentQuadrant = active;
+            updateResult(active);
+          }
+        }
 
-                const proximities = {};
-                for (const [q, center] of Object.entries(centers)) {
-                    const dist = Math.sqrt(Math.pow(x - center.x, 2) + Math.pow(y - center.y, 2));
-                    const maxDist = 70; // Max possible distance
-                    proximities[q] = Math.max(0, 1 - (dist / maxDist));
-                }
-                return proximities;
-            }
-
-            // Update shape states based on marker position
-            function updateShapes(x, y) {
-                const active = getActiveQuadrant(x, y);
-                const proximities = getProximities(x, y);
-
-                shapes.forEach(shape => {
-                    const q = shape.dataset.quadrant;
-                    const prox = proximities[q];
-
-                    // Set active state
-                    if (q === active) {
-                        shape.classList.add('active');
-                    } else {
-                        shape.classList.remove('active');
-                    }
-
-                    // Set proximity level
-                    if (prox > 0.6) {
-                        shape.dataset.proximity = 'high';
-                    } else if (prox > 0.3) {
-                        shape.dataset.proximity = 'medium';
-                    } else {
-                        shape.dataset.proximity = 'low';
-                    }
-                });
-
-                // Update result display
-                if (active !== currentQuadrant) {
-                    currentQuadrant = active;
-                    updateResult(active);
-                }
-            }
-
-            // Update the result box
-            function updateResult(q) {
-                const data = quadrantData[q];
-                resultBox.className = 'quadrant-result reveal active result-' + q;
-                resultBox.innerHTML = `
+        // Update the result box
+        function updateResult(q) {
+          const data = quadrantData[q];
+          resultBox.className = "quadrant-result reveal active result-" + q;
+          resultBox.innerHTML = `
                     <h4>${data.name}</h4>
                     <p>${data.description}</p>
                 `;
-            }
+        }
 
-            // Move marker to position
-            function moveMarker(x, y) {
-                marker.style.left = x + '%';
-                marker.style.top = y + '%';
-                updateShapes(x, y);
-            }
+        // Move marker to position
+        function moveMarker(x, y) {
+          marker.style.left = x + "%";
+          marker.style.top = y + "%";
+          updateShapes(x, y);
+        }
 
-            // Event handlers
-            function startDrag(e) {
-                e.preventDefault();
-                isDragging = true;
-                marker.style.cursor = 'grabbing';
-                const pos = getMarkerPosition(e);
-                moveMarker(pos.x, pos.y);
-            }
+        // Event handlers
+        function startDrag(e) {
+          e.preventDefault();
+          isDragging = true;
+          marker.style.cursor = "grabbing";
+          const pos = getMarkerPosition(e);
+          moveMarker(pos.x, pos.y);
+        }
 
-            function doDrag(e) {
-                if (!isDragging) return;
-                e.preventDefault();
-                const pos = getMarkerPosition(e);
-                moveMarker(pos.x, pos.y);
-            }
+        function doDrag(e) {
+          if (!isDragging) return;
+          e.preventDefault();
+          const pos = getMarkerPosition(e);
+          moveMarker(pos.x, pos.y);
+        }
 
-            function endDrag() {
-                isDragging = false;
-                marker.style.cursor = 'grab';
-            }
+        function endDrag() {
+          isDragging = false;
+          marker.style.cursor = "grab";
+        }
 
-            // Click on quadrant to move marker there
-            shapes.forEach(shape => {
-                shape.addEventListener('click', function(e) {
-                    const pos = getMarkerPosition(e);
-                    moveMarker(pos.x, pos.y);
-                });
-            });
+        // Click on quadrant to move marker there
+        shapes.forEach((shape) => {
+          shape.addEventListener("click", function (e) {
+            const pos = getMarkerPosition(e);
+            moveMarker(pos.x, pos.y);
+          });
+        });
 
-            // Mouse events
-            marker.addEventListener('mousedown', startDrag);
-            document.addEventListener('mousemove', doDrag);
-            document.addEventListener('mouseup', endDrag);
+        // Mouse events
+        marker.addEventListener("mousedown", startDrag);
+        document.addEventListener("mousemove", doDrag);
+        document.addEventListener("mouseup", endDrag);
 
-            // Touch events
-            marker.addEventListener('touchstart', startDrag, { passive: false });
-            document.addEventListener('touchmove', doDrag, { passive: false });
-            document.addEventListener('touchend', endDrag);
+        // Touch events
+        marker.addEventListener("touchstart", startDrag, { passive: false });
+        document.addEventListener("touchmove", doDrag, { passive: false });
+        document.addEventListener("touchend", endDrag);
 
-            // Also allow starting drag from anywhere in quadrant
-            quadrant.addEventListener('mousedown', function(e) {
-                if (e.target === marker) return;
-                startDrag(e);
-            });
-            quadrant.addEventListener('touchstart', function(e) {
-                if (e.target === marker) return;
-                startDrag(e);
-            }, { passive: false });
+        // Also allow starting drag from anywhere in quadrant
+        quadrant.addEventListener("mousedown", function (e) {
+          if (e.target === marker) return;
+          startDrag(e);
+        });
+        quadrant.addEventListener(
+          "touchstart",
+          function (e) {
+            if (e.target === marker) return;
+            startDrag(e);
+          },
+          { passive: false },
+        );
 
-            // Initialize with marker in center
-            updateShapes(50, 50);
-        })();
+        // Initialize with marker in center
+        updateShapes(50, 50);
+      })();
     </script>
-</body>
+  </body>
 </html>

@@ -1,0 +1,854 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shaping Luck — Buyer Drip Sequence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0a0a10;
+        --card: #111118;
+        --card-hover: #16161f;
+        --border: #1e1e2a;
+        --gold: #c4a44e;
+        --gold-dim: #8a7535;
+        --blue: #4a8fd4;
+        --blue-dim: #2a5a8a;
+        --text: #b0aec0;
+        --text-dim: #5a586a;
+        --white: #eeedf2;
+        --sans: "DM Sans", system-ui, sans-serif;
+        --mono: "DM Mono", monospace;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
+        font-size: 15px;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .container {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 48px 24px;
+      }
+
+      /* Header */
+      .header-label {
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--gold-dim);
+        margin-bottom: 8px;
+      }
+
+      h1 {
+        font-size: 26px;
+        font-weight: 700;
+        color: var(--white);
+        margin-bottom: 6px;
+      }
+
+      .header-sub {
+        font-size: 13px;
+        color: var(--text-dim);
+        margin-bottom: 32px;
+      }
+
+      /* Track Toggle */
+      .toggle-bar {
+        display: flex;
+        gap: 0;
+        margin-bottom: 32px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .toggle-btn {
+        flex: 1;
+        padding: 14px 20px;
+        background: var(--card);
+        border: none;
+        color: var(--text-dim);
+        font-family: var(--sans);
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+      }
+
+      .toggle-btn.active-salim {
+        background: var(--gold);
+        color: var(--bg);
+      }
+
+      .toggle-btn.active-john {
+        background: var(--blue);
+        color: var(--bg);
+      }
+
+      .toggle-btn:not(.active-salim):not(.active-john):hover {
+        background: var(--card-hover);
+        color: var(--text);
+      }
+
+      /* Timeline */
+      .timeline {
+        position: relative;
+        padding-left: 28px;
+      }
+
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 5px;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        background: var(--border);
+      }
+
+      .week-group {
+        margin-bottom: 40px;
+        position: relative;
+      }
+
+      .week-label {
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--text-dim);
+        margin-bottom: 16px;
+        padding-left: 4px;
+      }
+
+      .email-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        margin-bottom: 12px;
+        overflow: hidden;
+        transition: border-color 0.2s;
+        position: relative;
+      }
+
+      .email-card::before {
+        content: "";
+        position: absolute;
+        left: -24px;
+        top: 24px;
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        border: 2px solid var(--border);
+        background: var(--bg);
+        z-index: 1;
+      }
+
+      .email-card.salim-card:hover {
+        border-color: var(--gold-dim);
+      }
+      .email-card.john-card:hover {
+        border-color: var(--blue-dim);
+      }
+      .email-card.salim-card::before {
+        border-color: var(--gold-dim);
+      }
+      .email-card.john-card::before {
+        border-color: var(--blue-dim);
+      }
+
+      .email-header {
+        padding: 16px 20px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        user-select: none;
+      }
+
+      .email-meta {
+        font-family: var(--mono);
+        font-size: 10px;
+        color: var(--text-dim);
+        margin-bottom: 6px;
+      }
+
+      .email-subject {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--white);
+        line-height: 1.3;
+      }
+
+      .email-purpose {
+        font-size: 12px;
+        color: var(--text-dim);
+        margin-top: 4px;
+        font-style: italic;
+      }
+
+      .email-chevron {
+        color: var(--text-dim);
+        font-size: 16px;
+        transition: transform 0.2s;
+        flex-shrink: 0;
+        margin-left: 12px;
+        margin-top: 4px;
+      }
+
+      .email-chevron.open {
+        transform: rotate(90deg);
+      }
+
+      .email-body {
+        padding: 0 20px 20px;
+        display: none;
+      }
+
+      .email-body.visible {
+        display: block;
+      }
+
+      .email-body-content {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 24px;
+        font-size: 14px;
+        line-height: 1.8;
+        color: var(--text);
+        white-space: pre-wrap;
+      }
+
+      .email-body-content strong {
+        color: var(--white);
+        font-weight: 600;
+      }
+
+      .email-notes {
+        margin-top: 12px;
+        padding: 12px 16px;
+        background: #1a1a25;
+        border-radius: 6px;
+        font-size: 12px;
+        color: var(--text-dim);
+        line-height: 1.6;
+      }
+
+      .email-notes::before {
+        content: "💡 ";
+      }
+
+      /* Frequency indicator */
+      .freq-badge {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 4px;
+        font-family: var(--mono);
+        font-size: 9px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        font-weight: 500;
+        margin-left: 8px;
+        vertical-align: middle;
+      }
+
+      .freq-slow {
+        background: #1a2a1a;
+        color: #4a8a4a;
+      }
+      .freq-medium {
+        background: #2a2a1a;
+        color: #c4a44e;
+      }
+      .freq-fast {
+        background: #2a1a1a;
+        color: #d46a4a;
+      }
+
+      /* Footer */
+      .footer-notes {
+        margin-top: 48px;
+        padding: 24px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+      }
+
+      .footer-notes h3 {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--gold);
+        margin-bottom: 12px;
+      }
+
+      .footer-notes p {
+        font-size: 12px;
+        color: var(--text-dim);
+        line-height: 1.7;
+        margin-bottom: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container" id="app">
+      <div class="header-label">Shaping Luck · Post-Purchase Drip</div>
+      <h1>Book Buyer → Webinar Sequence</h1>
+      <p class="header-sub">
+        8 emails · Ramps from 1/week to 3x final week · Two voice tracks
+      </p>
+
+      <div class="toggle-bar">
+        <button
+          class="toggle-btn active-salim"
+          onclick="switchTrack('salim')"
+          id="btn-salim"
+        >
+          Salim's Voice — OpenEXO List
+        </button>
+        <button class="toggle-btn" onclick="switchTrack('john')" id="btn-john">
+          John's Voice — LinkedIn / Email
+        </button>
+      </div>
+
+      <div id="timeline"></div>
+
+      <div class="footer-notes">
+        <h3>Implementation Notes</h3>
+        <p>
+          → These emails ONLY go to people who bought the book. Non-buyers get
+          the main cadence emails.
+        </p>
+        <p>
+          → Subject lines are written to be opened — test variants if your ESP
+          supports it.
+        </p>
+        <p>
+          → The app is NEVER mentioned by name. Only hinted at starting Email
+          #4.
+        </p>
+        <p>→ $400 price is NEVER mentioned — that's webinar-only.</p>
+        <p>
+          → John's track mirrors Salim's timing but uses his voice and
+          references his community.
+        </p>
+        <p>
+          → Both tracks converge on the same webinar (Apr 1-2). Same Zoom link,
+          same event.
+        </p>
+        <p>→ Merge tag: [FIRST_NAME] or [First Name] depending on your ESP.</p>
+      </div>
+    </div>
+
+    <script>
+      const emails = {
+        salim: [
+          {
+            week: "Week 1 — Confirmation & Warmth",
+            freq: "slow",
+            items: [
+              {
+                day: "Day 0 (Immediate)",
+                subject: "You're in — here's what happens next",
+                purpose:
+                  "Confirm purchase. Build excitement. Plant the webinar seed.",
+                body: `[First Name],
+
+Thank you for grabbing your copy of Shaping Luck. It means a lot that you're one of the first people in the world to get this.
+
+The book ships later this year — I'll keep you posted on the timeline. But in the meantime, I want to make sure you know about something.
+
+On April 1st, John Hagel and I are going live together. It's the first time we've done something like this, and we're going to be sharing some things we've been working on behind the scenes.
+
+I can't say much yet. But I can say this: if the ideas in Shaping Luck excite you, what we're revealing on April 1st is going to take it somewhere you didn't expect.
+
+As a book buyer, you have a reserved seat. I'll send you the link closer to the date.
+
+More soon.
+
+— Salim`,
+                notes:
+                  "Trigger: immediately on purchase. This is the most-opened email in any sequence. Keep it warm. Don't oversell.",
+              },
+            ],
+          },
+          {
+            week: "Week 2 — Deepen the Relationship",
+            freq: "slow",
+            items: [
+              {
+                day: "~Day 7",
+                subject: "Why I wrote this book (the real reason)",
+                purpose:
+                  "Personal story. Deepen connection. Soft webinar reminder.",
+                body: `[First Name],
+
+I've been thinking about luck my entire career.
+
+Not the lottery kind. The kind where you meet someone at a random dinner and three years later they change your life. The kind where you say yes to something that makes no sense and it becomes the most important decision you ever made.
+
+I kept seeing the same pattern in the most successful people I worked with. They weren't smarter or more talented. They were just better at putting themselves in the path of unexpected opportunity — and recognizing it when it showed up.
+
+That's what Shaping Luck is really about. Not hoping for good things. Building the conditions that make them almost inevitable.
+
+John Hagel has been obsessing over this same question from a different angle for decades. When we started comparing notes, we realized we had something worth sharing.
+
+That's also why April 1st matters. It's not just a book talk.
+
+I'll leave it at that for now.
+
+— Salim`,
+                notes:
+                  "Goal is emotional investment. They bought a book — now make them feel like they're part of something. Webinar mention is natural, not forced.",
+              },
+            ],
+          },
+          {
+            week: "Week 3 — Build Curiosity",
+            freq: "medium",
+            items: [
+              {
+                day: "~Day 14",
+                subject: "The experiment that started all of this",
+                purpose:
+                  "Tease the app without naming it. Create intrigue for webinar.",
+                body: `[First Name],
+
+A few months ago, we ran an experiment.
+
+We took a group of people — mostly strangers — and put them through a very specific process. Three minutes. A handful of questions. No agenda, no networking pitch, no LinkedIn small talk.
+
+What happened surprised even us.
+
+People who had nothing obvious in common found deep, unexpected connections. Partnerships formed. Ideas sparked. One conversation led to a collaboration that's still going.
+
+We didn't plan any of that. We just created the right conditions — and serendipity did the rest.
+
+That experiment became a big part of what John and I are revealing on April 1st.
+
+If you've ever felt like the best opportunities in your life came from unexpected places — this is going to resonate.
+
+Your seat is reserved. I'll send you the link soon.
+
+— Salim`,
+                notes:
+                  "This is where the app gets hinted at for the first time — but framed as an 'experiment' and 'process,' not a product. Creates pull toward the webinar.",
+              },
+              {
+                day: "~Day 17",
+                subject: "A quick note about April 1st",
+                purpose: "Logistics + light urgency. Drop the webinar link.",
+                body: `[First Name],
+
+Quick one.
+
+April 1st is coming up fast. John and I are doing our live session and I want to make sure you're there.
+
+Here's your link: [WEBINAR LINK]
+
+I'll be honest — I'm a little nervous about this one. We're showing something we've been building and it's the first time anyone outside our inner circle will see it.
+
+But that's exactly why I want you in the room. You got the book early. You should see this early too.
+
+Save the date. Add it to your calendar. I'll send a reminder the day before.
+
+— Salim`,
+                notes:
+                  "First time sharing the actual webinar link. Keep it short. The 'nervous' angle is humanizing and builds intrigue.",
+              },
+            ],
+          },
+          {
+            week: "Week 4 — Final Push (Webinar Week)",
+            freq: "fast",
+            items: [
+              {
+                day: "~Day 21 (Mon before webinar)",
+                subject: "What to expect on April 1st",
+                purpose:
+                  "Set expectations. Build anticipation. Handle logistics.",
+                body: `[First Name],
+
+We're almost there. April 1st — John Hagel and I go live.
+
+Here's what you can expect:
+
+We'll talk about the core ideas behind Shaping Luck — the real mechanics of how people engineer serendipity in their lives and careers.
+
+We'll introduce something we've been working on that takes these ideas from theory to practice. This is the part I've been hinting at. You'll see it for the first time on April 1st.
+
+And we'll share some stories from people who've already experienced what this looks like firsthand.
+
+There will also be something special for the people in the room — but I'll save that for the live session.
+
+Here's your link again: [WEBINAR LINK]
+
+See you April 1st.
+
+— Salim`,
+                notes:
+                  "This is the 'agenda without giving away the goods' email. Confirms what they'll get. Teases a special offer without naming it.",
+              },
+              {
+                day: "~Day 23 (Wed)",
+                subject: "Real people. Real luck. Real stories.",
+                purpose: "Social proof. Make the webinar feel unmissable.",
+                body: `[First Name],
+
+I want to share something with you before April 1st.
+
+Over the past few months, we've been quietly testing the ideas in Shaping Luck with a small group of people. Here's what happened:
+
+Two people who'd never met discovered they were working on nearly identical projects — in completely different industries. They're now collaborating.
+
+A founder who was stuck on a problem for months had a three-minute conversation that unlocked the answer.
+
+Someone described it as "the most valuable call I've had all year" — and it lasted less time than making coffee.
+
+None of this was engineered. None of it was matchmade. We just created the conditions and let serendipity do what it does.
+
+On April 1st, you'll see exactly how.
+
+[WEBINAR LINK]
+
+— Salim`,
+                notes:
+                  "Social proof is the highest-converting content type at this stage. Use real examples if you have them. Anonymize if needed.",
+              },
+              {
+                day: "~Day 24 (Thu — eve of webinar)",
+                subject: "Tomorrow. Don't miss this.",
+                purpose: "Final reminder. Pure urgency. Short.",
+                body: `[First Name],
+
+Tomorrow's the day.
+
+April 1st. John Hagel and me. Live.
+
+We're revealing what we've been building — and there's something exclusive for the people in the room that I haven't mentioned yet.
+
+Your seat is reserved. Here's your link:
+
+[WEBINAR LINK]
+
+See you there.
+
+— Salim`,
+                notes:
+                  "Shortest email in the sequence. It's a nudge, not a sell. The 'something exclusive I haven't mentioned' is the $400 founding member offer — but they don't know that yet.",
+              },
+              {
+                day: "Day 25 (Webinar day morning)",
+                subject: "We're live in a few hours",
+                purpose: "Day-of reminder. Get them to show up.",
+                body: `[First Name],
+
+Today's the day. In a few hours, John and I go live.
+
+If you only make one event this month — make it this one.
+
+[WEBINAR LINK]
+
+See you soon.
+
+— Salim`,
+                notes:
+                  "Send 3-4 hours before the webinar. Some ESPs let you send based on timezone — use that if available.",
+              },
+            ],
+          },
+        ],
+
+        john: [
+          {
+            week: "Week 1 — Confirmation & Warmth",
+            freq: "slow",
+            items: [
+              {
+                day: "Day 0 (Immediate)",
+                subject: "Thank you — and mark your calendar",
+                purpose:
+                  "Confirm purchase. Build excitement. Plant the webinar seed.",
+                body: `[First Name],
+
+Thank you for pre-ordering Shaping Luck. I'm genuinely grateful you're on this journey with us.
+
+This book represents years of research and thinking about a question that's fascinated me for a long time — why do some people consistently find themselves at the center of extraordinary opportunity?
+
+The answer isn't what most people think. And it has profound implications for how we build our careers, our businesses, and our lives.
+
+I want to share something with you. On April 1st, Salim Ismail and I are hosting a live session together. We've been collaborating on something beyond the book — something I believe could change how you think about connection and opportunity.
+
+As a book buyer, you'll have a reserved seat. I'll share details soon.
+
+With gratitude,
+John`,
+                notes:
+                  "John's voice is more measured and intellectual. Same structure as Salim's but with his cadence.",
+              },
+            ],
+          },
+          {
+            week: "Week 2 — Deepen the Relationship",
+            freq: "slow",
+            items: [
+              {
+                day: "~Day 7",
+                subject: "The question I keep coming back to",
+                purpose:
+                  "Personal story. Deepen connection. Soft webinar reminder.",
+                body: `[First Name],
+
+Throughout my career, I've studied networks, strategy, and the forces that shape how people create impact.
+
+But there's one question I keep returning to: why do certain people attract disproportionate opportunity?
+
+It's not networking. It's not hustle. It's something more subtle — a set of conditions that make unexpected, high-value connections almost inevitable.
+
+Salim and I discovered we'd been circling the same insight from different directions for decades. When we finally sat down and compared notes, the book practically wrote itself.
+
+But what came after the book is what truly excites me. That's what April 1st is about.
+
+I'll share more soon.
+
+John`,
+                notes:
+                  "John is the intellectual anchor. His emails should feel like a letter from a trusted advisor, not a pitch.",
+              },
+            ],
+          },
+          {
+            week: "Week 3 — Build Curiosity",
+            freq: "medium",
+            items: [
+              {
+                day: "~Day 14",
+                subject:
+                  "We tested something — and the results were remarkable",
+                purpose:
+                  "Tease the app without naming it. Create intrigue for webinar.",
+                body: `[First Name],
+
+I want to tell you about something we tried recently.
+
+We brought together a small group of people and put them through a very simple process. Three minutes. A handful of carefully designed questions. No scripts, no agendas.
+
+The results were remarkable.
+
+Strangers found common ground in unexpected places. Conversations that lasted three minutes led to collaborations that are still unfolding. People described it as one of the most meaningful professional interactions they'd had in years.
+
+We didn't orchestrate the outcomes. We just created the conditions for serendipity to emerge — and it did, consistently.
+
+This experiment is at the heart of what Salim and I are revealing on April 1st.
+
+If the ideas in Shaping Luck resonate with you, what we're showing will take them from theory to something tangible.
+
+More to come.
+
+John`,
+                notes:
+                  "Same 'experiment' framing as Salim's version. John's version emphasizes the intellectual rigor and results.",
+              },
+              {
+                day: "~Day 17",
+                subject: "April 1st — your link is ready",
+                purpose: "Logistics + light urgency. Drop the webinar link.",
+                body: `[First Name],
+
+A quick practical note.
+
+On April 1st, Salim and I are going live together. I'd like you to be there.
+
+Here's your reserved link: [WEBINAR LINK]
+
+We'll be sharing something for the first time that we've been developing quietly over the past several months. It goes well beyond the book — into territory I think you'll find both surprising and immediately applicable.
+
+I hope you'll join us.
+
+John`,
+                notes:
+                  "John is more understated. No 'nervous' angle — he's the calm, credible voice.",
+              },
+            ],
+          },
+          {
+            week: "Week 4 — Final Push (Webinar Week)",
+            freq: "fast",
+            items: [
+              {
+                day: "~Day 21 (Mon before webinar)",
+                subject: "April 1st: here's what we'll cover",
+                purpose: "Set expectations. Build anticipation.",
+                body: `[First Name],
+
+April 1st, Salim Ismail and I go live together.
+
+Here's what to expect.
+
+We'll walk through the key insights from Shaping Luck — the patterns behind engineered serendipity and why most people's approach to building opportunity is fundamentally flawed.
+
+We'll reveal something we've been building that translates these ideas into practice. This is the first time anyone outside a small test group will see it.
+
+And there will be something available exclusively to the people in the room. I'll share the details live.
+
+Your link: [WEBINAR LINK]
+
+I hope to see you there.
+
+John`,
+                notes:
+                  "Mirror of Salim's structure. John's voice is authoritative but warm.",
+              },
+              {
+                day: "~Day 23 (Wed)",
+                subject: "What three minutes can change",
+                purpose: "Social proof. Specific stories.",
+                body: `[First Name],
+
+Before April 1st, I want to share a few things that happened during our early experiments.
+
+A consultant and a nonprofit leader — no obvious overlap — discovered a shared framework that led to a formal partnership within weeks.
+
+A technology executive described a three-minute conversation as more valuable than the last conference he attended.
+
+Two people from entirely different industries found a connection neither could have predicted or planned.
+
+We didn't arrange any of these outcomes. We simply created the right conditions and trusted the process.
+
+On April 1st, you'll understand exactly what that process looks like — and how it could work for you.
+
+[WEBINAR LINK]
+
+John`,
+                notes:
+                  "Use real stories if available. If not, these are representative enough to use as templates.",
+              },
+              {
+                day: "~Day 24 (Thu — eve of webinar)",
+                subject: "Tomorrow — one more thing",
+                purpose: "Final reminder. Short.",
+                body: `[First Name],
+
+Tomorrow. April 1st. Salim and I, live.
+
+We have something to share with the people in the room that I haven't mentioned before now. I think you'll want to hear it.
+
+Your link: [WEBINAR LINK]
+
+See you there.
+
+John`,
+                notes:
+                  "Shortest email. Same 'exclusive something' tease as Salim's track.",
+              },
+              {
+                day: "Day 25 (Webinar day morning)",
+                subject: "Today's the day",
+                purpose: "Day-of reminder.",
+                body: `[First Name],
+
+In a few hours, Salim and I go live.
+
+I hope you'll join us. I believe what we're sharing today could meaningfully change how you think about opportunity and connection.
+
+[WEBINAR LINK]
+
+John`,
+                notes: "Send 3-4 hours before. Clean, confident, no fluff.",
+              },
+            ],
+          },
+        ],
+      };
+
+      let currentTrack = "salim";
+      let openCards = new Set();
+
+      function switchTrack(track) {
+        currentTrack = track;
+        openCards.clear();
+        document.getElementById("btn-salim").className =
+          "toggle-btn" + (track === "salim" ? " active-salim" : "");
+        document.getElementById("btn-john").className =
+          "toggle-btn" + (track === "john" ? " active-john" : "");
+        render();
+      }
+
+      function toggleCard(id) {
+        if (openCards.has(id)) {
+          openCards.delete(id);
+        } else {
+          openCards.add(id);
+        }
+        render();
+      }
+
+      function render() {
+        const data = emails[currentTrack];
+        const cardClass = currentTrack === "salim" ? "salim-card" : "john-card";
+        const freqLabels = {
+          slow: ["1x / week", "freq-slow"],
+          medium: ["2x / week", "freq-medium"],
+          fast: ["3x / week", "freq-fast"],
+        };
+
+        let html = '<div class="timeline">';
+        let emailIndex = 0;
+
+        data.forEach((week) => {
+          const fl = freqLabels[week.freq];
+          html += `<div class="week-group">`;
+          html += `<div class="week-label">${week.week} <span class="freq-badge ${fl[1]}">${fl[0]}</span></div>`;
+
+          week.items.forEach((email) => {
+            const id = `${currentTrack}-${emailIndex}`;
+            const isOpen = openCards.has(id);
+
+            html += `<div class="email-card ${cardClass}">`;
+            html += `<div class="email-header" onclick="toggleCard('${id}')">`;
+            html += `<div>`;
+            html += `<div class="email-meta">${email.day}</div>`;
+            html += `<div class="email-subject">Subject: ${email.subject}</div>`;
+            html += `<div class="email-purpose">${email.purpose}</div>`;
+            html += `</div>`;
+            html += `<div class="email-chevron ${isOpen ? "open" : ""}">›</div>`;
+            html += `</div>`;
+
+            html += `<div class="email-body ${isOpen ? "visible" : ""}">`;
+            html += `<div class="email-body-content">${email.body.replace(/\[([^\]]+)\]/g, "<strong>[$1]</strong>")}</div>`;
+            html += `<div class="email-notes">${email.notes}</div>`;
+            html += `</div>`;
+
+            html += `</div>`;
+            emailIndex++;
+          });
+
+          html += `</div>`;
+        });
+
+        html += "</div>";
+        document.getElementById("timeline").innerHTML = html;
+      }
+
+      render();
+    </script>
+  </body>
+</html>

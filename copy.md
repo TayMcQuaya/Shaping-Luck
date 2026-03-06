@@ -20,18 +20,19 @@ Intro Text: Luck is not mystical. It is unexpected events and encounters that ha
 Internal State: Are you operating from Fear (Contraction) or Passion (Expansion)?
 External Environment: Are you in a landscape of Scarcity or Abundance?
 [The 4 Quadrant Descriptions]
+
 1. TOP RIGHT (Passion + Abundance)
-THE LAUNCHPAD
-The Zone of Amplified Impact. Here, the "Passion of the Explorer" meets an environment rich in resources and networks. You aren't just working hard; you are increasing your surface area for luck. Examples: Silicon Valley, Pixar, Early Mozart.
+   THE LAUNCHPAD
+   The Zone of Amplified Impact. Here, the "Passion of the Explorer" meets an environment rich in resources and networks. You aren't just working hard; you are increasing your surface area for luck. Examples: Silicon Valley, Pixar, Early Mozart.
 2. BOTTOM RIGHT (Passion + Scarcity)
-THE FORGE
-The Zone of Inflection Points. Passion meets constraint. This is the domain of the scrappy innovator. You use ingenuity to turn limitations into advantages. This is where raw materials are shaped by heat and pressure. Examples: DeepSeek, The "Garage" Phase, Startups in Emerging Markets.
+   THE FORGE
+   The Zone of Inflection Points. Passion meets constraint. This is the domain of the scrappy innovator. You use ingenuity to turn limitations into advantages. This is where raw materials are shaped by heat and pressure. Examples: DeepSeek, The "Garage" Phase, Startups in Emerging Markets.
 3. TOP LEFT (Fear + Abundance)
-THE GILDED CAGE
-The Zone of Retrenchment. You are surrounded by opportunity (the gold) but trapped by fear. Institutions here are obsessed with control and efficiency, viewing unexpected events as threats to be hedged rather than opportunities to seize.Examples: Kodak, Risk-Averse Corporate Bureaucracies.
+   THE GILDED CAGE
+   The Zone of Retrenchment. You are surrounded by opportunity (the gold) but trapped by fear. Institutions here are obsessed with control and efficiency, viewing unexpected events as threats to be hedged rather than opportunities to seize.Examples: Kodak, Risk-Averse Corporate Bureaucracies.
 4. BOTTOM LEFT (Fear + Scarcity)
-THE BUNKER
-The Zone of Collapse. Fear meets scarcity. The tragic quadrant. The instinct is to hunker down, isolate, and protect limited resources. This isolation clusters bad luck with no buffer to absorb it. Examples: OceanGate, Survival Mode.
+   THE BUNKER
+   The Zone of Collapse. Fear meets scarcity. The tragic quadrant. The instinct is to hunker down, isolate, and protect limited resources. This isolation clusters bad luck with no buffer to absorb it. Examples: OceanGate, Survival Mode.
 
 [Section: Shape Your Luck (Interactive)]
 Heading:
@@ -71,6 +72,7 @@ Call to Action: Format: Monthly Labs + Asynchronous Community Next Session: Shap
 [Section: This Is For You If...]
 Heading:
 This Is For You If...
+
 1. Individuals You are talented and hardworking, but feel stuck in linear progression. You want to cultivate the "Passion of the Explorer" and learn to harness orthogonal events to change your career trajectory.
 2. Leaders You run an organization trapped in the "Gilded Cage." You see your teams retreating into fear and scalable efficiency. You want to break the immune system of the status quo and design an organization that welcomes the unexpected.
 3. Cities & Ecosystems You are building a hub for innovation. You want to understand why Silicon Valley works—not just the economics, but the density of interaction. You want to move your geography from Scarcity to Abundance.
@@ -78,4 +80,3 @@ This Is For You If...
 [Section: About]
 About John Hagel John Hagel is a futurist and the founder of the Center for the Edge. For over 40 years, he has studied the "Big Shift"—the long-term forces reshaping the global economy. He is the author of The Power of Pull and a leading voice on how to move from the politics of fear to the politics of hope. His work focuses on how we can harness mounting pressure to achieve exponential opportunity.
 About Salim Ismail Salim Ismail is the Founding Executive Director of Singularity University and the best-selling author of Exponential Organizations (ExO). He studies how to organize for a world of accelerating change. His work on the "Launchpad" quadrant helps organizations leverage abundance to achieve 10x performance improvements.
-

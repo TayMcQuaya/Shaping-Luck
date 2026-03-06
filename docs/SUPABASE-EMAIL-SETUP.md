@@ -26,8 +26,8 @@ Update `js/supabase-waitlist.js` lines 8-11:
 
 ```javascript
 const SUPABASE_CONFIG = {
-  url: 'https://YOUR_PROJECT.supabase.co',
-  anonKey: 'YOUR_PUBLISHABLE_KEY'
+  url: "https://YOUR_PROJECT.supabase.co",
+  anonKey: "YOUR_PUBLISHABLE_KEY",
 };
 ```
 
@@ -68,14 +68,14 @@ project/
 
 ```html
 <form id="waitlistForm" class="email-form">
-    <div class="form-row">
-        <input type="text" id="companyName" placeholder="Company name" required>
-        <input type="email" id="email" placeholder="Email address" required>
-    </div>
-    <button type="submit" id="submitBtn">
-        <span class="btn-text">Join →</span>
-        <span class="btn-loading">Joining...</span>
-    </button>
+  <div class="form-row">
+    <input type="text" id="companyName" placeholder="Company name" required />
+    <input type="email" id="email" placeholder="Email address" required />
+  </div>
+  <button type="submit" id="submitBtn">
+    <span class="btn-text">Join →</span>
+    <span class="btn-loading">Joining...</span>
+  </button>
 </form>
 <div id="formMessage" class="form-message"></div>
 ```
@@ -84,40 +84,43 @@ project/
 
 ```javascript
 async function handleWaitlistSubmit(event) {
-    event.preventDefault();
+  event.preventDefault();
 
-    const form = event.target;
-    const submitBtn = form.querySelector('#submitBtn');
-    const btnText = submitBtn.querySelector('.btn-text');
-    const btnLoading = submitBtn.querySelector('.btn-loading');
-    const messageEl = document.getElementById('formMessage');
-    const emailInput = form.querySelector('#email');
-    const nameInput = form.querySelector('#companyName');
+  const form = event.target;
+  const submitBtn = form.querySelector("#submitBtn");
+  const btnText = submitBtn.querySelector(".btn-text");
+  const btnLoading = submitBtn.querySelector(".btn-loading");
+  const messageEl = document.getElementById("formMessage");
+  const emailInput = form.querySelector("#email");
+  const nameInput = form.querySelector("#companyName");
 
-    // Reset & loading state
-    submitBtn.disabled = true;
-    btnText.style.display = 'none';
-    btnLoading.style.display = 'inline';
+  // Reset & loading state
+  submitBtn.disabled = true;
+  btnText.style.display = "none";
+  btnLoading.style.display = "inline";
 
-    const result = await WaitlistModule.submit(
-        emailInput.value,
-        nameInput.value,
-        'website'
-    );
+  const result = await WaitlistModule.submit(
+    emailInput.value,
+    nameInput.value,
+    "website",
+  );
 
-    messageEl.textContent = result.message;
-    messageEl.className = 'form-message ' + (result.success ? 'success' : 'error');
+  messageEl.textContent = result.message;
+  messageEl.className =
+    "form-message " + (result.success ? "success" : "error");
 
-    if (result.success) form.reset();
+  if (result.success) form.reset();
 
-    submitBtn.disabled = false;
-    btnText.style.display = 'inline';
-    btnLoading.style.display = 'none';
+  submitBtn.disabled = false;
+  btnText.style.display = "inline";
+  btnLoading.style.display = "none";
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    WaitlistModule.init();
-    document.getElementById('waitlistForm').addEventListener('submit', handleWaitlistSubmit);
+document.addEventListener("DOMContentLoaded", function () {
+  WaitlistModule.init();
+  document
+    .getElementById("waitlistForm")
+    .addEventListener("submit", handleWaitlistSubmit);
 });
 ```
 
@@ -125,15 +128,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
 ## Database Schema
 
-| Column | Type | Description |
-|--------|------|-------------|
-| id | UUID | Primary key (auto-generated) |
-| email | TEXT | Unique, required |
-| company_name | TEXT | Required |
-| source | TEXT | Default: 'website' |
-| created_at | TIMESTAMPTZ | Auto-generated |
-| is_active | BOOLEAN | Default: true |
-| unsubscribed_at | TIMESTAMPTZ | For future unsubscribe |
+| Column          | Type        | Description                  |
+| --------------- | ----------- | ---------------------------- |
+| id              | UUID        | Primary key (auto-generated) |
+| email           | TEXT        | Unique, required             |
+| company_name    | TEXT        | Required                     |
+| source          | TEXT        | Default: 'website'           |
+| created_at      | TIMESTAMPTZ | Auto-generated               |
+| is_active       | BOOLEAN     | Default: true                |
+| unsubscribed_at | TIMESTAMPTZ | For future unsubscribe       |
 
 ## Security
 
@@ -153,11 +156,13 @@ document.addEventListener('DOMContentLoaded', function() {
 ### Add Fields
 
 Add to migration:
+
 ```sql
 ALTER TABLE waitlist_subscribers ADD COLUMN phone TEXT;
 ```
 
 Update JS insert object:
+
 ```javascript
 .insert([{
     email: normalizedEmail,

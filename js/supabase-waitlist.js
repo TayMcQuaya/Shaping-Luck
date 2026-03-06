@@ -6,20 +6,22 @@
  */
 
 const SUPABASE_CONFIG = {
-  url: 'https://bxkwbvmiymirywfpkcbr.supabase.co',
-  anonKey: 'sb_publishable_d9x5WkuvxadYJKfWzusVLg_dLtWptJi'
+  url: "https://bxkwbvmiymirywfpkcbr.supabase.co",
+  anonKey: "sb_publishable_d9x5WkuvxadYJKfWzusVLg_dLtWptJi",
 };
 
 let supabaseClient = null;
 
 function initSupabase() {
-  if (typeof supabase === 'undefined') {
-    console.error('Supabase library not loaded. Include the CDN script first.');
+  if (typeof supabase === "undefined") {
+    console.error("Supabase library not loaded. Include the CDN script first.");
     return null;
   }
 
-  if (SUPABASE_CONFIG.url === 'YOUR_SUPABASE_PROJECT_URL') {
-    console.error('Supabase not configured. Update SUPABASE_CONFIG in supabase-waitlist.js');
+  if (SUPABASE_CONFIG.url === "YOUR_SUPABASE_PROJECT_URL") {
+    console.error(
+      "Supabase not configured. Update SUPABASE_CONFIG in supabase-waitlist.js",
+    );
     return null;
   }
 
@@ -30,9 +32,9 @@ function initSupabase() {
       {
         auth: {
           persistSession: false,
-          autoRefreshToken: false
-        }
-      }
+          autoRefreshToken: false,
+        },
+      },
     );
   }
 
@@ -48,13 +50,13 @@ function validateCompanyName(name) {
   return name && name.trim().length >= 1 && name.trim().length <= 100;
 }
 
-async function submitWaitlist(email, companyName, source = 'website') {
+async function submitWaitlist(email, companyName, source = "website") {
   const client = initSupabase();
 
   if (!client) {
     return {
       success: false,
-      message: 'Service temporarily unavailable. Please try again later.'
+      message: "Service temporarily unavailable. Please try again later.",
     };
   }
 
@@ -64,52 +66,51 @@ async function submitWaitlist(email, companyName, source = 'website') {
   if (!validateEmail(normalizedEmail)) {
     return {
       success: false,
-      message: 'Please enter a valid email address.'
+      message: "Please enter a valid email address.",
     };
   }
 
   if (!validateCompanyName(normalizedCompany)) {
     return {
       success: false,
-      message: 'Please enter your company name.'
+      message: "Please enter your company name.",
     };
   }
 
   try {
-    const { error } = await client
-      .from('waitlist_subscribers')
-      .insert([{
+    const { error } = await client.from("waitlist_subscribers").insert([
+      {
         email: normalizedEmail,
         company_name: normalizedCompany,
-        source: source
-      }]);
+        source: source,
+      },
+    ]);
 
     if (error) {
-      if (error.code === '23505') {
+      if (error.code === "23505") {
         return {
           success: true,
           message: "You're already on the list! We'll be in touch soon.",
-          isDuplicate: true
+          isDuplicate: true,
         };
       }
 
-      console.error('Waitlist submission error:', error);
+      console.error("Waitlist submission error:", error);
       return {
         success: false,
-        message: 'Something went wrong. Please try again.'
+        message: "Something went wrong. Please try again.",
       };
     }
 
     return {
       success: true,
-      message: "You're on the list! We'll notify you when registration opens."
+      message: "You're on the list! We'll notify you when registration opens.",
     };
-
   } catch (err) {
-    console.error('Waitlist submission exception:', err);
+    console.error("Waitlist submission exception:", err);
     return {
       success: false,
-      message: 'Something went wrong. Please try again.'
+      message: "Something went wrong. Please try again.",
     };
   }
 }
@@ -118,5 +119,5 @@ window.WaitlistModule = {
   init: initSupabase,
   submit: submitWaitlist,
   validateEmail,
-  validateCompanyName
+  validateCompanyName,
 };
