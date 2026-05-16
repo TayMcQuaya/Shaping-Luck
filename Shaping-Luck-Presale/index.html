@@ -950,11 +950,14 @@
   </head>
   <body>
     <div class="container">
-      <div class="header-label">Phase 1 — Private Launch</div>
+      <div class="header-label">
+        Phase 1 — Private Launch · Webinar May 27 &amp; 28, 2026
+      </div>
       <h1>Shaping Luck Launch Dashboard</h1>
       <p class="header-sub">
-        Mar 5 &rarr; ongoing &middot; 8 email tracks &middot; 6 user states
-        &middot; All sequences in one place
+        Live presale &middot; Webinar in &lt;2 weeks &middot; LinkedIn DM
+        activation via Claude Code &middot; 8 email tracks &middot; 6 user
+        states
       </p>
 
       <!-- Stats -->
@@ -2305,6 +2308,120 @@ See you soon.
       function renderOverview() {
         let html = "";
 
+        // Latest Updates (most recent at top)
+        html += `<div class="overview-section">
+          <div class="overview-section-title" style="color: var(--red);">⚡ Latest Updates &middot; 5/15</div>
+          <div style="background: var(--card); border: 1px solid var(--red-dim); border-left: 3px solid var(--red); border-radius: 10px; padding: 18px 22px;">
+            <div style="display: grid; grid-template-columns: 140px 1fr; gap: 10px 16px; font-size: 13px; line-height: 1.55;">
+              <div style="color: var(--gold); font-family: var(--mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; padding-top: 2px;">Webinar Dates</div>
+              <div style="color: var(--white);">Moved from <span style="color: var(--text-dim); text-decoration: line-through;">April 1</span> &rarr; <strong style="color: var(--green);">May 27 &amp; 28, 2026</strong> (two sessions, attendees pick a day)</div>
+
+              <div style="color: var(--gold); font-family: var(--mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; padding-top: 2px;">Activation</div>
+              <div style="color: var(--white);"><strong style="color: var(--blue);">Claude Code-driven LinkedIn DMs</strong> — ~100 personalized messages/day per account, batched on a schedule. Confirmed working end-to-end on PC + Claude Pro $100/mo. Full 11-day cadence (May 17 → May 27, ~2,200 DMs total) drafted: <a href="linkedin-dm-outreach-salim.md" style="color: var(--blue);">Salim</a> &middot; <a href="linkedin-dm-outreach-john.md" style="color: var(--blue);">John</a>.</div>
+
+              <div style="color: var(--gold); font-family: var(--mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; padding-top: 2px;">John's Setup</div>
+              <div style="color: var(--white);">Homework: buy <strong>Claude Pro ($100/mo)</strong>, install Claude desktop, connect LinkedIn. Target: <strong style="color: var(--green);">John's account live within 3 days</strong>.</div>
+
+              <div style="color: var(--gold); font-family: var(--mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; padding-top: 2px;">Next Sync</div>
+              <div style="color: var(--white);"><strong>Monday 9:00 AM Pacific</strong> — onboard John, run first batch from his account, monitor LinkedIn for response patterns.</div>
+
+              <div style="color: var(--gold); font-family: var(--mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; padding-top: 2px;">Webinar Flow</div>
+              <div style="color: var(--white);">Hormozi-style 4-act: <strong>Connect</strong> (20m) &rarr; <strong>Reveal &amp; Price Drop</strong> &rarr; <strong>Stack</strong> &rarr; <strong>Close</strong>. Emotional arc: Trust &rarr; Reveal &rarr; Anchor &rarr; Stack &rarr; Disbelief &rarr; Action. Frame diagram up during the 7-min framework segment. See <a href="webinar-beats.html" style="color: var(--blue);">beat sheet</a>.</div>
+
+              <div style="color: var(--gold); font-family: var(--mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; padding-top: 2px;">Heads Up</div>
+              <div style="color: var(--white);">All email copy below still references the old April 1 date in places &mdash; please re-read with May 27/28 in mind when sending. Bulk-rewrite pass is queued.</div>
+            </div>
+          </div>
+        </div>`;
+
+        // LinkedIn DM Cadence at a Glance
+        html += `<div class="overview-section">
+          <div class="overview-section-title" style="color: var(--blue);">LinkedIn DM Cadence &middot; May 17 &rarr; May 27</div>
+          <div style="font-size: 12px; color: var(--text-dim); margin-bottom: 10px; line-height: 1.6;">
+            Two accounts, ~100 personalized DMs/day each, ~2,200 DMs total. Each day targets a different audience slice via Claude Code. Full prompts and message templates in <a href="linkedin-dm-outreach-salim.md" style="color: var(--gold);">Salim</a> &middot; <a href="linkedin-dm-outreach-john.md" style="color: var(--blue);">John</a>.
+          </div>
+          <div style="overflow-x: auto;">
+          <table class="state-table">
+            <tr>
+              <th>Day</th>
+              <th>Date</th>
+              <th>Salim's audience slice</th>
+              <th>John's audience slice</th>
+              <th style="text-align: right;">Vol</th>
+            </tr>
+            <tr>
+              <td>1</td><td style="color: var(--text-dim);">Sat May 17</td>
+              <td style="color: var(--white);">Engaged with Salim's posts (90d)</td>
+              <td style="color: var(--white);">Engaged with John's posts (90d)</td>
+              <td style="text-align: right; color: var(--gold);">100</td>
+            </tr>
+            <tr>
+              <td>2</td><td style="color: var(--text-dim);">Sun May 18</td>
+              <td style="color: var(--white);">Founders &amp; operators</td>
+              <td style="color: var(--white);">Authors / researchers</td>
+              <td style="text-align: right; color: var(--gold);">100</td>
+            </tr>
+            <tr>
+              <td>3</td><td style="color: var(--text-dim);">Mon May 19</td>
+              <td style="color: var(--white);" colspan="2">Mutual follower overlap (people who follow both Salim AND John)</td>
+              <td style="text-align: right; color: var(--gold);">100</td>
+            </tr>
+            <tr>
+              <td>4</td><td style="color: var(--text-dim);">Tue May 20</td>
+              <td style="color: var(--white);">Posted about luck / serendipity</td>
+              <td style="color: var(--white);">Posted about narrative / edge</td>
+              <td style="text-align: right; color: var(--gold);">100</td>
+            </tr>
+            <tr>
+              <td>5</td><td style="color: var(--text-dim);">Wed May 21</td>
+              <td style="color: var(--white);">ExO / OpenEXO tribe</td>
+              <td style="color: var(--white);">Senior leaders in transition</td>
+              <td style="text-align: right; color: var(--gold);">100</td>
+            </tr>
+            <tr>
+              <td>6</td><td style="color: var(--text-dim);">Thu May 22</td>
+              <td style="color: var(--white);">Authors / podcasters (adjacent fields)</td>
+              <td style="color: var(--white);">Community builders / conveners</td>
+              <td style="text-align: right; color: var(--gold);">100</td>
+            </tr>
+            <tr>
+              <td>7</td><td style="color: var(--text-dim);">Fri May 23</td>
+              <td style="color: var(--white);">High-momentum founders (recent raise/exit)</td>
+              <td style="color: var(--white);">Recent authors (12 months)</td>
+              <td style="text-align: right; color: var(--gold);">100</td>
+            </tr>
+            <tr>
+              <td>8</td><td style="color: var(--text-dim);">Sat May 24</td>
+              <td style="color: var(--white);" colspan="2">Engaged with our launch post(s) &mdash; already self-identified</td>
+              <td style="text-align: right; color: var(--gold);">100</td>
+            </tr>
+            <tr>
+              <td>9</td><td style="color: var(--text-dim);">Sun May 25</td>
+              <td style="color: var(--white);" colspan="2">Top remaining connections, ranked by mutuals + engagement history</td>
+              <td style="text-align: right; color: var(--gold);">100</td>
+            </tr>
+            <tr>
+              <td>10</td><td style="color: var(--text-dim);">Mon May 26</td>
+              <td style="color: var(--white);" colspan="2">Opened-but-no-reply bump &mdash; short, one CTA</td>
+              <td style="text-align: right; color: var(--gold);">100</td>
+            </tr>
+            <tr>
+              <td style="color: var(--red); font-weight: 600;">11</td>
+              <td style="color: var(--red);">Tue May 27 AM</td>
+              <td style="color: var(--white);" colspan="2"><strong style="color: var(--red);">Day-of final wave</strong> &mdash; registered-but-unconfirmed + highest-affinity unreached</td>
+              <td style="text-align: right; color: var(--red); font-weight: 600;">100</td>
+            </tr>
+            <tr style="background: var(--card);">
+              <td colspan="4" style="color: var(--gold); font-family: var(--mono); font-size: 10px; letter-spacing: 1px; text-transform: uppercase;">Total reach</td>
+              <td style="text-align: right; color: var(--gold); font-weight: 600;">~2,200</td>
+            </tr>
+          </table>
+          </div>
+          <div style="font-size: 11px; color: var(--text-dim); margin-top: 12px; line-height: 1.6;">
+            Hard cap 100/day per account (LinkedIn flags at ~150+). Three sending windows per day. Every message personalized via Claude Code &mdash; opener + ONE contextual line from the library based on bio/recent activity. Approve first 5 drafts before each batch sends. Sent-list CSV prevents double-messaging.
+          </div>
+        </div>`;
+
         // Flow Diagram
         html += `<div class="overview-section">
           <div class="overview-section-title">System Flow</div>
@@ -2336,7 +2453,7 @@ See you soon.
           ┌───────────┴───────────┐
           ▼                       ▼
     Track F: Countdown      Track G: Post-Webinar
-    (Everyone registered)   (Segmented, after Apr 2)
+    (Everyone registered)   (Segmented, after May 29)
                                     │
                                     ▼
                             Track H: Evergreen
@@ -2487,8 +2604,8 @@ See you soon.
             <div class="transition-rule">
               1. Add <code style="color:var(--blue);font-family:var(--mono);font-size:11px;">webinar:registered</code> tag<br>
               2. If already a buyer → move to State 6 (VIP / Track E)<br>
-              3. If not a buyer → stay on current track (A or B) but adapt CTAs — drop webinar CTA, add "You're registered! See you April 1st"<br>
-              4. Add to Track F countdown queue (activates Mar 30)
+              3. If not a buyer → stay on current track (A or B) but adapt CTAs — drop webinar CTA, add "You're registered! See you May 27 &amp; 28"<br>
+              4. Add to Track F countdown queue (activates May 24)
             </div>
           </div>
           <div class="transition-block">
@@ -2665,7 +2782,7 @@ Track H = founding:no (unconverted, 1-2x/month ongoing)</pre>
           <div class="notes-body">
             → ${track.exitRule}<br>
             → Never send book CTA to people who already bought<br>
-            → Webinar CTA adapts: registered contacts see "You're registered — see you April 1st ✓" instead<br>
+            → Webinar CTA adapts: registered contacts see "You're registered — see you May 27 &amp; 28 ✓" instead<br>
             → The app is NEVER mentioned by name — only hinted at starting email #5<br>
             → $400 founding member price is NEVER mentioned — webinar-only reveal
           </div>
@@ -2998,8 +3115,8 @@ Track H = founding:no (unconverted, 1-2x/month ongoing)</pre>
           <div class="budget-section">
             <div class="budget-section-title">Notes</div>
             <ul class="budget-note-list">
-              <li>Phase 1 (Private Launch, Mar 5–31) generates revenue through $20 book presales and $400 founding member conversions</li>
-              <li>Phase 2 (Public Launch, Apr 14+) is funded by Phase 1 proceeds using the split above</li>
+              <li>Phase 1 (Private Launch, May 16 → May 28 webinar) generates revenue through $20 book presales and $400 founding member conversions</li>
+              <li>Phase 2 (Public Launch, ~Jun 10+) is funded by Phase 1 proceeds using the split above</li>
               <li>OpenEXO's 20% only applies to revenue originating from Salim's email list — John's LinkedIn channel and all other sources are excluded</li>
             </ul>
           </div>
@@ -3009,6 +3126,29 @@ Track H = founding:no (unconverted, 1-2x/month ongoing)</pre>
       // ---- RESOURCES ----
       function renderResources() {
         const groups = [
+          {
+            title: "LinkedIn DM Activation — May 17 → May 27 (live)",
+            items: [
+              {
+                file: "linkedin-dm-outreach-salim.md",
+                badge: "md",
+                title: "Salim — 11-Day DM Cadence",
+                desc: "Daily audience slices, 11 message templates (T1-T11), contextual lines library, paste-ready Claude Code prompts for each day. ~1,100 DMs over the run.",
+              },
+              {
+                file: "linkedin-dm-outreach-john.md",
+                badge: "md",
+                title: "John — 11-Day DM Cadence",
+                desc: "John's parallel cadence — audience slices tuned to senior leaders, authors, conveners. 11 templates, contextual lines, daily prompts. ~1,100 DMs over the run.",
+              },
+              {
+                file: "linkedin-post-1-john.md",
+                badge: "md",
+                title: "John — Public Post #1",
+                desc: "Long-form LinkedIn post from John's feed announcing the launch (complements the DM cadence).",
+              },
+            ],
+          },
           {
             title: "Interactive Pages",
             items: [
